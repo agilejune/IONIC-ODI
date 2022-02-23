@@ -1,36 +1,35 @@
 import { Plugins } from '@capacitor/core';
+import { User } from '../models/User';
 
 const { Storage } = Plugins;
-const dataUrl = "localhost:8081/getData";
 
-export const getData = async () => {
+const authUrl = '/assets/data/authenticate.json';
+
+const HAS_LOGGED_IN = 'hasLoggedIn';
+const USERNAME = 'username';
+
+export const doAuthenticate = async () => {
   const response = await Promise.all([
-    fetch(dataUrl)]);
-  
-  const data = {
-    data: response[0].json
+    fetch(authUrl)]);
+  const responseData = await response[0].json();
+  const status = responseData.status as string;
+  if (status === "F") {
+    return false;
   }
-  return data;
+  else if (status === "S") {
+    const user = responseData.data[0] as User;
+    return user;
+  }
 }
 
-export const getStorageData = async () => {
-  const response = await Promise.all([
-    Storage.get({ key: 'HAS_LOGGED_IN' })]);
-  const isLoggedin = await response[0].value === 'true';
-  const data = {
-    isLoggedin,
-  }
-  return data;
-}
-
-export const setStorageData = async (isLoggedIn: boolean) => {
-  await Storage.set({ key: 'HAS_LOGGED_IN', value: JSON.stringify(isLoggedIn) });
+export const setIsLoggedInData = async (isLoggedIn: boolean) => {
+  await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
 }
 
 export const setUsernameData = async (username?: string) => {
   if (!username) {
-    await Storage.remove({ key: 'USERNAME' });
+    await Storage.remove({ key: USERNAME });
   } else {
-    await Storage.set({ key: 'USERNAME', value: username });
+    await Storage.set({ key: USERNAME, value: username });
   }
 }

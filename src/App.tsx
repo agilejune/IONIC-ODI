@@ -1,6 +1,7 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import { Route, Redirect } from 'react-router-dom';
+import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import Login from './pages/Login';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -20,17 +21,49 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { AppContextProvider } from './data/AppContext';
+import { connect } from './data/connect';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
+const App: React.FC = () => {
+  return (
+    <AppContextProvider>
+      <OdiAppConnected />
+    </AppContextProvider>
+  );
+};
 
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+interface StateProps {
 
+}
+
+interface DispatchProps {
+
+}
+
+interface OdiAppProps extends StateProps, DispatchProps { }
+
+const OdiApp: React.FC<OdiAppProps> = ({ }) => {
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonSplitPane contentId="main">
+          <IonRouterOutlet id="main">
+            <Route path="/login" component={ Login } />
+            <Redirect from="/" to="/login" exact />
+          </IonRouterOutlet>
+        </IonSplitPane>
+      </IonReactRouter>
+    </IonApp>
+  );
+}
 export default App;
+
+const OdiAppConnected = connect<{}, StateProps, DispatchProps>({
+  mapStateToProps: () => ({
+
+  }),
+  mapDispatchToProps: {},
+  component: OdiApp
+})

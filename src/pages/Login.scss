@@ -1,0 +1,32 @@
+#login-page {
+  .login-logo {
+    padding: 20px 0;
+    min-height: 200px;
+    text-align: center;
+  }
+  
+  .login-logo img {
+    max-width: 150px;
+  }
+  
+  .list {
+    margin-bottom: 30px;
+  }
+  
+  .login-input {
+    border-color: #d6d6d6;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 5px;
+    width: 90%;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  ion-button {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

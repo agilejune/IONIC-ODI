@@ -1,0 +1,19 @@
+{
+  "data": [
+      {
+          "address_home": "JL. STABAT 76 PURA CEMPAKA HINAI",
+          "company_id": 26,
+          "company_ids": [],
+          "email": "demo@gmail.com",
+          "groups": "SPBU",
+          "lat_geo": "-8.671361517241674",
+          "log_geo": "115.57482764031211",
+          "mobile": "+628128841171",
+          "owner": "PT. CEMPA AMALBURGA JAYA",
+          "user_id": 20895,
+          "user_name": "3443309"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}
