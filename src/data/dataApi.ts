@@ -23,13 +23,13 @@ export const doAuthenticate = async () => {
 }
 
 export const setIsLoggedInData = async (isLoggedIn: boolean) => {
-  await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
+  // await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
 }
 
 export const setUsernameData = async (username?: string) => {
-  if (!username) {
-    await Storage.remove({ key: USERNAME });
-  } else {
-    await Storage.set({ key: USERNAME, value: username });
-  }
+  // if (!username) {
+  //   await Storage.remove({ key: USERNAME });
+  // } else {
+  //   await Storage.set({ key: USERNAME, value: username });
+  // }
 }
