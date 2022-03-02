@@ -121,10 +121,9 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDe
               </IonListHeader>
             }
             {ongoingDeliveryList.length !== 0 && 
-              ongoingDeliveryList.map((list: Delivery, index: number) => {
+              ongoingDeliveryList.map((list: Delivery, index: number) => (
                 <DeliveryItem delivery={list} listType="ongoing" key={`delivery-ongoing-${index}`} />
-              })
-            }
+            ))}
           </IonList>
         }
 
@@ -136,10 +135,9 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDe
               </IonListHeader>
             }
             { pastDeliveryList.length !== 0 && 
-              pastDeliveryList.map((list: Delivery, index: number) => {
+              pastDeliveryList.map((list: Delivery, index: number) => (
                 <DeliveryItem delivery={list} listType="past" key={`delivery-past-${index}`} />
-              })
-            }
+            ))}
           </IonList>
         }
       </IonContent>
