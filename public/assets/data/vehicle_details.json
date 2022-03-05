@@ -1,0 +1,53 @@
+{
+  "data": [
+      {
+          "attachment": [
+              {
+                  "datas_download": "http://182.23.86.211:8090/web/binary/download_document?model=ir.attachment&field=datas&id=59281&file_name=B 9309 PEH.pdf",
+                  "datas_fname": "B 9309 PEH.pdf",
+                  "id": 59281
+              },
+              {
+                  "datas_download": "http://182.23.86.211:8090/web/binary/download_document?model=ir.attachment&field=datas&id=88900&file_name=KEUR DLLAJR.pdf",
+                  "datas_fname": "KEUR DLLAJR.pdf",
+                  "id": 88900
+              },
+              {
+                  "datas_download": "http://182.23.86.211:8090/web/binary/download_document?model=ir.attachment&field=datas&id=88901&file_name=STNK.pdf",
+                  "datas_fname": "STNK.pdf",
+                  "id": 88901
+              },
+              {
+                  "datas_download": "http://182.23.86.211:8090/web/binary/download_document?model=ir.attachment&field=datas&id=88902&file_name=TERA.pdf",
+                  "datas_fname": "TERA.pdf",
+                  "id": 88902
+              }
+          ],
+          "capacity": "24.0",
+          "empty_space_comp1": 285.0,
+          "empty_space_comp2": 308.0,
+          "empty_space_comp3": 272.0,
+          "empty_space_comp4": 0.0,
+          "empty_space_comp5": 0.0,
+          "empty_space_comp6": 0.0,
+          "id": 480,
+          "name": "B9309PEH",
+          "re_calibration_time": "Sun, 18 Oct 2020 17:00:00 GMT",
+          "rental_type": "Tarif All In-Lokal",
+          "sensitivity_comp1": 1.571,
+          "sensitivity_comp2": 1.816,
+          "sensitivity_comp3": 1.816,
+          "sensitivity_comp4": 0.0,
+          "sensitivity_comp5": 0.0,
+          "sensitivity_comp6": 0.0,
+          "t2_comp1": 1668.0,
+          "t2_comp2": 1658.0,
+          "t2_comp3": 1664.0,
+          "t2_comp4": 0.0,
+          "t2_comp5": 0.0,
+          "t2_comp6": 0.0
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

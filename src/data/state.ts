@@ -10,7 +10,7 @@ export const initialState: AppState = {
   delivery: {
     ongoingDeliverys: [],
     pastDeliverys: [],
-  }
+  },
 };
 
 export const reducers = combineReducers({

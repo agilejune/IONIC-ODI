@@ -3,7 +3,8 @@ import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel } 
 import { Route, Redirect } from 'react-router';
 import { archiveOutline, basket, chatbox, pin } from 'ionicons/icons';
 
-import DeliveryPage from './Delivery'
+import DeliveryPage from './Delivery';
+import DeliveryDetail from './DeliveryDetail';
 
 interface MainTabsProps { }
 
@@ -18,12 +19,7 @@ const MainTabs: React.FC<MainTabsProps> = () => {
           Use the component prop when your component depends on the RouterComponentProps passed in automatically.
         */}
         <Route path="/tabs/delivery" render={() => <DeliveryPage />} exact={true} />
-        {/* <Route path="/tabs/speakers" render={() => <SpeakerList />} exact={true} />
-        <Route path="/tabs/speakers/:id" component={SpeakerDetail} exact={true} />
-        <Route path="/tabs/schedule/:id" component={SessionDetail} />
-        <Route path="/tabs/speakers/sessions/:id" component={SessionDetail} />
-        <Route path="/tabs/map" render={() => <MapView />} exact={true} />
-        <Route path="/tabs/about" render={() => <About />} exact={true} /> */}
+        <Route path="/tabs/delivery/:id" component={ DeliveryDetail } exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="delivery" href="/tabs/delivery">
