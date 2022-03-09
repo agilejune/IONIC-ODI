@@ -4,9 +4,11 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
 import { Delivery } from '../models/Delivery';
 import { IonButton, IonItem, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, useIonViewDidLeave, IonIcon, IonLabel, IonModal} from '@ionic/react';
-import { person, receipt, car, reload, contrast } from 'ionicons/icons';
+import { person, receipt, car, reload, contrast, ticket } from 'ionicons/icons';
 import DriverDetail from '../components/DriverDetail';
 import VehicleDetail from '../components/VehicleDetail';
+import './DeliveryDetail.scss';
+import TransportLoss from '../components/TransportLoss';
 
 interface OwnProps extends RouteComponentProps { };
 
@@ -22,6 +24,7 @@ type DeliveryDetailProps = OwnProps & StateProps & DispatchProps;
 const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
   const [showDriverDetail, setShowDriverDetail] = useState(false);
   const [showVehicleDetail, setShowVehicleDetail] = useState(false);
+  const [showTransLoss, setShowTransLoss] = useState(false);
   const pageRef = useRef<HTMLElement>(null);
 
   return (
@@ -35,64 +38,61 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <div className="ion-padding-start ion-padding-end">
-          <div className="ion-padding-top">
-            <IonButtons onClick={() => setShowVehicleDetail(true)}>
-              <IonText color="primary">
-		            <h4>{delivery.vehicle}&nbsp;/&nbsp;<span className="">{delivery.volume}&nbsp;KL</span></h4>
-              </IonText>
-            </IonButtons>
-          </div>
+        <div className="ion-padding">
+          <IonButtons onClick={() => setShowVehicleDetail(true)}>
+            <IonText color="primary">
+              <h5><strong>{delivery.vehicle}</strong>&nbsp;/&nbsp;<span className="">{delivery.volume}&nbsp;KL</span></h5>
+            </IonText>
+          </IonButtons>
           <IonRow>
             <IonCol>
               <IonButtons onClick={() => setShowDriverDetail(true)}>
-                <IonItem className="ion-float-left" lines="none">
-                  <IonIcon icon={person}></IonIcon>
-                  <IonLabel>{delivery.driver}</IonLabel>
-                </IonItem>
+                <IonIcon icon={person}></IonIcon>
+                <IonLabel>{delivery.driver}</IonLabel>
               </IonButtons>
             </IonCol>
             <IonCol>
-              <IonItem className="ion-float-right" lines="none">
+              <IonButtons className="ion-float-right">
                 <IonIcon icon={car}></IonIcon>
                 <IonLabel>Tracking</IonLabel>
-              </IonItem>
+              </IonButtons>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonItem className="ion-float-left" lines="none">
+              <IonButtons className="ion-float-left">
                 <IonIcon icon={person}></IonIcon>
                 <IonLabel>{delivery.driver_assistant}</IonLabel>
-              </IonItem>
+              </IonButtons>
             </IonCol>
             <IonCol>
-              <IonItem className="ion-float-right" lines="none">
+              <IonButtons className="ion-float-right">
                 <IonIcon icon={car}></IonIcon>
                 <IonLabel>Survey</IonLabel>
-              </IonItem>
+              </IonButtons>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
             </IonCol>
             <IonCol>
-              <IonItem className="ion-float-right" lines="none">
+              <IonButtons className="ion-float-right">
                 <IonIcon icon={receipt}></IonIcon>
                 <IonLabel>Send Feedback</IonLabel>
-              </IonItem>
+              </IonButtons>
             </IonCol>
           </IonRow>
           
-          <h4 className="ion-padding-top">Status:</h4>
+          <h5 className="ion-padding-top"><strong>Status:</strong></h5>
 
-          <h6>{delivery.company_name}&nbsp;/&nbsp;{delivery.gate_in_time}</h6>
-          <h6>Gate Out: {delivery.gate_out_time}</h6>
-          <h6>End Shipment: {delivery.end_shipment}</h6>
+          <h6>
+            {delivery.company_name}&nbsp;/&nbsp;{delivery.gate_in_time}
+            <br/>Gate Out: {delivery.gate_out_time}
+            <br/>End Shipment: {delivery.end_shipment}
+          </h6>
           <IonRow>
             <IonCol>
-              <h6>Last Position</h6>
-              <h5>{JSON.stringify(delivery.last_position)}</h5>
+              <h5><strong>Last Position</strong></h5>
             </IonCol>
             <IonCol>
               <IonButton fill="outline">
@@ -101,26 +101,63 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
               </IonButton>
             </IonCol>
           </IonRow>
+          <IonRow>
+            <h5>{delivery.last_position.Jalan}</h5>
+          </IonRow>
           <div>
-            <h4>Produk:</h4>        
+            <h5><strong>Produk:</strong></h5>        
             { delivery.spbu_product_volume_lo !== null && delivery.spbu_product_volume_lo.split('\n').map((pro_vol) => (
-                <IonItem lines="none">
+                <div>
                   <IonIcon icon={contrast}></IonIcon>
                   <IonText>{pro_vol}</IonText>
-                </IonItem>
+                </div>
             ))}
           </div>
           <div className="ion-padding-top">
-            <h5>* Urutan LO bukan merupakan urutan kompartemen produk. Pastikan kembali fisik produk yang akan dibongkar</h5>
+            <h6>* Urutan LO bukan merupakan urutan kompartemen produk. Pastikan kembali fisik produk yang akan dibongkar</h6>
           </div>
           <div className="ion-padding-top">
-            <h4>Transport Loss</h4>
+            <h5><strong>Receiving & Loss claim</strong></h5>
+            <div className="transport-loss">
+              <IonRow>
+                <IonCol>
+                  <IonButtons>
+                    <IonIcon icon={car} />
+                  </IonButtons>
+                </IonCol>
+                <IonCol>
+                  <IonButtons onClick={() => setShowTransLoss(true)}>
+                    <IonIcon icon={car} />
+                    <IonLabel>C1:8KL</IonLabel>
+                  </IonButtons>
+                </IonCol>
+                <IonCol>
+                  <IonButtons>
+                    <IonIcon icon={car} />
+                    <IonLabel>C2:8KL</IonLabel>
+                  </IonButtons>
+                </IonCol>
+                <IonCol>
+                  <IonButtons>
+                    <IonIcon icon={car} />
+                    <IonLabel>C3:8KL</IonLabel>
+                  </IonButtons>
+                </IonCol>
+              </IonRow>
+            </div>
           </div>
           <div className="ion-padding-top">
-            <h4>Seal:</h4>
-            { delivery.seal_compiled !== null && delivery.seal_compiled.slice(0, -1).split(",").map((seal) => (
-                <h5>{seal}</h5>
+            <h5><strong>Seal:</strong></h5>
+            <IonRow>
+            { delivery.seal_compiled !== null && delivery.seal_compiled.slice(0, -1).split(",").map((seal, index) => (
+                <IonCol size="4">
+                  <IonItem lines="none">
+                    <IonIcon icon={ticket} color="warning"></IonIcon>
+                    <h6>{seal}</h6>
+                  </IonItem>
+                </IonCol>
             ))}
+            </IonRow>
           </div>
 
           <IonModal
@@ -140,6 +177,16 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
           >
             <VehicleDetail vehicle_id={delivery.vehicle_id} onDismissModal={() => setShowVehicleDetail(false)}></VehicleDetail>
           </IonModal>
+
+          <IonModal
+            isOpen={showTransLoss}
+            onDidDismiss={() => setShowTransLoss(false)}
+            swipeToClose={true}
+            presentingElement={pageRef.current!}
+          >
+            <TransportLoss onDismissModal={() => setShowTransLoss(false)}></TransportLoss>
+          </IonModal>
+
         </div>
       </IonContent>
     </IonPage>

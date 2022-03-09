@@ -1,0 +1,30 @@
+#transport-loss-query-page {
+  hr {
+    border-bottom: 1px solid #ccc;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .label-section {
+    border-color: #d6d6d6;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 5px;
+    margin-top: 10px;
+    height: 50px;
+    width: 100%;
+    background-color: rgb(203, 230, 252);
+    padding-top: 4%;
+
+    ion-label {
+      color: rgb(62, 166, 252);
+    }
+  }
+
+  ion-input {
+    border-color: #d6d6d6;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 5px;
+  }
+}

@@ -1,2 +1,15 @@
 #delivery-detail {
+  .transport-loss ion-col {
+    border-color: #6c7bfc !important;
+    border-width: thin !important;
+    border-style: solid !important;
+    border-radius: 5px !important;
+    border: solid;
+    padding: 0;
+  }
+
+  .transport-loss ion-buttons {
+    height: 2rem;
+  }
+
 }
