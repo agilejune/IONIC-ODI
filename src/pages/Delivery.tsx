@@ -147,8 +147,6 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDe
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    // schedule: selectors.getSearchedSchedule(state),
-    // favoritesSchedule: selectors.getGroupedFavorites(state),
     ongoingDeliveryList: state.delivery.ongoingDeliverys,
     pastDeliveryList: state.delivery.pastDeliverys,
     mode: getConfig()!.get('mode')

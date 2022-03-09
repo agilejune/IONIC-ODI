@@ -3,6 +3,7 @@ import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 import './TransportLoss.scss';
 import TransportLossAgree from './TransportLossAgree';
+import TransportLossJustify from './TransportLossJustify';
 import TransportLossLjk from './TransportLossLjk';
 import TransportLossMeter from './TransportLossMeter';
 import TransportLossQuery from './TransportLossQuery';
@@ -78,7 +79,7 @@ const TransportLoss : React.FC<OwnProps> = ({onDismissModal}) => {
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossLjk onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
+            <TransportLossJustify onDismissModal={() => setShowTransLossLjk(false)}></TransportLossJustify>
           </IonModal>
       </IonContent>
     </IonPage>
