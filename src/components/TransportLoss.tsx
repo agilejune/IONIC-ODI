@@ -1,5 +1,5 @@
-import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonLabel, IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import { aperture, flag } from 'ionicons/icons';
+import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonLabel, IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 import './TransportLoss.scss';
 import TransportLossAgree from './TransportLossAgree';
@@ -11,7 +11,7 @@ interface OwnProps {
   onDismissModal: () => void;
 }
 
-const TransportLoss : React.FC<OwnProps> = (onDismissModal) => {
+const TransportLoss : React.FC<OwnProps> = ({onDismissModal}) => {
   const [showTransLossLjk, setShowTransLossLjk] = useState(false);
   const [showTransLossMeter, setShowTransLossMeter] = useState(false);
 
@@ -21,6 +21,11 @@ const TransportLoss : React.FC<OwnProps> = (onDismissModal) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Form Transport Loss</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={onDismissModal}>
+              <IonIcon icon={closeOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -73,7 +78,7 @@ const TransportLoss : React.FC<OwnProps> = (onDismissModal) => {
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossMeter onDismissModal={() => setShowTransLossLjk(false)}></TransportLossMeter>
+            <TransportLossLjk onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
           </IonModal>
       </IonContent>
     </IonPage>

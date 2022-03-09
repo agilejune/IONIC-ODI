@@ -1,4 +1,5 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
 import { getVehicleDetail } from '../data/dataApi';
 import { Vehicle } from '../models/Vehicle';
@@ -8,7 +9,7 @@ interface OwnProps {
   vehicle_id: number;
 }
 
-const VehicleDetail : React.FC<OwnProps> = (onDismissModal, vehicle_id) => {
+const VehicleDetail : React.FC<OwnProps> = ({onDismissModal, vehicle_id}) => {
   const [vehicle, setVehicle] = useState<Vehicle>();
   useEffect(() => {
     getData();
@@ -25,6 +26,11 @@ const VehicleDetail : React.FC<OwnProps> = (onDismissModal, vehicle_id) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Detail Vehicle</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={onDismissModal}>
+              <IonIcon icon={closeOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>

@@ -1,4 +1,5 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
 import { getDriverDetail } from '../data/dataApi';
 import { Driver } from '../models/Driver';
@@ -8,7 +9,7 @@ interface OwnProps {
   driver_id: number;
 }
 
-const DriverDetail : React.FC<OwnProps> = (onDismissModal, driver_id) => {
+const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
   const [driver, setDriver] = useState<Driver>();
   useEffect(() => {
     getData();
@@ -25,6 +26,11 @@ const DriverDetail : React.FC<OwnProps> = (onDismissModal, driver_id) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Crew Detail</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={onDismissModal}>
+              <IonIcon icon={closeOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>

@@ -1,4 +1,5 @@
-import { IonButton, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRow, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRow, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
+import { closeOutline } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 import './TransportLossQuery.scss';
 
@@ -6,13 +7,18 @@ interface OwnProps {
   onDismissModal: () => void;
 }
 
-const TransportLossQuery : React.FC<OwnProps> = (onDismissModal) => {
+const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal}) => {
 
   return(
     <IonPage id="transport-loss-query-page">
       <IonHeader>
         <IonToolbar>
           <IonTitle>Form Transport Loss</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={onDismissModal}>
+              <IonIcon icon={closeOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

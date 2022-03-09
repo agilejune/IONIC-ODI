@@ -1,5 +1,5 @@
-import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import { aperture, flag } from 'ionicons/icons';
+import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 import './TransportLossMeter.scss';
 
@@ -7,13 +7,18 @@ interface OwnProps {
   onDismissModal: () => void;
 }
 
-const TransportLossMeter : React.FC<OwnProps> = (onDismissModal) => {
+const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal}) => {
 
   return(
     <IonPage id="transport-loss-meter-page">
       <IonHeader>
         <IonToolbar>
           <IonTitle>Form Transport Loss</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={onDismissModal}>
+              <IonIcon icon={closeOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
