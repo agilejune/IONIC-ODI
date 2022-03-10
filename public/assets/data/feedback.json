@@ -1,0 +1,91 @@
+{
+  "data": [
+      {
+          "AllMessage": [
+              {
+                  "message": "Kompartemen ke 1 1668 pas dicolok pakai dipstik 1666\n\nKompartemen ke 2 1658 pas dicolok pakai dipstik 1656\n\nKesimpulannya kompartemen ke 1 kurang 2ml dan kompartemen ke 2 kurang 2ml\nMohon dicek kembali tera mobil \n\nTerima kasih ",
+                  "pilihan": "Jumlah KL kurang",
+                  "responder": "Administrator",
+                  "response": "",
+                  "sender": "Patra niaga"
+              }
+          ],
+          "Company": 26,
+          "Date": "Tue, 06 Oct 2020 05:59:20 GMT",
+          "Message": "Pengirim: Patra niaga \nPesan: Kompartemen ke 1 1668 pas dicolok pakai dipstik 1666\n\nKompartemen ke 2 1658 pas dicolok pakai dipstik 1656\n\nKesimpulannya kompartemen ke 1 kurang 2ml dan kompartemen ke 2 kurang 2ml\nMohon dicek kembali tera mobil \n\nTerima kasih ",
+          "No": "1",
+          "Reason": "Jumlah KL kurang",
+          "Respon": "Respon: Administrator \n",
+          "Shipment": "Tanggal: 06/10/20 12:59 \nNopol: B9309PEH \nSupir: M. Yusuf Surahman ( PN-0127 ) \nKernet: Wandi Ruswandi ( PN-0755 ) \nSPBU: 3443309",
+          "Status": "closed"
+      },
+      {
+          "AllMessage": [
+              {
+                  "message": "Kompartemen ke 1 1668 pas dicolok pakai dipstik 1666\\n\\nKompartemen ke 2 1658 pas dicolok pakai dipstik 1656\\n\\nKesimpulannya kompartemen ke 1 kurang 2ml dan kompartemen ke 2 kurang 2ml\\nMohon dicek kembali tera mobil \\n\\nTerima kasih",
+                  "pilihan": "",
+                  "responder": "",
+                  "response": "",
+                  "sender": "DEMO"
+              },
+              {
+                  "message": "",
+                  "pilihan": "",
+                  "responder": "",
+                  "response": "",
+                  "sender": "DEMO"
+              },
+              {
+                  "message": "",
+                  "pilihan": "",
+                  "responder": "",
+                  "response": "",
+                  "sender": "DEMO"
+              },
+              {
+                  "message": "",
+                  "pilihan": "",
+                  "responder": "",
+                  "response": "",
+                  "sender": "DEMO"
+              },
+              {
+                  "message": "",
+                  "pilihan": "",
+                  "responder": "",
+                  "response": "",
+                  "sender": "DEMO"
+              }
+          ],
+          "Company": 26,
+          "Date": "Mon, 05 Oct 2020 17:00:00 GMT",
+          "Message": "Pengirim: DEMO \n",
+          "No": "2",
+          "Reason": "",
+          "Respon": "",
+          "Shipment": "Tanggal: 06/10/20 00:00 \nNopol: B9309PEH \nSupir: M. Yusuf Surahman ( PN-0127 ) \nKernet: Wandi Ruswandi ( PN-0755 ) \nSPBU: 3443309",
+          "Status": "draft"
+      },
+      {
+          "AllMessage": [
+              {
+                  "message": "Selamat pagi bapak/ibu. Mohon GPS di update. Terimakasih",
+                  "pilihan": "GPS tidak update",
+                  "responder": "Admin Padalarang",
+                  "response": "baik segera kami TL",
+                  "sender": "Patra niaga"
+              }
+          ],
+          "Company": 26,
+          "Date": "Sat, 14 Mar 2020 22:42:53 GMT",
+          "Message": "Pengirim: Patra niaga \nPesan: Selamat pagi bapak/ibu. Mohon GPS di update. Terimakasih",
+          "No": "3",
+          "Reason": "GPS tidak update",
+          "Respon": "Respon: Admin Padalarang \nPesan: baik segera kami TL",
+          "Shipment": "Tanggal: 15/03/20 05:42 \nNopol: D9387AD \nSupir: Jajang Cahyana ( PN-0792 ) \nKernet: Koswara Yuhana ( PN-0531 ) \nSPBU: 3443309",
+          "Status": "closed"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

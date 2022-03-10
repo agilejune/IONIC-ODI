@@ -5,7 +5,9 @@ import { archiveOutline, basket, chatbox, pin } from 'ionicons/icons';
 
 import DeliveryPage from './Delivery';
 import DeliveryDetail from './DeliveryDetail';
-
+import OrderPage from './Order';
+import FeedbackPage from './Feedback';
+import TransportLossAllPage from './TransportLossAll';
 interface MainTabsProps { }
 
 const MainTabs: React.FC<MainTabsProps> = () => {
@@ -19,6 +21,9 @@ const MainTabs: React.FC<MainTabsProps> = () => {
           Use the component prop when your component depends on the RouterComponentProps passed in automatically.
         */}
         <Route path="/tabs/delivery" render={() => <DeliveryPage />} exact={true} />
+        <Route path="/tabs/order" render={() => <OrderPage />} exact={true} />
+        <Route path="/tabs/message" render={() => <FeedbackPage />} exact={true} />
+        <Route path="/tabs/loss" render={() => <TransportLossAllPage />} exact={true} />
         <Route path="/tabs/delivery/:id" component={ DeliveryDetail } exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">

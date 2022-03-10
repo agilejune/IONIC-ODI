@@ -11,7 +11,7 @@ import './Menu.css'
 const routes = {
   deliveryPages: [
     { title: 'Delivery', path: '/tabs/delivery', icon: archiveOutline },
-    { title: 'Your Orders', path: '/tabs/orders', icon: basket },
+    { title: 'Your Orders', path: '/tabs/order', icon: basket },
     { title: 'Message From Us', path: '/tabs/message', icon: chatbox },
     { title: 'Transport Loss', path: '/tabs/loss', icon: pin },
     { title: 'TLoss Scan RQCode', path: '/tabs/scan_rqcode', icon: camera },

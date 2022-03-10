@@ -6,7 +6,7 @@ import { doAuthenticate } from '../data/dataApi';
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import { eyeOffOutline, eyeOutline, personOutline, lockClosedOutline, enterOutline } from 'ionicons/icons';
-import { loadDelivery } from '../data/delivery/delivery.actions';
+import { loadData } from '../data/delivery/delivery.actions';
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -16,12 +16,12 @@ interface DispatchProps {
   setUsername: typeof setUsername;
   setIsLoggedIn: typeof setIsLoggedIn;
   setUserData: typeof setUserData;
-  loadDelivery: typeof loadDelivery;
+  loadData: typeof loadData;
 }
 
 interface LoginProps extends OwnProps, DispatchProps { }
 
-const Login: React.FC<LoginProps> = ({history, loadDelivery, setUsername: setUsernameAction, setIsLoggedIn, setUserData, setLoading}) => {
+const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernameAction, setIsLoggedIn, setUserData, setLoading}) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -53,7 +53,7 @@ const Login: React.FC<LoginProps> = ({history, loadDelivery, setUsername: setUse
         await setIsLoggedIn(true);
         setUserData(userData);
         await setUsernameAction(username);
-        await loadDelivery();
+        await loadData();
         history.push('/tabs/delivery', {direction: 'none'});
       }
       setLoading(false);
@@ -122,7 +122,7 @@ export default connect<OwnProps, { }, DispatchProps>({
     setIsLoggedIn,
     setUserData,
     setLoading,
-    loadDelivery,
+    loadData,
   },
   component: Login
 })

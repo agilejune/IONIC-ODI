@@ -10,6 +10,9 @@ export const initialState: AppState = {
   delivery: {
     ongoingDeliverys: [],
     pastDeliverys: [],
+    orders: [],
+    feedbacks: [],
+    transLossAll: [],
   },
 };
 

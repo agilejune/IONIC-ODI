@@ -1,8 +1,11 @@
 import { Plugins } from '@capacitor/core';
 import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
+import { Feedback } from '../models/Feedback';
+import { Order } from '../models/Order';
+import { Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
-import { Comp, Vehicle } from '../models/Vehicle';
+import { Comp } from '../models/Vehicle';
 
 const { Storage } = Plugins;
 
@@ -11,6 +14,9 @@ const ongoingDeliveryUrl = '/assets/data/ongoing_deliveries.json';
 const pastDeliveryUrl = '/assets/data/past_deliveries.json';
 const driverDetailUrl = '/assets/data/driver_details.json';
 const vehicleDetailUrl = '/assets/data/vehicle_details.json';
+const transportLossAllUrl = '/assets/data/transportloss.json';
+const orderUrl = '/assets/data/order.json';
+const feedbackUrl = '/assets/data/feedback.json';
 
 const HAS_LOGGED_IN = 'hasLoggedIn';
 const USERNAME = 'username';
@@ -42,6 +48,44 @@ export const getDelivery = async () => {
   return {
     ongoingDeliverys,
     pastDeliverys
+  };
+}
+
+export const getOrders = async () => {
+  const response = await Promise.all([
+    fetch(orderUrl),
+  ]);
+  const responseData = await response[0].json();
+  const orders = responseData.data as Order[];
+ 
+  return {
+    orders,
+  };
+}
+
+export const getFeedbacks = async () => {
+  const response = await Promise.all([
+    fetch(feedbackUrl),
+  ]);
+  const responseData = await response[0].json();
+  const feedbacks = responseData.data as Feedback[];
+ 
+  return {
+    feedbacks,
+  };
+}
+
+export const getTransportLossAll = async () => {
+  const response = await Promise.all([
+    fetch(transportLossAllUrl),
+  ]);
+  console.log(response);
+  const responseData = await response[0].json();
+  console.log(responseData);
+  const transLossAll = responseData.data as Transportloss[];
+ 
+  return {
+    transLossAll,
   };
 }
 
