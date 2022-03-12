@@ -4,14 +4,19 @@ import { DeliveryState } from './delivery.state';
 
 export const loadData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setLoading(true));
+
   const delivery = await getDelivery();
   dispatch(setDeliveryData(delivery));
+
   const order = await getOrders();
   dispatch(setOrderData(order));
+
   const feedback = await getFeedbacks();
   dispatch(setFeedbackData(feedback));
+
   const transportloss = await getTransportLossAll();
   dispatch(setTransLossData(transportloss));
+  
   dispatch(setLoading(false));
 }
 

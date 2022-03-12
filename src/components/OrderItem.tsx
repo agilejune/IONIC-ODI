@@ -1,6 +1,7 @@
 import React from 'react';
-import { IonItemSliding, IonItem, IonLabel } from '@ionic/react';
+import { IonItemSliding, IonItem, IonLabel, IonRow, IonCol, IonIcon } from '@ionic/react';
 import { Order } from '../models/Order';
+import { invertMode, mailOpen } from 'ionicons/icons';
 
 interface OrderItemProps {
   order: Order;
@@ -8,23 +9,38 @@ interface OrderItemProps {
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({ order, listType }) => {
+  const toYYYYMMDD = (gmtDate: string) => {
+    return gmtDate !== "" ? new Date(gmtDate).toISOString().split('T')[0] : "";
+  };
+
   return (
     <IonItemSliding class={'order-' + listType}>
       <IonItem routerLink={`/tabs/order/${order.LO_Number}`}>
         <IonLabel>
-          <div style={{display : "flex"}}>
-            <div style={{display : "flex", width : "50%"}}>
-              <h2 style={{fontWeight: "bolder"}}>{order.LO_Number}</h2>
-              <h5><span>&nbsp;/&nbsp;{order.SPBU}</span></h5>
-            </div>
-            <div style={{textAlign : "right", width : "50%"}}>
-              <h5><span>{order.Plann_Date}</span></h5>
-            </div>
-          </div>
-          <p>
-            {order.Product}&nbsp;/&nbsp;
-            {order.Volume}KL
-          </p>
+          <IonRow>
+            <IonCol size="1">
+              <div id="order-icon">
+                <IonIcon icon={invertMode} />
+              </div>
+            </IonCol>
+            <IonCol size="4">
+              <div style={{paddingLeft: 10}}>
+                <div style={{display : "flex"}}>
+                  <h2><strong>{order.LO_Number}</strong></h2>
+                  <h5>&nbsp;/&nbsp;{order.SPBU}</h5>
+                </div>
+                <p>
+                  {order.Product}&nbsp;/&nbsp;
+                  {order.Volume}KL
+                </p>
+              </div>
+            </IonCol>
+            <IonCol>
+              <div className="ion-float-right">
+                <h5><span>{toYYYYMMDD(order.Plann_Date)}</span></h5>
+              </div>
+            </IonCol>
+          </IonRow>
         </IonLabel>
       </IonItem>
     </IonItemSliding>

@@ -1,6 +1,8 @@
 import React from 'react';
-import { IonItemSliding, IonItem, IonLabel } from '@ionic/react';
+import { IonItemSliding, IonItem, IonLabel, IonText, IonIcon, IonRow, IonCol } from '@ionic/react';
 import { Feedback } from '../models/Feedback';
+import { chatboxEllipses, chatboxEllipsesOutline, chatbubbles, mailOpen, mailOpenOutline } from 'ionicons/icons';
+import './FeedbackItem.css';
 
 interface FeedbackItemProps {
   feedback: Feedback;
@@ -10,23 +12,47 @@ interface FeedbackItemProps {
 const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback, listType }) => {
   return (
     <IonItemSliding class={'feedback-' + listType}>
-      {/* <IonItem routerLink={`/tabs/message/${feedback.LO_Number}`}>
+      <IonItem routerLink={`/tabs/message/${feedback.No}`}>
         <IonLabel>
-          <div style={{display : "flex"}}>
-            <div style={{display : "flex", width : "50%"}}>
-              <h2 style={{fontWeight: "bolder"}}>{feedback.LO_Number}</h2>
-              <h5><span>&nbsp;/&nbsp;{feedback.SPBU}</span></h5>
-            </div>
-            <div style={{textAlign : "right", width : "50%"}}>
-              <h5><span>{feedback.Plann_Date}</span></h5>
-            </div>
-          </div>
-          <p>
-            {feedback.Product}&nbsp;/&nbsp;
-            {feedback.Volume}KL
-          </p>
+          <IonRow>
+            <IonCol size="1">
+              <div id="feedback-icon">
+                <IonIcon icon={chatbubbles} />
+              </div>
+            </IonCol>
+            <IonCol size="4">
+              <div style={{paddingLeft: 10}}>
+                <div style={{display : "flex"}}>
+                  <h2><strong>{feedback.Shipment.SPBU}</strong></h2>
+                  <h5>&nbsp;/&nbsp;{feedback.Shipment.Nopol}</h5>
+                </div>
+                <p>{feedback.Reason}</p>
+              </div>
+            </IonCol>
+            <IonCol>
+              <div className="ion-float-right">
+                <h5><span>{feedback.Shipment.Tanggal.split(' ')[0]}</span></h5>
+              </div>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="1">
+              <IonIcon icon={chatboxEllipsesOutline}/>
+            </IonCol>
+            <IonCol size="11">
+              <IonText><p>{feedback.AllMessage[0].sender}:{feedback.AllMessage[0].message}</p></IonText>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol size="1">
+              <IonIcon icon={chatboxEllipses}/>
+            </IonCol>
+            <IonCol size="11">
+              <IonText><p>{feedback.AllMessage[0].responder}:{feedback.AllMessage[0].response}</p></IonText>
+            </IonCol>
+          </IonRow>
         </IonLabel>
-      </IonItem> */}
+      </IonItem>
     </IonItemSliding>
   );
 };

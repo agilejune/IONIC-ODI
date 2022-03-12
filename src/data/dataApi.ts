@@ -1,7 +1,7 @@
 import { Plugins } from '@capacitor/core';
 import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
-import { Feedback } from '../models/Feedback';
+import { Feedback, Feedback_Data } from '../models/Feedback';
 import { Order } from '../models/Order';
 import { Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
@@ -68,8 +68,14 @@ export const getFeedbacks = async () => {
     fetch(feedbackUrl),
   ]);
   const responseData = await response[0].json();
-  const feedbacks = responseData.data as Feedback[];
- 
+  const feedback_datas = responseData.data as Feedback_Data[];
+  const feedbacks = feedback_datas!.map(feedback => {
+    let shipment = feedback.Shipment as string;
+    shipment = shipment.replaceAll(/\s\n+/g, '","');
+    shipment = shipment.replaceAll(/:\s+/g, '":"');
+    return {...feedback, Shipment: JSON.parse(`{"${shipment}"}`)} as Feedback;
+  });
+  
   return {
     feedbacks,
   };
@@ -79,9 +85,7 @@ export const getTransportLossAll = async () => {
   const response = await Promise.all([
     fetch(transportLossAllUrl),
   ]);
-  console.log(response);
   const responseData = await response[0].json();
-  console.log(responseData);
   const transLossAll = responseData.data as Transportloss[];
  
   return {

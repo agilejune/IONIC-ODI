@@ -1,6 +1,7 @@
 import React from 'react';
-import { IonItemSliding, IonItem, IonLabel } from '@ionic/react';
+import { IonItemSliding, IonItem, IonLabel, IonRow, IonCol, IonIcon } from '@ionic/react';
 import { Transportloss } from '../models/Transportloss';
+import { mailOpen } from 'ionicons/icons';
 
 interface TransportLossItemProps {
   transportLoss: Transportloss;
@@ -12,19 +13,30 @@ const TransportLossItem: React.FC<TransportLossItemProps> = ({ transportLoss, li
     <IonItemSliding class={'transportLoss-' + listType}>
       <IonItem routerLink={`/tabs/loss/${transportLoss.LO}`}>
         <IonLabel>
-          <div style={{display : "flex"}}>
-            <div style={{display : "flex", width : "50%"}}>
-              <h2 style={{fontWeight: "bolder"}}>{transportLoss.LO}</h2>
-              <h5><span>&nbsp;/&nbsp;{transportLoss.SPBU}</span></h5>
-            </div>
-            <div style={{textAlign : "right", width : "50%"}}>
-              <h5><span>{transportLoss.Date}</span></h5>
-            </div>
-          </div>
-          <p>
-            {transportLoss.Product}&nbsp;/&nbsp;
-            {transportLoss.Vol_Before}KL
-          </p>
+          <IonRow>
+            <IonCol size="1">
+              <div id="loss-icon">
+                <IonIcon icon={mailOpen} />
+              </div>
+            </IonCol>
+            <IonCol size="4">
+              <div style={{paddingLeft: 10}}>
+                <div style={{display : "flex"}}>
+                  <h2><strong>{transportLoss.LO}</strong></h2>
+                  <h5>&nbsp;/&nbsp;{transportLoss.SPBU}</h5>
+                </div>
+                <p>
+                  {transportLoss.Product}&nbsp;/&nbsp;
+                  {transportLoss.Vol_Before}KL
+                </p>
+              </div>
+            </IonCol>
+            <IonCol>
+              <div className="ion-float-right">
+                <h5><span>{transportLoss.Date}</span></h5>
+              </div>
+            </IonCol>
+          </IonRow>
         </IonLabel>
       </IonItem>
     </IonItemSliding>
