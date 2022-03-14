@@ -2,17 +2,13 @@ import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonLabel
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 import './TransportLoss.scss';
-import TransportLossAgree from './TransportLossAgree';
-import TransportLossJustify from './TransportLossJustify';
-import TransportLossLjk from './TransportLossLjk';
-import TransportLossMeter from './TransportLossMeter';
-import TransportLossQuery from './TransportLossQuery';
-
 interface OwnProps {
   onDismissModal: () => void;
+  onLjk: () => void;
+  onMeter: () => void;
 }
 
-const TransportLoss : React.FC<OwnProps> = ({onDismissModal}) => {
+const TransportLoss : React.FC<OwnProps> = ({onDismissModal, onLjk, onMeter}) => {
   const [showTransLossLjk, setShowTransLossLjk] = useState(false);
   const [showTransLossMeter, setShowTransLossMeter] = useState(false);
 
@@ -39,7 +35,7 @@ const TransportLoss : React.FC<OwnProps> = ({onDismissModal}) => {
         <hr/>
         <IonRow>
           <IonCol>
-            <IonButton color="success" onClick={() => setShowTransLossLjk(true)}>
+            <IonButton color="success" onClick={onLjk}>
               <IonIcon icon={flag} />
               <IonLabel>
                 A.&nbsp;Ijkbout
@@ -47,7 +43,7 @@ const TransportLoss : React.FC<OwnProps> = ({onDismissModal}) => {
             </IonButton>
           </IonCol>
           <IonCol>
-            <IonButton color="danger" onClick={() => setShowTransLossMeter(true)}>
+            <IonButton color="danger" onClick={onMeter}>
               <IonIcon icon={aperture} />
               <IonLabel>
                 B.&nbsp;Flow&nbsp;Meter
@@ -64,7 +60,7 @@ const TransportLoss : React.FC<OwnProps> = ({onDismissModal}) => {
           </h6>
         </IonText>
 
-        <IonModal
+        {/* <IonModal
             isOpen={showTransLossMeter}
             onDidDismiss={() => setShowTransLossMeter(false)}
             swipeToClose={true}
@@ -80,7 +76,7 @@ const TransportLoss : React.FC<OwnProps> = ({onDismissModal}) => {
             presentingElement={pageRef.current!}
           >
             <TransportLossJustify onDismissModal={() => setShowTransLossLjk(false)}></TransportLossJustify>
-          </IonModal>
+          </IonModal> */}
       </IonContent>
     </IonPage>
   );

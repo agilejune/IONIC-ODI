@@ -5,9 +5,10 @@ import './TransportLossLjk.scss';
 
 interface OwnProps {
   onDismissModal: () => void;
+  onSubmit: () => void;
 }
 
-const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal}) => {
+const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal, onSubmit}) => {
 
   return(
     <IonPage id="transport-loss-ljk-page">
@@ -147,7 +148,7 @@ const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal}) => {
           </IonCol>
         </IonRow>
         <hr/>
-        <IonButton color="primary" expand="block">Submit</IonButton>
+        <IonButton color="primary" expand="block" onClick={onSubmit}>Submit</IonButton>
       </IonContent>
     </IonPage>
   );

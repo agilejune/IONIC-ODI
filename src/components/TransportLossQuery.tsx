@@ -5,9 +5,10 @@ import './TransportLossQuery.scss';
 
 interface OwnProps {
   onDismissModal: () => void;
+  onSubmit: () => void;
 }
 
-const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal}) => {
+const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit}) => {
 
   return(
     <IonPage id="transport-loss-query-page">
@@ -57,7 +58,7 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal}) => {
           </div>
         </div>
         <div className="ion-padding-top">
-          <IonButton color="primary" expand="block">Submit</IonButton>        
+          <IonButton color="primary" expand="block" onClick={onSubmit}>Submit</IonButton>        
         </div>
       </IonContent>
     </IonPage>

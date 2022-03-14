@@ -8,7 +8,12 @@ import { person, receipt, car, reload, contrast, ticket } from 'ionicons/icons';
 import DriverDetail from '../components/DriverDetail';
 import VehicleDetail from '../components/VehicleDetail';
 import './DeliveryDetail.scss';
+import TransportLossAgree from '../components/TransportLossAgree';
+import TransportLossQuery from '../components/TransportLossQuery';
 import TransportLoss from '../components/TransportLoss';
+import TransportLossLjk from '../components/TransportLossLjk';
+import TransportLossMeter from '../components/TransportLossMeter';
+import TransportLossJustify from '../components/TransportLossJustify';
 
 interface OwnProps extends RouteComponentProps { };
 
@@ -24,7 +29,12 @@ type DeliveryDetailProps = OwnProps & StateProps & DispatchProps;
 const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
   const [showDriverDetail, setShowDriverDetail] = useState(false);
   const [showVehicleDetail, setShowVehicleDetail] = useState(false);
+  const [showTransLossAgree, setShowTransLossAgree] = useState(false);
+  const [showTransLossQuery, setShowTransLossQuery] = useState(false);
   const [showTransLoss, setShowTransLoss] = useState(false);
+  const [showTransLossLjk, setShowTransLossLjk] = useState(false);
+  const [showTransLossMeter, setShowTransLossMeter] = useState(false);
+  const [showTransLossJustify, setShowTransLossJustify] = useState(false);
   const pageRef = useRef<HTMLElement>(null);
 
   return (
@@ -126,7 +136,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
                   </IonButtons>
                 </IonCol>
                 <IonCol>
-                  <IonButtons onClick={() => setShowTransLoss(true)}>
+                  <IonButtons onClick={() => setShowTransLossAgree(true)}>
                     <IonIcon icon={car} />
                     <IonLabel>C1:8KL</IonLabel>
                   </IonButtons>
@@ -179,14 +189,57 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
           </IonModal>
 
           <IonModal
+            isOpen={showTransLossAgree}
+            onDidDismiss={() => setShowTransLossAgree(false)}
+            swipeToClose={true}
+            presentingElement={pageRef.current!}
+          >
+            <TransportLossAgree onSubmit={() => {setShowTransLossQuery(true); setShowTransLossAgree(false);}} onDismissModal={() => setShowTransLossAgree(false)}></TransportLossAgree>
+          </IonModal>
+
+          <IonModal
+            isOpen={showTransLossQuery}
+            onDidDismiss={() => setShowTransLossQuery(false)}
+            swipeToClose={true}
+            presentingElement={pageRef.current!}
+          >
+            <TransportLossQuery onSubmit={() => {setShowTransLoss(true); setShowTransLossQuery(false);}} onDismissModal={() => setShowTransLossQuery(false)}></TransportLossQuery>
+          </IonModal>
+
+          <IonModal
             isOpen={showTransLoss}
             onDidDismiss={() => setShowTransLoss(false)}
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLoss onDismissModal={() => setShowTransLoss(false)}></TransportLoss>
+            <TransportLoss onLjk={() => {setShowTransLossLjk(true); setShowTransLoss(false);}} onMeter={() => {setShowTransLossMeter(true);setShowTransLoss(false);}} onDismissModal={() => setShowTransLoss(false)}></TransportLoss>
           </IonModal>
 
+          <IonModal
+            isOpen={showTransLossLjk}
+            onDidDismiss={() => setShowTransLossLjk(false)}
+            swipeToClose={true}
+            presentingElement={pageRef.current!}
+          >
+            <TransportLossLjk onSubmit={() => {setShowTransLossJustify(true); setShowTransLossLjk(false);}} onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
+          </IonModal>
+          <IonModal
+            isOpen={showTransLossMeter}
+            onDidDismiss={() => setShowTransLossMeter(false)}
+            swipeToClose={true}
+            presentingElement={pageRef.current!}
+          >
+            <TransportLossMeter onOpenLjk={() => {setShowTransLossLjk(true); setShowTransLossMeter(false);}} onDismissModal={() => setShowTransLossMeter(false)}></TransportLossMeter>
+          </IonModal>
+
+          <IonModal
+            isOpen={showTransLossJustify}
+            onDidDismiss={() => setShowTransLossJustify(false)}
+            swipeToClose={true}
+            presentingElement={pageRef.current!}
+          >
+            <TransportLossJustify onDismissModal={() => setShowTransLossJustify(false)}></TransportLossJustify>
+          </IonModal>
         </div>
       </IonContent>
     </IonPage>

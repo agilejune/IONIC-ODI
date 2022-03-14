@@ -5,9 +5,10 @@ import './TransportLossAgree.scss';
 
 interface OwnProps {
   onDismissModal: () => void;
+  onSubmit: () => void
 }
 
-const TransportLossAgree : React.FC<OwnProps> = ({onDismissModal}) => {
+const TransportLossAgree : React.FC<OwnProps> = ({onDismissModal, onSubmit}) => {
 
   return(
     <IonPage id="transport-loss-agree-page">
@@ -72,7 +73,7 @@ const TransportLossAgree : React.FC<OwnProps> = ({onDismissModal}) => {
           </IonRow>
         </div>
         <div className="ion-padding-top">
-          <IonButton color="primary" expand="block">Submit</IonButton>        
+          <IonButton color="primary" expand="block" onClick={onSubmit}>Submit</IonButton>        
         </div>
       </IonContent>
     </IonPage>
