@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonItemSliding, IonItem, IonLabel, IonRow, IonCol, IonIcon } from '@ionic/react';
 import { Order } from '../models/Order';
-import { invertMode, mailOpen } from 'ionicons/icons';
+import { invertMode } from 'ionicons/icons';
 
 interface OrderItemProps {
   order: Order;

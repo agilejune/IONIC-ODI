@@ -8,6 +8,8 @@ import DeliveryDetail from './DeliveryDetail';
 import OrderPage from './Order';
 import FeedbackPage from './Feedback';
 import TransportLossAllPage from './TransportLossAll';
+import OrderDetail from './OrderDetail';
+import TransportLossDetail from './TransportLossDetail';
 interface MainTabsProps { }
 
 const MainTabs: React.FC<MainTabsProps> = () => {
@@ -25,6 +27,8 @@ const MainTabs: React.FC<MainTabsProps> = () => {
         <Route path="/tabs/message" render={() => <FeedbackPage />} exact={true} />
         <Route path="/tabs/loss" render={() => <TransportLossAllPage />} exact={true} />
         <Route path="/tabs/delivery/:id" component={ DeliveryDetail } exact={true} />
+        <Route path="/tabs/order/:id" component={ OrderDetail } exact={true} />
+        <Route path="/tabs/loss/:id" component={ TransportLossDetail } exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="delivery" href="/tabs/delivery">

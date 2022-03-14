@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonItemSliding, IonItem, IonLabel, IonText, IonIcon, IonRow, IonCol } from '@ionic/react';
 import { Feedback } from '../models/Feedback';
-import { chatboxEllipses, chatboxEllipsesOutline, chatbubbles, mailOpen, mailOpenOutline } from 'ionicons/icons';
+import { chatboxEllipses, chatboxEllipsesOutline, chatbubbles } from 'ionicons/icons';
 import './FeedbackItem.css';
 
 interface FeedbackItemProps {
