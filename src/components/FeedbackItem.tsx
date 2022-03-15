@@ -35,22 +35,24 @@ const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback, listType }) => {
               </div>
             </IonCol>
           </IonRow>
-          <IonRow>
-            <IonCol size="1">
-              <IonIcon icon={chatboxEllipsesOutline}/>
-            </IonCol>
-            <IonCol size="11">
-              <IonText><p>{feedback.AllMessage[0].sender}:{feedback.AllMessage[0].message}</p></IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol size="1">
-              <IonIcon icon={chatboxEllipses}/>
-            </IonCol>
-            <IonCol size="11">
-              <IonText><p>{feedback.AllMessage[0].responder}:{feedback.AllMessage[0].response}</p></IonText>
-            </IonCol>
-          </IonRow>
+          <div id="message">
+            <IonRow>
+              <IonCol size="1">
+                <IonIcon icon={chatboxEllipsesOutline}/>
+              </IonCol>
+              <IonCol size="11">
+                <IonText><p>{feedback.AllMessage[0].sender}:{feedback.AllMessage[0].message}</p></IonText>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol size="1">
+                <IonIcon icon={chatboxEllipses}/>
+              </IonCol>
+              <IonCol size="11">
+                <IonText><p>{feedback.AllMessage[0].responder}:{feedback.AllMessage[0].response}</p></IonText>
+              </IonCol>
+            </IonRow>
+          </div>
         </IonLabel>
       </IonItem>
     </IonItemSliding>

@@ -14,11 +14,13 @@ import TransportLoss from '../components/TransportLoss';
 import TransportLossLjk from '../components/TransportLossLjk';
 import TransportLossMeter from '../components/TransportLossMeter';
 import TransportLossJustify from '../components/TransportLossJustify';
+import { CheckList } from '../models/CheckList';
 
 interface OwnProps extends RouteComponentProps { };
 
 interface StateProps {
   delivery: Delivery;
+  checkLists: CheckList[];
 };
 
 interface DispatchProps {
@@ -26,7 +28,7 @@ interface DispatchProps {
 
 type DeliveryDetailProps = OwnProps & StateProps & DispatchProps;
 
-const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
+const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists }) => {
   const [showDriverDetail, setShowDriverDetail] = useState(false);
   const [showVehicleDetail, setShowVehicleDetail] = useState(false);
   const [showTransLossAgree, setShowTransLossAgree] = useState(false);
@@ -105,7 +107,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
               <h5><strong>Last Position</strong></h5>
             </IonCol>
             <IonCol>
-              <IonButton fill="outline">
+              <IonButton fill="outline" className="ion-float-right">
                 <IonIcon icon={reload}></IonIcon>
                 <IonLabel>Refresh GPS</IonLabel>
               </IonButton>
@@ -161,10 +163,10 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
             <IonRow>
             { delivery.seal_compiled !== null && delivery.seal_compiled.slice(0, -1).split(",").map((seal, index) => (
                 <IonCol size="4">
-                  <IonItem lines="none">
+                  <IonLabel>
                     <IonIcon icon={ticket} color="warning"></IonIcon>
-                    <h6>{seal}</h6>
-                  </IonItem>
+                    <IonText>{seal}</IonText>
+                  </IonLabel>
                 </IonCol>
             ))}
             </IonRow>
@@ -203,7 +205,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossQuery onSubmit={() => {setShowTransLoss(true); setShowTransLossQuery(false);}} onDismissModal={() => setShowTransLossQuery(false)}></TransportLossQuery>
+            <TransportLossQuery checkLists={checkLists} onSubmit={() => {setShowTransLoss(true); setShowTransLossQuery(false);}} onDismissModal={() => setShowTransLossQuery(false)}></TransportLossQuery>
           </IonModal>
 
           <IonModal
@@ -248,7 +250,8 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery }) => {
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
-    delivery: selectors.getDelivery(state, OwnProps)
+    delivery: selectors.getDelivery(state, OwnProps),
+    checkLists: state.delivery.checkLists
   }),
   mapDispatchToProps: {
   },

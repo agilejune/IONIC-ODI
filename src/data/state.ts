@@ -13,6 +13,7 @@ export const initialState: AppState = {
     orders: [],
     feedbacks: [],
     transLossAll: [],
+    checkLists: [],
   },
 };
 

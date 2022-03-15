@@ -1,0 +1,217 @@
+{
+  "data": [
+      {
+          "id": 14,
+          "question_ids": [
+              {
+                  "constr_mandatory": true,
+                  "id": 123,
+                  "label_ids": [],
+                  "question": "Petugas SPBU",
+                  "type": "textbox"
+              }
+          ],
+          "title": "Data Order"
+      },
+      {
+          "id": 15,
+          "question_ids": [
+              {
+                  "constr_mandatory": false,
+                  "id": 124,
+                  "label_ids": [
+                      {
+                          "id": 165,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "1. Tempatkan mobil tangki yang telah datang di SPBU dengan aman dan posisi yang benar.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 125,
+                  "label_ids": [
+                      {
+                          "id": 166,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "2. Pastikan rem tangan mobil tangki telah aktif, mesin mati, dan APAR telah standby pada posisi yang aman. Pastikan juga ketersediaan volume ruang kosong  pada tangki pendam.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 126,
+                  "label_ids": [
+                      {
+                          "id": 167,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "3. Pastikan area pembongkaran telah aman dan diberikan rambu/pembatas, serta periksa kesesuaian SPP dengan produk, nopol mobil tangki, nama AMT dan segel, kemudian cek keutuhan segel pada manhole dan valve discharge (bottom loader) mobil tangki.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 127,
+                  "label_ids": [
+                      {
+                          "id": 168,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "4. Pasang kabel arde pengaman dan pastikan terpasang dengan baik.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 128,
+                  "label_ids": [
+                      {
+                          "id": 169,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "5. Persiapkan dan periksa kondisi/kesesuaian alat ukur dan sertifikat tera dengan ijk bout mobil tangki, kemudian ukur tinggi cairan di kompartemen mobil tangki.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 129,
+                  "label_ids": [
+                      {
+                          "id": 170,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "6. Ambil sampel dan ukur density observed BBM, kemudian bandingkan density standar (liter 15 C) hasil pengukuran dengan data density pada SPP, serta pastikan kesesuaian warna dan jenis produknya. ",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 130,
+                  "label_ids": [
+                      {
+                          "id": 171,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "7. Pastikan kesesuaian jenis BBM pada tangki pendam penerima, dengan BBM yang akan dibongkar.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 131,
+                  "label_ids": [
+                      {
+                          "id": 172,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "8. Pasang hose/selang discharge pada inlet pipa saluran tangki pendam, kemudian pada outlet mobil tangki. Pastikan tidak terdapat penjualan dari tangki pendam penerimaan, dan diberikan settling time minimal 05 menit.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 132,
+                  "label_ids": [
+                      {
+                          "id": 173,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "9. Lakukan pembongkaran dengan membuka valve secara bertahap, pastikan tidak ada rembesan atau kebocoran.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 133,
+                  "label_ids": [
+                      {
+                          "id": 174,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "10. Selama pembongkaran AMT dan Foreman SPBU standby, stop pembongkaran jika dirasa kondisi dan cuaca kurang aman.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 134,
+                  "label_ids": [
+                      {
+                          "id": 175,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "11. Setelah selesai pembongkaran, tutup valve discharge mobil tangki.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 135,
+                  "label_ids": [
+                      {
+                          "id": 176,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "12. Pastikan BBM pada kompartemen mobil tangki benar-benar telah habis, kemudian lepas hose/selang discharge dan tutup dombak tangki pendam.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 136,
+                  "label_ids": [
+                      {
+                          "id": 177,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "13. Lepaskan kabel arde, dan kembalikan APAR serta peralatan lainnya ke tempat semula.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 137,
+                  "label_ids": [
+                      {
+                          "id": 178,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "14. Input data pada aplikasi Online Delivery Info (ODI), yaitu: T2 aktual, density, dan temperature BBM sebelum pembongkaran.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 138,
+                  "label_ids": [
+                      {
+                          "id": 179,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "15. Cek kesesuaian data yang diinput ke aplikasi ODI, dan pastikan sudah benar.",
+                  "type": "simple_choice"
+              },
+              {
+                  "constr_mandatory": false,
+                  "id": 139,
+                  "label_ids": [
+                      {
+                          "id": 180,
+                          "value": "Ya"
+                      }
+                  ],
+                  "question": "16. Tanda tangani dokumen SPP & dokumen lain jika ada, dan bagikan copy dokumen sesuai peruntukannya.",
+                  "type": "simple_choice"
+              }
+          ],
+          "title": "Checklist Pembongkaran BBM"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

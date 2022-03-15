@@ -13,5 +13,7 @@ export function deliveryReducer(state: DeliveryState, action: DeliveryActions): 
       return { ...state, ...action.data };
     case 'set-transloss-data':
       return { ...state, ...action.data };
+    case 'set-checklist-data':
+      return { ...state, ...action.data };
   }
 }

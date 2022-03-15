@@ -1,4 +1,5 @@
 import { Plugins } from '@capacitor/core';
+import { CheckList } from '../models/CheckList';
 import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
 import { Feedback, Feedback_Data } from '../models/Feedback';
@@ -17,6 +18,7 @@ const vehicleDetailUrl = '/assets/data/vehicle_details.json';
 const transportLossAllUrl = '/assets/data/transportloss.json';
 const orderUrl = '/assets/data/order.json';
 const feedbackUrl = '/assets/data/feedback.json';
+const checklistUrl = '/assets/data/survey.json';
 
 const HAS_LOGGED_IN = 'hasLoggedIn';
 const USERNAME = 'username';
@@ -130,6 +132,18 @@ export const getVehicleDetail = async (vehicleID: number) => {
   }
   
   return vehicle;
+}
+
+export const getCheckLists = async () => {
+  const response = await Promise.all([
+    fetch(checklistUrl),
+  ]);
+  const responseData = await response[0].json();
+  const checkLists = responseData.data as CheckList[];
+ 
+  return {
+    checkLists,
+  };
 }
 
 export const setIsLoggedInData = async (isLoggedIn: boolean) => {

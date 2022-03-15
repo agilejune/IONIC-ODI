@@ -1,3 +1,4 @@
+import { CheckList } from "../../models/CheckList";
 import { Delivery } from "../../models/Delivery";
 import { Feedback } from "../../models/Feedback";
 import { Order } from "../../models/Order";
@@ -9,4 +10,5 @@ export interface DeliveryState {
   feedbacks: Feedback[],
   orders: Order[],
   transLossAll: Transportloss[],
+  checkLists: CheckList[],
 };

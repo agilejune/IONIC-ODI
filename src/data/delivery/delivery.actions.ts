@@ -1,4 +1,4 @@
-import { getDelivery, getFeedbacks, getOrders, getTransportLossAll } from '../dataApi';
+import { getCheckLists, getDelivery, getFeedbacks, getOrders, getTransportLossAll } from '../dataApi';
 import { ActionType } from '../../util/types';
 import { DeliveryState } from './delivery.state';
 
@@ -16,6 +16,9 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
 
   const transportloss = await getTransportLossAll();
   dispatch(setTransLossData(transportloss));
+
+  const checkList = await getCheckLists();
+  dispatch(setCheckListData(checkList));
   
   dispatch(setLoading(false));
 }
@@ -45,6 +48,12 @@ export const setTransLossData = (data: Partial<DeliveryState>) => ({
   data
 } as const);
 
+export const setCheckListData = (data: Partial<DeliveryState>) => ({
+  type: 'set-checklist-data',
+  data
+} as const);
+
+
 
 export type DeliveryActions =
   | ActionType<typeof setLoading>
@@ -52,3 +61,4 @@ export type DeliveryActions =
   | ActionType<typeof setOrderData>
   | ActionType<typeof setFeedbackData>
   | ActionType<typeof setTransLossData>
+  | ActionType<typeof setCheckListData>
