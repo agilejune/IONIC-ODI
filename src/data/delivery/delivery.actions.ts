@@ -1,4 +1,4 @@
-import { getCheckLists, getDelivery, getFeedbacks, getOrders, getTransportLossAll } from '../dataApi';
+import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOrders, getTanks, getTransportLossAll } from '../dataApi';
 import { ActionType } from '../../util/types';
 import { DeliveryState } from './delivery.state';
 
@@ -19,6 +19,12 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
 
   const checkList = await getCheckLists();
   dispatch(setCheckListData(checkList));
+
+  const tank = await getTanks();
+  dispatch(setTankData(tank));
+
+  const justify = await getJustify();
+  dispatch(setJustifyData(justify));
   
   dispatch(setLoading(false));
 }
@@ -53,6 +59,16 @@ export const setCheckListData = (data: Partial<DeliveryState>) => ({
   data
 } as const);
 
+export const setJustifyData = (data: Partial<DeliveryState>) => ({
+  type: 'set-justify-data',
+  data
+} as const);
+
+export const setTankData = (data: Partial<DeliveryState>) => ({
+  type: 'set-tank-data',
+  data
+} as const);
+
 
 
 export type DeliveryActions =
@@ -62,3 +78,6 @@ export type DeliveryActions =
   | ActionType<typeof setFeedbackData>
   | ActionType<typeof setTransLossData>
   | ActionType<typeof setCheckListData>
+  | ActionType<typeof setTankData>
+  | ActionType<typeof setJustifyData>
+

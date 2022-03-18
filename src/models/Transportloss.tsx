@@ -24,3 +24,57 @@ export interface Transportloss {
   Vol_After: number, //3980.0,
   Vol_Before: number, //8000.0
 }
+
+export interface TransportLossCate {
+  compt: string,
+  lolineid: number,
+  lonumber: string,
+  measure_by: string,
+  shipment_id: number,
+  tloss_id: number,
+  ttl_loss: number,
+  vol_after: number,
+  vol_before: number
+}
+
+export interface LossFormData {
+  claim_discrepancy: number,
+  compartment: number,
+  datas_fname: string,
+  datas_fname_atg: string,
+  datas_id: number,
+  datas_id_atg: number,
+  delivery_discrepancy: number,
+  density_15c: number,
+  density_obs: number,
+  height_after: number,
+  height_before: number,
+  lolines_ids: string,
+  measure_by: string,
+  message: string,
+  sensitivity: number,
+  ship_loss_id: number,
+  shipment_id: number,
+  state: string,
+  tank_id: number,
+  tank_name: string,
+  temperatur_obs: number,
+  tolerance: number,
+  tolerance_discrepancy: number,
+  ttl_loss: number,
+  ttl_loss_claim: number,
+  vol_after: number,
+  vol_before: number,
+  volume_ar: number,
+  volume_sales: number
+}
+
+export interface Tank {
+  id: number,
+  name: string
+}
+
+export interface Justify {
+  id: string,
+  name: string
+}

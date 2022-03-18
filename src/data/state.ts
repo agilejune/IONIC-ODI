@@ -14,6 +14,8 @@ export const initialState: AppState = {
     feedbacks: [],
     transLossAll: [],
     checkLists: [],
+    tanks: [],
+    justify: [],
   },
 };
 

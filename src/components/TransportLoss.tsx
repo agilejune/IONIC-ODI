@@ -59,24 +59,6 @@ const TransportLoss : React.FC<OwnProps> = ({onDismissModal, onLjk, onMeter}) =>
           2. Pilih Flow Meter apabila pembongkaran BBM menggunakan acuan serah terima meter arus pada mobil tangki (meter arus PTO/meter portabel).
           </h6>
         </IonText>
-
-        {/* <IonModal
-            isOpen={showTransLossMeter}
-            onDidDismiss={() => setShowTransLossMeter(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <TransportLossMeter onDismissModal={() => setShowTransLossMeter(false)}></TransportLossMeter>
-          </IonModal>
-
-          <IonModal
-            isOpen={showTransLossLjk}
-            onDidDismiss={() => setShowTransLossLjk(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <TransportLossJustify onDismissModal={() => setShowTransLossLjk(false)}></TransportLossJustify>
-          </IonModal> */}
       </IonContent>
     </IonPage>
   );

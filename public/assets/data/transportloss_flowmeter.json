@@ -1,0 +1,17 @@
+{
+  "data": [
+      {
+          "compt": "1",
+          "lolineid": 69948243,
+          "lonumber": "8057819862",
+          "measure_by": "",
+          "shipment_id": 6872038,
+          "tloss_id": 0,
+          "ttl_loss": 0.0,
+          "vol_after": 0.0,
+          "vol_before": 0.0
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

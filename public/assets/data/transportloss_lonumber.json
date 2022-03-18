@@ -1,0 +1,37 @@
+{
+  "data": [
+      {
+          "claim_discrepancy": 46.0,
+          "compartment": 1,
+          "datas_fname": "ba_tloss_6872038_1.pdf",
+          "datas_fname_atg": "ba_tlosatg_6872038_1.pdf",
+          "datas_id": 141234,
+          "datas_id_atg": 141235,
+          "delivery_discrepancy": 70.0,
+          "density_15c": null,
+          "density_obs": 20.0,
+          "height_after": 1650.0,
+          "height_before": 1668.0,
+          "lolines_ids": "69948242-8057916240",
+          "measure_by": "ijkbout",
+          "message": "Password/PIN AMT 1 tidak Sesuai",
+          "sensitivity": 1.571,
+          "ship_loss_id": 1930061,
+          "shipment_id": 6872038,
+          "state": "confirm",
+          "tank_id": 2264,
+          "tank_name": "T1 - PERTALITE",
+          "temperatur_obs": 30.0,
+          "tolerance": 12.0,
+          "tolerance_discrepancy": 24.0,
+          "ttl_loss": 263.928,
+          "ttl_loss_claim": 251.928,
+          "vol_after": 0.0,
+          "vol_before": 8000.0,
+          "volume_ar": 100.0,
+          "volume_sales": 200.0
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

@@ -4,7 +4,7 @@ import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
 import { Feedback, Feedback_Data } from '../models/Feedback';
 import { Order } from '../models/Order';
-import { Transportloss } from '../models/Transportloss';
+import { Justify, LossFormData, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
 import { Comp } from '../models/Vehicle';
 
@@ -19,6 +19,9 @@ const transportLossAllUrl = '/assets/data/transportloss.json';
 const orderUrl = '/assets/data/order.json';
 const feedbackUrl = '/assets/data/feedback.json';
 const checklistUrl = '/assets/data/survey.json';
+const justifyUrl = '/assets/data/transport_justify.json';
+const tankUrl = '/assets/data/tank_spbu.json';
+const lossFormUrl = '/assets/data/transportloss_lonumber.json';
 
 const HAS_LOGGED_IN = 'hasLoggedIn';
 const USERNAME = 'username';
@@ -144,6 +147,40 @@ export const getCheckLists = async () => {
   return {
     checkLists,
   };
+}
+
+export const getTanks = async () => {
+  const response = await Promise.all([
+    fetch(tankUrl),
+  ]);
+  const responseData = await response[0].json();
+  const tanks = responseData.data as Tank[];
+ 
+  return {
+    tanks,
+  };
+}
+
+export const getJustify = async () => {
+  const response = await Promise.all([
+    fetch(justifyUrl),
+  ]);
+  const responseData = await response[0].json();
+  const justify = responseData.data as Justify[];
+ 
+  return {
+    justify,
+  };
+}
+
+export const getLossFormData = async () => {
+  const response = await Promise.all([
+    fetch(lossFormUrl),
+  ]);
+  const responseData = await response[0].json();
+  const lossFormData = responseData.data as LossFormData[];
+
+  return lossFormData[0];
 }
 
 export const setIsLoggedInData = async (isLoggedIn: boolean) => {

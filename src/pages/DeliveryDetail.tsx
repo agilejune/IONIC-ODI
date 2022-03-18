@@ -223,7 +223,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossLjk onSubmit={() => {setShowTransLossJustify(true); setShowTransLossLjk(false);}} onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
+            <TransportLossLjk shipID={delivery.shipment_id} onSubmit={() => {setShowTransLossJustify(true); setShowTransLossLjk(false);}} onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
           </IonModal>
           <IonModal
             isOpen={showTransLossMeter}

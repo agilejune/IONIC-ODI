@@ -1,0 +1,42 @@
+{
+  "data": [
+      {
+          "id": "accident_mt",
+          "name": "Accident mobil tangki"
+      },
+      {
+          "id": "alat_ukur_tdk_sesuai",
+          "name": "Alat ukur tidak sesuai"
+      },
+      {
+          "id": "deadfreight",
+          "name": "Deadfreight (Vol LO <  Vol Kompartemen)"
+      },
+      {
+          "id": "ijkbout_rusak",
+          "name": "Ijkbout rusak/tidak akurat"
+      },
+      {
+          "id": "kebocoran_mt",
+          "name": "Kebocoran mobil tangki"
+      },
+      {
+          "id": "lain2",
+          "name": "Lain-lain"
+      },
+      {
+          "id": "t2tera_salah",
+          "name": "T2 tera salah"
+      },
+      {
+          "id": "tanah_tdk_rata",
+          "name": "Permukaan tanah tidak rata"
+      },
+      {
+          "id": "tera_expired",
+          "name": "Masa aktif tera kadaluarsa"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

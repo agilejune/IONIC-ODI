@@ -1,0 +1,26 @@
+{
+  "data": [
+      {
+          "id": 2264,
+          "name": "T1 - PERTALITE"
+      },
+      {
+          "id": 2263,
+          "name": "T2 - DEXLITE"
+      },
+      {
+          "id": 2265,
+          "name": "T3 - PERTAMAX"
+      },
+      {
+          "id": 2267,
+          "name": "T4 - PREMIUM"
+      },
+      {
+          "id": 2266,
+          "name": "T5 - PERTAMINA DEX"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}
