@@ -44,7 +44,7 @@ const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal, onSubmit, shipID
             </IonText>
           </IonCol>
           <IonCol size="6">
-            <IonInput disabled>{lossFormData?.measure_by}</IonInput>
+            <IonInput value={lossFormData?.measure_by} disabled></IonInput>
           </IonCol>
         </IonRow>
         <IonRow>
