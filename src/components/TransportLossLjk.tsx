@@ -2,7 +2,7 @@ import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { getLossFormData } from '../data/dataApi';
-import { LossFormData } from '../models/Transportloss';
+import { LossFormData, LossFormDataOffline } from '../models/Transportloss';
 import './TransportLossLjk.scss';
 
 interface OwnProps {
@@ -13,6 +13,9 @@ interface OwnProps {
 
 const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal, onSubmit, shipID}) => {
   const [lossFormData, setLossFormData] = useState<LossFormData>();
+  const [lolinesId1, setLolinesId1] = useState('0');
+  const [lolinesId2, setLolinesId2] = useState('0');
+  const [heightAfter, setHeightAfter] = useState(0);
 
   useEffect(() => {
     getData();
@@ -23,6 +26,47 @@ const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal, onSubmit, shipID
       setLossFormData(lossData);
     }
   }, [shipID]);
+
+  const getVolumeBefore = (data: LossFormData) => {
+    const vol_1 = parseInt(data.lolines_ids.filter((id) => id.lo_id === lolinesId1)[0].lo_volume);
+    const vol_2 = parseInt(data.lolines_ids.filter((id) => id.lo_id === lolinesId2)[0].lo_volume);
+    if (data.measure_by === 'ijkbout') {
+      if (vol_1 + vol_2 < data.vol_compartment) {
+        data.vol_before = vol_1 + vol_2;
+      }
+      else if (vol_1 + vol_2 === data.vol_compartment) {
+        data.vol_before = data.vol_compartment;
+      }
+      else if (vol_1 + vol_2 > data.vol_compartment){
+        const error = "'Total Volume LO (%s Liter) lebih besar dari Kapasitas Compartment (%s Liter), silakan periksa kembali data yang dientry' % \n(all_volbefore2,vals['vol_compartment'])";
+      }
+    }
+    else if (data.measure_by === 'flowmeter') {
+      data.vol_before = vol_1 + vol_2;
+    }
+  };
+
+  const getTTLloss = (data: LossFormDataOffline) => {
+    if (data.measure_by === 'ijkbout') {
+      data.ttl_loss = heightAfter >= data.height_before ? 0 : (data.height_before - heightAfter) * data.sensitivity;
+    }
+    else if (data.measure_by === 'flowmeter') {
+      data.ttl_loss = data.vol_after >= data.vol_before ? 0 : data.vol_before - data.vol_after;
+    }
+
+    const ttl_loss_min = data.treshold_ttl_loss.match(/\[\d,/g);
+    const ttl_loss_max = data.treshold_ttl_loss.match(/,\d\]/g);
+    if (ttl_loss_min != null && ttl_loss_max != null && (data.ttl_loss < parseInt(ttl_loss_min[0]) || data.ttl_loss > parseInt(ttl_loss_max[0]))) {
+      const error = "Total Loss (%s Liter) diluar batas kewajaran, Apakah anda yakin sudah benar memasukan data?"
+    }
+  }
+
+  const getTolerance = (data: LossFormDataOffline) => {
+    data.tolerance = data.ttl_loss > 0 ? parseInt(data.conf_tolerance) / 100 * data.vol_before : 0;
+
+    data.ttl_loss_claim = data.ttl_loss - data.tolerance;
+  }
+
   return(
     <IonPage id="transport-loss-ljk-page">
       <IonHeader>

@@ -49,7 +49,7 @@ export interface LossFormData {
   density_obs: number,
   height_after: number,
   height_before: number,
-  lolines_ids: string,
+  lolines_ids: LoLinesID[],
   measure_by: string,
   message: string,
   sensitivity: number,
@@ -65,8 +65,23 @@ export interface LossFormData {
   ttl_loss_claim: number,
   vol_after: number,
   vol_before: number,
+  vol_compartment: number,
   volume_ar: number,
   volume_sales: number
+}
+
+export interface LossFormDataOffline extends LossFormData {
+  conf_tolerance: string, //0.15,
+  conf_tolerance_discrepancy: string,  //0.30,
+  is_atg: boolean,
+  is_justified: boolean,
+  justify_reason: string,  //,
+  lolines_id1: number, //69948226,
+  lolines_id2: number, //0,
+  password: string,
+  spbu: string,
+  treshold_ttl_loss: string,  //[0,100],
+  users: string,  //dede,
 }
 
 export interface Tank {
@@ -77,4 +92,11 @@ export interface Tank {
 export interface Justify {
   id: string,
   name: string
+}
+
+interface LoLinesID {
+  lo_id: string, //69948226,
+  lo_number: string, //8057819861,
+  lo_product: string, //PERTALITE,
+  lo_volume: string //8
 }
