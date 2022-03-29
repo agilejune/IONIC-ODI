@@ -7,6 +7,7 @@ import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import { eyeOffOutline, eyeOutline, personOutline, lockClosedOutline, enterOutline } from 'ionicons/icons';
 import { loadData } from '../data/delivery/delivery.actions';
+import { useTranslation } from "react-i18next";
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -29,6 +30,7 @@ const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernam
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [t, i18n] = useTranslation('common');
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +53,7 @@ const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernam
       }
       else {        
         await setIsLoggedIn(true);
-        setUserData(userData);
+        setUserData(userData!);
         await setUsernameAction(username);
         await loadData();
         history.push('/tabs/delivery', {direction: 'none'});
@@ -69,8 +71,8 @@ const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernam
       <IonContent>
         <div className="login-logo">
           <img src="assets/img/duck.jpg" alt="Ionic logo" />
+          <h1>{t('welcome.title', {trademark : "ODI"})}</h1>
         </div>
-
         <form noValidate onSubmit={login}>
           <IonList>
             <IonItem className="login-input">
@@ -102,7 +104,7 @@ const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernam
 
           <IonRow>
             <IonCol className="ion-item-center">
-              <IonButton type="submit" expand="block"><IonIcon icon={enterOutline}></IonIcon>&nbsp;&nbsp;Login</IonButton>
+              <IonButton type="submit" expand="block"><IonIcon icon={enterOutline}></IonIcon>&nbsp;&nbsp;{t('welcome.login')}</IonButton>
             </IonCol>
             {/* <IonCol>
               <IonButton routerLink="/signup" color="light" expand="block">Signup</IonButton>

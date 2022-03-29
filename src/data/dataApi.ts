@@ -1,4 +1,4 @@
-import { Plugins } from '@capacitor/core';
+import { Storage } from '@capacitor/storage';
 import { CheckList } from '../models/CheckList';
 import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
@@ -7,8 +7,6 @@ import { Order } from '../models/Order';
 import { Justify, LossFormData, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
 import { Comp } from '../models/Vehicle';
-
-const { Storage } = Plugins;
 
 const authUrl = '/assets/data/authenticate.json';
 const ongoingDeliveryUrl = '/assets/data/ongoing_deliveries.json';
@@ -32,7 +30,7 @@ export const doAuthenticate = async () => {
   const responseData = await response[0].json();
   const status = responseData.status as string;
   if (status === "F") {
-    return false;
+    return;
   }
   else if (status === "S") {
     const user = responseData.data[0] as User;
@@ -76,8 +74,8 @@ export const getFeedbacks = async () => {
   const feedback_datas = responseData.data as Feedback_Data[];
   const feedbacks = feedback_datas!.map(feedback => {
     let shipment = feedback.Shipment as string;
-    shipment = shipment.replaceAll(/\s\n+/g, '","');
-    shipment = shipment.replaceAll(/:\s+/g, '":"');
+    shipment = shipment.replace(/\s\n+/g, '","');
+    shipment = shipment.replace(/:\s+/g, '":"');
     return {...feedback, Shipment: JSON.parse(`{"${shipment}"}`)} as Feedback;
   });
   
@@ -184,13 +182,13 @@ export const getLossFormData = async () => {
 }
 
 export const setIsLoggedInData = async (isLoggedIn: boolean) => {
-  // await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
+  await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
 }
 
 export const setUsernameData = async (username?: string) => {
-  // if (!username) {
-  //   await Storage.remove({ key: USERNAME });
-  // } else {
-  //   await Storage.set({ key: USERNAME, value: username });
-  // }
+  if (!username) {
+    await Storage.remove({ key: USERNAME });
+  } else {
+    await Storage.set({ key: USERNAME, value: username });
+  }
 }
