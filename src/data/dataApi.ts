@@ -1,4 +1,5 @@
 import { Storage } from '@capacitor/storage';
+import { Network } from '@capacitor/network';
 import { CheckList } from '../models/CheckList';
 import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
@@ -7,26 +8,49 @@ import { Order } from '../models/Order';
 import { Justify, LossFormData, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
 import { Comp } from '../models/Vehicle';
+import axios from "axios";
 
-const authUrl = '/assets/data/authenticate.json';
-const ongoingDeliveryUrl = '/assets/data/ongoing_deliveries.json';
-const pastDeliveryUrl = '/assets/data/past_deliveries.json';
-const driverDetailUrl = '/assets/data/driver_details.json';
-const vehicleDetailUrl = '/assets/data/vehicle_details.json';
-const transportLossAllUrl = '/assets/data/transportloss.json';
-const orderUrl = '/assets/data/order.json';
-const feedbackUrl = '/assets/data/feedback.json';
-const checklistUrl = '/assets/data/survey.json';
-const justifyUrl = '/assets/data/transport_justify.json';
-const tankUrl = '/assets/data/tank_spbu.json';
-const lossFormUrl = '/assets/data/transportloss_lonumber.json';
+const baseUrl = 'http://182.23.86.213:4000/odi';
+const jsonUrl = {
+  auth: '/assets/data/authenticate.json',
+  ongoingDelivery: '/assets/data/ongoing_deliveries.json',
+  pastDelivery : '/assets/data/past_deliveries.json',
+  driverDetail : '/assets/data/driver_details.json',
+  vehicleDetail : '/assets/data/vehicle_details.json',
+  transportLossAll : '/assets/data/transportloss.json',
+  order : '/assets/data/order.json',
+  feedback : '/assets/data/feedback.json',
+  checklist : '/assets/data/survey.json',
+  justify : '/assets/data/transport_justify.json',
+  tank : '/assets/data/tank_spbu.json',
+  lossForm : '/assets/data/transportloss_lonumber.json',
+};
+
 
 const HAS_LOGGED_IN = 'hasLoggedIn';
 const USERNAME = 'username';
 
-export const doAuthenticate = async () => {
+let commonFormData = new FormData();
+let spbu : string;
+
+Network.addListener('networkStatusChange', status => {
+  console.log('Network status changed', status);
+});
+
+const logCurrentNetworkStatus = async () => {
+  const status = await Network.getStatus();
+
+  console.log('Network status:', status);
+};
+
+export const doAuthenticate = async (formData : FormData) => {
   const response = await Promise.all([
-    fetch(authUrl)]);
+    // fetch(jsonUrl.auth)
+    fetch(`${baseUrl}/authenticate`, {
+      method: "post",
+      body: formData
+    }), 
+  ]);
   const responseData = await response[0].json();
   const status = responseData.status as string;
   if (status === "F") {
@@ -34,20 +58,41 @@ export const doAuthenticate = async () => {
   }
   else if (status === "S") {
     const user = responseData.data[0] as User;
+    commonFormData.append('spbu', user.user_name);
+    commonFormData.append('company_id', user.company_id.toString());
+    spbu = user.user_name;
     return user;
   }
 }
 
 export const getDelivery = async () => {
-  const response = await Promise.all([
-    fetch(ongoingDeliveryUrl),
-    fetch(pastDeliveryUrl)
+  commonFormData.append('menu', 'ongoing_deliveries');
+  
+  const response_ongoing = await Promise.all([
+    // fetch(jsonUrl.ongoingDelivery),
+    fetch(`${baseUrl}/shipment`, {
+      method: "post",
+      body: commonFormData
+    })
   ]);
-  const ongoingData = await response[0].json();
+
+  const ongoingData = await response_ongoing[0].json();
   const ongoingDeliverys = ongoingData.data as Delivery[];
-  const pastData = await response[1].json();
+
+  commonFormData.delete('menu');
+  commonFormData.append('menu', 'past_deliveries');
+  const response_past = await Promise.all([
+    // fetch(jsonUrl.pastDelivery)
+    fetch(`${baseUrl}/shipment`, {
+      method: "post",
+      body: commonFormData
+    })
+  ]);
+  const pastData = await response_past[0].json();
   const pastDeliverys = pastData.data as Delivery[];
  
+  commonFormData.delete('menu');
+
   return {
     ongoingDeliverys,
     pastDeliverys
@@ -56,7 +101,11 @@ export const getDelivery = async () => {
 
 export const getOrders = async () => {
   const response = await Promise.all([
-    fetch(orderUrl),
+    // fetch(jsonUrl.order),
+    fetch(`${baseUrl}/order`, {
+      method: "post",
+      body: commonFormData
+    }),
   ]);
   const responseData = await response[0].json();
   const orders = responseData.data as Order[];
@@ -68,7 +117,11 @@ export const getOrders = async () => {
 
 export const getFeedbacks = async () => {
   const response = await Promise.all([
-    fetch(feedbackUrl),
+    // fetch(jsonUrl.feedback),
+    fetch(`${baseUrl}/feedback`, {
+      method: "post",
+      body: commonFormData
+    })
   ]);
   const responseData = await response[0].json();
   const feedback_datas = responseData.data as Feedback_Data[];
@@ -86,7 +139,11 @@ export const getFeedbacks = async () => {
 
 export const getTransportLossAll = async () => {
   const response = await Promise.all([
-    fetch(transportLossAllUrl),
+    // fetch(jsonUrl.transportLossAll),
+    fetch(`${baseUrl}/transportloss_all`,  {
+      method: "post",
+      body: commonFormData
+    }),
   ]);
   const responseData = await response[0].json();
   const transLossAll = responseData.data as Transportloss[];
@@ -97,8 +154,14 @@ export const getTransportLossAll = async () => {
 }
 
 export const getDriverDetail = async (driverID: number) => {
+  const formData = new FormData();
+  formData.append('driver_id', driverID.toString());
   const response = await Promise.all([
-    fetch(driverDetailUrl),
+    // fetch(jsonUrl.driverDetail),
+    fetch(`${baseUrl}/driver_detail`, {
+      method: "post",
+      body: formData
+    })
   ]);
   const responseData = await response[0].json();
   const driverDetail = responseData.data[0] as Driver;
@@ -107,8 +170,15 @@ export const getDriverDetail = async (driverID: number) => {
 }
 
 export const getVehicleDetail = async (vehicleID: number) => {
+  const formData = new FormData();
+  formData.append('vehicle', vehicleID.toString());
+
   const response = await Promise.all([
-    fetch(vehicleDetailUrl),
+    // fetch(jsonUrl.vehicleDetail),
+    fetch(`${baseUrl}/vehicle_detail`, {
+      method: "post",
+      body: formData
+    }),
   ]);
   const responseData = await response[0].json();
   const vehicleDetail = responseData.data[0];
@@ -136,8 +206,14 @@ export const getVehicleDetail = async (vehicleID: number) => {
 }
 
 export const getCheckLists = async () => {
+  const formData = new FormData();
+  formData.append('survey_id', "7");
   const response = await Promise.all([
-    fetch(checklistUrl),
+    // fetch(jsonUrl.checklist),
+    fetch(`${baseUrl}/get_survey`,  {
+      method: "post",
+      body: formData
+    }),
   ]);
   const responseData = await response[0].json();
   const checkLists = responseData.data as CheckList[];
@@ -148,8 +224,15 @@ export const getCheckLists = async () => {
 }
 
 export const getTanks = async () => {
+  const formData = new FormData();
+  formData.append('site_id', spbu);
+
   const response = await Promise.all([
-    fetch(tankUrl),
+    // fetch(jsonUrl.tank),
+    fetch(`${baseUrl}/slc_tank_spbu`, {
+      method: "post",
+      body: formData
+    }),
   ]);
   const responseData = await response[0].json();
   const tanks = responseData.data as Tank[];
@@ -161,7 +244,10 @@ export const getTanks = async () => {
 
 export const getJustify = async () => {
   const response = await Promise.all([
-    fetch(justifyUrl),
+    // fetch(jsonUrl.justify),
+    fetch(`${baseUrl}/slc_justify`, {
+      method: "post"
+    }),
   ]);
   const responseData = await response[0].json();
   const justify = responseData.data as Justify[];
@@ -173,7 +259,8 @@ export const getJustify = async () => {
 
 export const getLossFormData = async () => {
   const response = await Promise.all([
-    fetch(lossFormUrl),
+    fetch(jsonUrl.lossForm),
+    // fetch(`${baseUrl}/transportloss`,
   ]);
   const responseData = await response[0].json();
   const lossFormData = responseData.data as LossFormData[];

@@ -44,21 +44,27 @@ const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernam
 
     if(username && password) {
       setLoading(true);
-      const userData = await doAuthenticate();
-      const isAuthenticated = !!userData;
+
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('password', password);
       
-      if (!isAuthenticated) {
-        await setIsLoggedIn(false);
-        history.push('/login', {direction: 'none'});
-      }
-      else {        
-        await setIsLoggedIn(true);
-        setUserData(userData!);
-        await setUsernameAction(username);
-        await loadData();
-        history.push('/tabs/delivery', {direction: 'none'});
-      }
-      setLoading(false);
+      const userData = await doAuthenticate(formData);
+      
+      // const isAuthenticated = !!userData;
+      
+      // if (!isAuthenticated) {
+      //   await setIsLoggedIn(false);
+      //   history.push('/login', {direction: 'none'});
+      // }
+      // else {        
+      //   await setIsLoggedIn(true);
+      //   setUserData(userData!);
+      //   await setUsernameAction(username);
+      //   await loadData();
+      //   history.push('/tabs/delivery', {direction: 'none'});
+      // }
+      // setLoading(false);
     }
   };
 

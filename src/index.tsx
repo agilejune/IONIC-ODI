@@ -5,7 +5,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { Device } from '@capacitor/device';
 import {I18nextProvider} from "react-i18next";
 import i18next from "i18next";
-import common_in from "./translations/in/common.json";
+import common_id from "./translations/id/common.json";
 import common_en from "./translations/en/common.json";
 
 Device.getLanguageCode()
@@ -18,8 +18,8 @@ Device.getLanguageCode()
         en: {
             common: common_en               
         },
-        in: {
-            common: common_in
+        id: {
+            common: common_id
         },
     },
   });
@@ -31,10 +31,7 @@ Device.getLanguageCode()
      </I18nextProvider>
     </React.StrictMode>, document.getElementById('root')
   );
-  
-  // If you want your app to work offline and load faster, you can change
-  // unregister() to register() below. Note this comes with some pitfalls.
-  // Learn more about service workers: https://cra.link/PWA
+
   serviceWorkerRegistration.register();
 })
 .catch(error => console.log(error));

@@ -2,5 +2,9 @@
  "welcome": {
      "title": "Welcome to {{trademark}}",
      "login": "Log In"
- }
+ },
+ "page_1": {
+    "item_1": "abc",
+    "item_2": "def"
+}
 }
