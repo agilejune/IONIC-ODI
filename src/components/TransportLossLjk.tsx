@@ -1,7 +1,7 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
-import { getLossFormData } from '../data/dataApi';
+import { getApiLossFormData } from '../data/api';
 import { LossFormData, LossFormDataOffline } from '../models/Transportloss';
 import './TransportLossLjk.scss';
 
@@ -21,7 +21,7 @@ const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal, onSubmit, shipID
     getData();
 
     async function getData() {
-      const lossData = await getLossFormData();
+      const lossData = await getApiLossFormData();
       console.log(lossData)
       setLossFormData(lossData);
     }

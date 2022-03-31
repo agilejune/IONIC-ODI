@@ -1,6 +1,7 @@
-import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOrders, getTanks, getTransportLossAll } from '../dataApi';
+import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOrders, getTanks, getTransportLossAll } from '../sync';
 import { ActionType } from '../../util/types';
 import { DeliveryState } from './delivery.state';
+
 
 export const loadData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setLoading(true));

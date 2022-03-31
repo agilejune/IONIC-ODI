@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IonIcon, IonContent, IonPage,  IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText } from '@ionic/react';
 import './Login.scss';
 import { setIsLoggedIn, setUsername, setUserData, setLoading } from '../data/user/user.actions';
-import { doAuthenticate } from '../data/dataApi';
+import { doAuthenticate } from '../data/api';
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import { eyeOffOutline, eyeOutline, personOutline, lockClosedOutline, enterOutline } from 'ionicons/icons';
@@ -51,20 +51,20 @@ const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernam
       
       const userData = await doAuthenticate(formData);
       
-      // const isAuthenticated = !!userData;
+      const isAuthenticated = !!userData;
       
-      // if (!isAuthenticated) {
-      //   await setIsLoggedIn(false);
-      //   history.push('/login', {direction: 'none'});
-      // }
-      // else {        
-      //   await setIsLoggedIn(true);
-      //   setUserData(userData!);
-      //   await setUsernameAction(username);
-      //   await loadData();
-      //   history.push('/tabs/delivery', {direction: 'none'});
-      // }
-      // setLoading(false);
+      if (!isAuthenticated) {
+        await setIsLoggedIn(false);
+        history.push('/login', {direction: 'none'});
+      }
+      else {        
+        await setIsLoggedIn(true);
+        setUserData(userData!);
+        await setUsernameAction(username);
+        await loadData();
+        history.push('/tabs/delivery', {direction: 'none'});
+      }
+      setLoading(false);
     }
   };
 

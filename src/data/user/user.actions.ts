@@ -1,4 +1,4 @@
-import { setIsLoggedInData, setUsernameData } from '../dataApi';
+import { setIsLoggedInData, setUsernameData } from '../storage';
 import { ActionType } from '../../util/types';
 import { UserState } from './user.state';
 

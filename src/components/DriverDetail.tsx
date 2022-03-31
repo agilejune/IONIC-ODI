@@ -1,7 +1,7 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
-import { getDriverDetail } from '../data/dataApi';
+import { getApiDriverDetail } from '../data/api';
 import { Driver } from '../models/Driver';
 
 interface OwnProps {
@@ -15,7 +15,7 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
     getData();
 
     async function getData() {
-      const driverDetail = await getDriverDetail(driver_id);
+      const driverDetail = await getApiDriverDetail(driver_id);
       setDriver(driverDetail);
     }
     

@@ -1,14 +1,11 @@
-import { Storage } from '@capacitor/storage';
-import { Network } from '@capacitor/network';
 import { CheckList } from '../models/CheckList';
 import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
 import { Feedback, Feedback_Data } from '../models/Feedback';
 import { Order } from '../models/Order';
-import { Justify, LossFormData, Tank, Transportloss } from '../models/Transportloss';
+import { Justify, LossFormData, LossFormDataOffline, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
 import { Comp } from '../models/Vehicle';
-import axios from "axios";
 
 const baseUrl = 'http://182.23.86.213:4000/odi';
 const jsonUrl = {
@@ -26,22 +23,8 @@ const jsonUrl = {
   lossForm : '/assets/data/transportloss_lonumber.json',
 };
 
-
-const HAS_LOGGED_IN = 'hasLoggedIn';
-const USERNAME = 'username';
-
 let commonFormData = new FormData();
 let spbu : string;
-
-Network.addListener('networkStatusChange', status => {
-  console.log('Network status changed', status);
-});
-
-const logCurrentNetworkStatus = async () => {
-  const status = await Network.getStatus();
-
-  console.log('Network status:', status);
-};
 
 export const doAuthenticate = async (formData : FormData) => {
   const response = await Promise.all([
@@ -65,7 +48,7 @@ export const doAuthenticate = async (formData : FormData) => {
   }
 }
 
-export const getDelivery = async () => {
+export const getApiDelivery = async () => {
   commonFormData.append('menu', 'ongoing_deliveries');
   
   const response_ongoing = await Promise.all([
@@ -99,7 +82,7 @@ export const getDelivery = async () => {
   };
 }
 
-export const getOrders = async () => {
+export const getApiOrders = async () => {
   const response = await Promise.all([
     // fetch(jsonUrl.order),
     fetch(`${baseUrl}/order`, {
@@ -115,7 +98,7 @@ export const getOrders = async () => {
   };
 }
 
-export const getFeedbacks = async () => {
+export const getApiFeedbacks = async () => {
   const response = await Promise.all([
     // fetch(jsonUrl.feedback),
     fetch(`${baseUrl}/feedback`, {
@@ -137,7 +120,7 @@ export const getFeedbacks = async () => {
   };
 }
 
-export const getTransportLossAll = async () => {
+export const getApiTransportLossAll = async () => {
   const response = await Promise.all([
     // fetch(jsonUrl.transportLossAll),
     fetch(`${baseUrl}/transportloss_all`,  {
@@ -153,7 +136,7 @@ export const getTransportLossAll = async () => {
   };
 }
 
-export const getDriverDetail = async (driverID: number) => {
+export const getApiDriverDetail = async (driverID: number) => {
   const formData = new FormData();
   formData.append('driver_id', driverID.toString());
   const response = await Promise.all([
@@ -169,7 +152,7 @@ export const getDriverDetail = async (driverID: number) => {
   return driverDetail;
 }
 
-export const getVehicleDetail = async (vehicleID: number) => {
+export const getApiVehicleDetail = async (vehicleID: number) => {
   const formData = new FormData();
   formData.append('vehicle', vehicleID.toString());
 
@@ -205,7 +188,7 @@ export const getVehicleDetail = async (vehicleID: number) => {
   return vehicle;
 }
 
-export const getCheckLists = async () => {
+export const getApiCheckLists = async () => {
   const formData = new FormData();
   formData.append('survey_id', "7");
   const response = await Promise.all([
@@ -223,7 +206,7 @@ export const getCheckLists = async () => {
   };
 }
 
-export const getTanks = async () => {
+export const getApiTanks = async () => {
   const formData = new FormData();
   formData.append('site_id', spbu);
 
@@ -242,7 +225,7 @@ export const getTanks = async () => {
   };
 }
 
-export const getJustify = async () => {
+export const getApiJustify = async () => {
   const response = await Promise.all([
     // fetch(jsonUrl.justify),
     fetch(`${baseUrl}/slc_justify`, {
@@ -257,7 +240,7 @@ export const getJustify = async () => {
   };
 }
 
-export const getLossFormData = async () => {
+export const getApiLossFormData = async () => {
   const response = await Promise.all([
     fetch(jsonUrl.lossForm),
     // fetch(`${baseUrl}/transportloss`,
@@ -268,14 +251,14 @@ export const getLossFormData = async () => {
   return lossFormData[0];
 }
 
-export const setIsLoggedInData = async (isLoggedIn: boolean) => {
-  await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
+export const getApiLossFormOffineData = async () => {
+  const response = await Promise.all([
+    fetch(jsonUrl.lossForm),
+    // fetch(`${baseUrl}/transportloss_ofline`,
+  ]);
+  const responseData = await response[0].json();
+  const lossFormData = responseData.data as LossFormDataOffline[];
+
+  return lossFormData;
 }
 
-export const setUsernameData = async (username?: string) => {
-  if (!username) {
-    await Storage.remove({ key: USERNAME });
-  } else {
-    await Storage.set({ key: USERNAME, value: username });
-  }
-}

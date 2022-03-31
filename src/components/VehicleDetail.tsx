@@ -1,7 +1,7 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
-import { getVehicleDetail } from '../data/dataApi';
+import { getApiVehicleDetail } from '../data/api';
 import { Vehicle } from '../models/Vehicle';
 
 interface OwnProps {
@@ -15,7 +15,7 @@ const VehicleDetail : React.FC<OwnProps> = ({onDismissModal, vehicle_id}) => {
     getData();
 
     async function getData() {
-      const vehicleDetail = await getVehicleDetail(vehicle_id);
+      const vehicleDetail = await getApiVehicleDetail(vehicle_id);
       setVehicle(vehicleDetail);
     }
     
