@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonIcon, IonContent, IonPage,  IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText } from '@ionic/react';
+import { IonIcon, IonContent, IonPage,  IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText, IonSpinner } from '@ionic/react';
 import './Login.scss';
 import { setIsLoggedIn, setUsername, setUserData, setLoading } from '../data/user/user.actions';
 import { doAuthenticate } from '../data/api';
@@ -20,9 +20,13 @@ interface DispatchProps {
   loadData: typeof loadData;
 }
 
-interface LoginProps extends OwnProps, DispatchProps { }
+interface StateProps {
+  isLoading: boolean;
+}
 
-const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernameAction, setIsLoggedIn, setUserData, setLoading}) => {
+interface LoginProps extends OwnProps, StateProps, DispatchProps { }
+
+const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername: setUsernameAction, setIsLoggedIn, setUserData, setLoading}) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -75,6 +79,11 @@ const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernam
   return (
     <IonPage id="login-page">
       <IonContent>
+        { isLoading && 
+          <div className="spin">
+            <IonSpinner name="bubbles" color="primary" /> 
+          </div>
+        }
         <div className="login-logo">
           <img src="assets/img/duck.jpg" alt="Ionic logo" />
           <h1>{t('welcome.title', {trademark : "ODI"})}</h1>
@@ -125,6 +134,9 @@ const Login: React.FC<LoginProps> = ({history, loadData, setUsername: setUsernam
 };
 
 export default connect<OwnProps, { }, DispatchProps>({
+  mapStateToProps: (state, OwnProps) => ({
+    isLoading: state.user.loading
+  }),
   mapDispatchToProps: {
     setUsername,
     setIsLoggedIn,
