@@ -6,27 +6,9 @@ import { camera, pin, chatbox, basket, archiveOutline, help,  logIn, logOut, per
 
 import { connect } from '../data/connect';
 
-import './Menu.css'
+import { useTranslation } from "react-i18next";
 
-const routes = {
-  deliveryPages: [
-    { title: 'Delivery', path: '/tabs/delivery', icon: archiveOutline },
-    { title: 'Your Orders', path: '/tabs/order', icon: basket },
-    { title: 'Message From Us', path: '/tabs/message', icon: chatbox },
-    { title: 'Transport Loss', path: '/tabs/loss', icon: pin },
-    { title: 'TLoss Scan RQCode', path: '/tabs/scan_rqcode', icon: camera },
-  ],
-  loggedInPages: [
-    { title: 'Account', path: '/account', icon: person },
-    { title: 'Support', path: '/support', icon: help },
-    { title: 'Logout', path: '/logout', icon: logOut }
-  ],
-  loggedOutPages: [
-    { title: 'Login', path: '/login', icon: logIn },
-    { title: 'Support', path: '/support', icon: help },
-    { title: 'Signup', path: '/signup', icon: personAdd }
-  ]
-};
+import './Menu.css'
 
 interface Pages {
   title: string,
@@ -44,6 +26,28 @@ interface MenuProps extends RouteComponentProps, StateProps, DispatchProps { }
 
 const Menu: React.FC<MenuProps> = ({ history, isAuthenticated }) => {
   const location = useLocation();
+  const [t, i18n] = useTranslation('common');
+  
+  const routes = {
+  
+    deliveryPages: [
+      { title: t('menus.delivery'), path: '/tabs/delivery', icon: archiveOutline },
+      { title: t('menus.your_orders'), path: '/tabs/order', icon: basket },
+      { title: t('menus.message_from_us'), path: '/tabs/message', icon: chatbox },
+      { title: t('menus.transport_loss'), path: '/tabs/loss', icon: pin },
+      { title: t('menus.transport_loss_qrcode'), path: '/tabs/scan_rqcode', icon: camera },
+    ],
+    operationInfoPages: [
+      { title: t('menus.stock'), path: '/account', icon: person },
+      { title: t('menus.sales'), path: '/support', icon: help },
+      { title: t('menus.gain_loss'), path: '/logout', icon: logOut }
+    ],
+    accountPages: [
+      { title: t('menus.help_feedback'), path: '/account', icon: person },
+      { title: 'Profile', path: '/support', icon: help },
+      { title: 'Logout', path: '/logout', icon: logOut }
+    ],
+  };
 
   function renderlistItems(list: Pages[]) {
     return list
@@ -62,12 +66,16 @@ const Menu: React.FC<MenuProps> = ({ history, isAuthenticated }) => {
     <IonMenu  type="overlay" contentId="main">
       <IonContent forceOverscroll={false}>
         <IonList lines="none">
-          <IonListHeader>DELIVERY INFO</IonListHeader>
+          <IonListHeader>{ t('menus.title_1') }</IonListHeader>
           {renderlistItems(routes.deliveryPages)}
         </IonList>
         <IonList lines="none">
-          <IonListHeader>Account</IonListHeader>
-          {isAuthenticated ? renderlistItems(routes.loggedInPages) : renderlistItems(routes.loggedOutPages)}
+          <IonListHeader>{ t('menus.title_2') }</IonListHeader>
+          {renderlistItems(routes.operationInfoPages)}
+        </IonList>
+        <IonList lines="none">
+          <IonListHeader>{ t('menus.title_3') }</IonListHeader>
+          { renderlistItems(routes.accountPages) }
         </IonList>
       </IonContent>
     </IonMenu>

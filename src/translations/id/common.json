@@ -6,8 +6,7 @@
     "menus": {
         "title": "MySPBU",
         "title_1": "INFORMASI PENGIRIMAN",
-        "ongoing_delivery": "Proses Pengiriman",
-        "past_delivery": "Pengiriman Selesai",
+        "delivery": "Pengiriman",
         "your_orders": "Pesanan Anda",
         "message_from_us": "Pesan dari Kami",
         "transport_loss": "Rugi Pengangkutan",
@@ -19,25 +18,18 @@
         "title_3": "SISTEM",
         "help_feedback": "Bantuan & Masukan"
     },
-    "pages_ongoing_delivery": {
-        "title": "Proses Pengiriman",
+    "pages_delivery": {
+        "title": "Pengiriman",
+        "category_ongoing": "Selesai",
+        "category_past": "Proses",
+        "title_detail": "Detail Pengiriman",
         "tracking": "Pelacakan",
         "survey": "Survey",
+        "send_feedback": "Kirim Umpan Balik",
         "status": "Status",
         "last_position": "Posisi terakhir",
         "produk": "Produk",
         "produk_info": "* Urutan LO bukan merupakan urutan kompartemen produk. Pastikan kembali fisik produk yang akan dibongkar",
-        "transport_loss": "Rugi Pengangkutan",
-        "seal": "Segel"
-    },
-    "pages_past_delivery": {
-        "title": "Pengiriman Selesai",
-        "tracking": "Pelacakan",
-        "survey": "Survey",
-        "status": "Status",
-        "last_position": "Posisi terakhir",
-        "produk": "Produk",
-        "produk_info": "* Urutan LO bukan merupakan urutan kompartemen produk. Pastikan kembali posisi kompartemen yang akan dibongkar sudah sesuai",
         "transport_loss": "Rugi Pengangkutan",
         "seal": "Segel"
     },

@@ -15,6 +15,7 @@ import TransportLossLjk from '../components/TransportLossLjk';
 import TransportLossMeter from '../components/TransportLossMeter';
 import TransportLossJustify from '../components/TransportLossJustify';
 import { CheckList } from '../models/CheckList';
+import { useTranslation } from "react-i18next";
 
 interface OwnProps extends RouteComponentProps { };
 
@@ -38,6 +39,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
   const [showTransLossMeter, setShowTransLossMeter] = useState(false);
   const [showTransLossJustify, setShowTransLossJustify] = useState(false);
   const pageRef = useRef<HTMLElement>(null);
+  const [t, i18n] = useTranslation('common');
 
   return (
     <IonPage ref={pageRef} id="delivery-detail">
@@ -46,7 +48,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/delivery"></IonBackButton>
           </IonButtons>
-          <IonTitle>Delivery Detail</IonTitle>
+          <IonTitle>{ t('pages_delivery.title_detail') }</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -66,7 +68,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             <IonCol>
               <IonButtons className="ion-float-right">
                 <IonIcon icon={car}></IonIcon>
-                <IonLabel>Tracking</IonLabel>
+                <IonLabel>{ t('pages_delivery.tracking') }</IonLabel>
               </IonButtons>
             </IonCol>
           </IonRow>
@@ -80,7 +82,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             <IonCol>
               <IonButtons className="ion-float-right">
                 <IonIcon icon={car}></IonIcon>
-                <IonLabel>Survey</IonLabel>
+                <IonLabel>{ t('pages_delivery.survey') }</IonLabel>
               </IonButtons>
             </IonCol>
           </IonRow>
@@ -90,12 +92,12 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             <IonCol>
               <IonButtons className="ion-float-right">
                 <IonIcon icon={receipt}></IonIcon>
-                <IonLabel>Send Feedback</IonLabel>
+                <IonLabel>{ t('pages_delivery.send_feedback') }</IonLabel>
               </IonButtons>
             </IonCol>
           </IonRow>
           
-          <h5 className="ion-padding-top"><strong>Status:</strong></h5>
+          <h5 className="ion-padding-top"><strong>{ t('pages_delivery.status') }:</strong></h5>
 
           <h6>
             {delivery.company_name}&nbsp;/&nbsp;{delivery.gate_in_time}
@@ -104,7 +106,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
           </h6>
           <IonRow>
             <IonCol>
-              <h5><strong>Last Position</strong></h5>
+              <h5><strong>{ t('pages_delivery.last_position') }:</strong></h5>
             </IonCol>
             <IonCol>
               <IonButton fill="outline" className="ion-float-right">
@@ -117,7 +119,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             <h5>{delivery.last_position.Jalan}</h5>
           </IonRow>
           <div>
-            <h5><strong>Produk:</strong></h5>        
+            <h5><strong>{ t('pages_delivery.produk') }:</strong></h5>        
             { delivery.spbu_product_volume_lo !== null && delivery.spbu_product_volume_lo.split('\n').map((pro_vol) => (
                 <div>
                   <IonIcon icon={contrast}></IonIcon>
@@ -126,7 +128,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             ))}
           </div>
           <div className="ion-padding-top">
-            <h6>* Urutan LO bukan merupakan urutan kompartemen produk. Pastikan kembali fisik produk yang akan dibongkar</h6>
+            <h6>{ t('pages_delivery.produk_info') }</h6>
           </div>
           <div className="ion-padding-top">
             <h5><strong>Receiving & Loss claim</strong></h5>
@@ -159,7 +161,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             </div>
           </div>
           <div className="ion-padding-top">
-            <h5><strong>Seal:</strong></h5>
+            <h5><strong>{ t('pages_delivery.seal') }:</strong></h5>
             <IonRow>
             { delivery.seal_compiled !== null && delivery.seal_compiled.slice(0, -1).split(",").map((seal, index) => (
                 <IonCol size="4">

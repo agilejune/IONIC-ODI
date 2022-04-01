@@ -81,7 +81,7 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
       <IonContent>
         <div className="login-logo">
           <img src="assets/img/duck.jpg" alt="Ionic logo" />
-          <h1>{t('welcome.title', {trademark : "ODI"})}</h1>
+          <h1>{t('home.title')}</h1>
         </div>
         <form noValidate onSubmit={login}>
           <IonList>
@@ -116,7 +116,7 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
             <IonCol className="ion-item-center">
               <IonButton type="submit" expand="block">
                 { isLoading && <IonSpinner name="bubbles" color="light" /> }
-                <IonIcon icon={enterOutline}></IonIcon>&nbsp;&nbsp;{t('welcome.login')}
+                <IonIcon icon={enterOutline}></IonIcon>&nbsp;&nbsp;{t('home.login')}
               </IonButton>
             </IonCol>
             {/* <IonCol>

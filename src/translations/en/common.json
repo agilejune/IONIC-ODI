@@ -6,8 +6,7 @@
     "menus": {
         "title": "MySPBU",
         "title_1": "DELIVERY INFO",
-        "ongoing_delivery": "Ongoing Delivery",
-        "past_delivery": "Past Delivery",
+        "delivery": "Delivery",
         "your_orders": "Your Orders",
         "message_from_us": "Message from Us",
         "transport_loss": "Transport Loss",
@@ -19,21 +18,14 @@
         "title_3": "SYSTEM",
         "help_feedback": "Help & Feedback"
     },
-    "pages_ongoing_delivery": {
-        "title": "Ongoing Delivery",
+    "pages_delivery": {
+        "title": "Delivery",
+        "category_ongoing": "Ongoing",
+        "category_past": "Past",
+        "title_detail": "Delivery Details",
         "tracking": "Tracking",
         "survey": "Survey",
-        "status": "Status",
-        "last_position": "Last Position",
-        "produk": "Product",
-        "produk_info": "* The Order Number is not a product compartment order. Make sure physically the product to be unloaded",
-        "transport_loss": "Transport Loss",
-        "seal": "Seal"
-    },
-    "pages_past_delivery": {
-        "title": "Past Delivery",
-        "tracking": "Tracking",
-        "survey": "Survey",
+        "send_feedback": "Send Feedback",
         "status": "Status",
         "last_position": "Last Position",
         "produk": "Product",

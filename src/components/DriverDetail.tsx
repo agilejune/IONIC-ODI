@@ -3,6 +3,7 @@ import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
 import { getApiDriverDetail } from '../data/api';
 import { Driver } from '../models/Driver';
+import { useTranslation } from 'react-i18next';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -11,6 +12,8 @@ interface OwnProps {
 
 const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
   const [driver, setDriver] = useState<Driver>();
+  const [t, i18n] = useTranslation('common');
+
   useEffect(() => {
     getData();
 
@@ -25,7 +28,7 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
     <>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Crew Detail</IonTitle>
+          <IonTitle>{ t('modal_detail_crew.title') }</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={onDismissModal}>
               <IonIcon icon={closeOutline} />
@@ -37,7 +40,7 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
         <IonGrid>
           <IonRow>
             <IonCol>
-              <IonText><strong>NIP</strong></IonText>
+              <IonText><strong>{ t('modal_detail_crew.nip') }</strong></IonText>
             </IonCol>
             <IonCol>
               <IonText>{ driver?.driver_code }</IonText>
@@ -45,7 +48,7 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonText><strong>Nama Lengkap</strong></IonText>
+              <IonText><strong>{ t('modal_detail_crew.nama_lengkap') }</strong></IonText>
             </IonCol>
             <IonCol>
               <IonText>{ driver?.driver }</IonText>
@@ -53,7 +56,7 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonText><strong>Jabatan</strong></IonText>
+              <IonText><strong>{ t('modal_detail_crew.jabatan') }</strong></IonText>
             </IonCol>
             <IonCol>
               <IonText>{ driver?.position }</IonText>
@@ -61,7 +64,7 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonText><strong>Klasifikasi</strong></IonText>
+              <IonText><strong>{ t('modal_detail_crew.klasifikasi') }</strong></IonText>
             </IonCol>
             <IonCol>
               <IonText>{ driver?.classification }KL</IonText>
@@ -69,7 +72,7 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonText><strong>Jenis Sewa</strong></IonText>
+              <IonText><strong>{ t('modal_detail_crew.jenis_sewa') }</strong></IonText>
             </IonCol>
             <IonCol>
               <IonText>{ driver?.contract_type }</IonText>

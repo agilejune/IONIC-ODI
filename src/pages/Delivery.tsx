@@ -9,6 +9,7 @@ import { connect } from '../data/connect';
 import DeliveryItem from '../components/DeliveryItem';
 import { Delivery } from '../models/Delivery';
 import { setSearchText } from '../data/delivery/delivery.actions';
+import { useTranslation } from "react-i18next";
 
 interface OwnProps { }
 
@@ -32,6 +33,7 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({isLoading, ongoingDeliveryLi
   const [showCompleteToast, setShowCompleteToast] = useState<boolean>(false);
   const pageRef = useRef<HTMLElement>(null);
   const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
+  const [t, i18n] = useTranslation('common');
 
   const ios = mode === 'ios';
 
@@ -54,19 +56,18 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({isLoading, ongoingDeliveryLi
           {ios &&
             <IonSegment value={segment} onIonChange={(e) => setSegment(e.detail.value as any)}>
               <IonSegmentButton value="ongoing">
-                OnGoing
+                { t('pages_delivery.category_ongoing') }
               </IonSegmentButton>
               <IonSegmentButton value="past">
-                Past
+              { t('pages_delivery.category_past') }
               </IonSegmentButton>
             </IonSegment>
           }
           {!ios && !showSearchbar &&
-            <IonTitle>Delivery</IonTitle>
+            <IonTitle>{ t('pages_delivery.title') }</IonTitle>
           }
           {showSearchbar &&
             <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
-            // <IonSearchbar showCancelButton="always" placeholder="Search"></IonSearchbar>
           }
 
           <IonButtons slot="end">
@@ -102,11 +103,10 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({isLoading, ongoingDeliveryLi
         <>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Delivery</IonTitle>
+            <IonTitle size="large">{ t('pages_delivery.title') }</IonTitle>
           </IonToolbar>
           <IonToolbar>
             <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar>
-            {/* <IonSearchbar placeholder="Search"></IonSearchbar> */}
           </IonToolbar>
         </IonHeader>
 
