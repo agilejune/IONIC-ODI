@@ -3,11 +3,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner } from '@ionic/react';
 import { options, search } from 'ionicons/icons';
 
-// import * as selectors from '../data/selectors';
+import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import { Feedback } from '../models/Feedback';
 import FeedbackItem from '../components/FeedbackItem';
-// import { setSearchText } from '../data/sessions/sessions.actions';
+import { setSearchText } from '../data/delivery/delivery.actions';
 
 interface OwnProps { }
 
@@ -18,12 +18,12 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  // setSearchText: typeof setSearchText;
+  setSearchText: typeof setSearchText;
 }
 
 type FeedbackPageProps = OwnProps & StateProps & DispatchProps;
 
-const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mode }) => {
+const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mode, setSearchText }) => {
 
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
   const [showCompleteToast, setShowCompleteToast] = useState(false);
@@ -53,8 +53,7 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mo
             <IonTitle>Message From Us</IonTitle>
           }
           {showSearchbar &&
-            // <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
-            <IonSearchbar showCancelButton="always" placeholder="Search"></IonSearchbar>
+            <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
           }
 
           <IonButtons slot="end">
@@ -80,8 +79,7 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mo
             <IonTitle size="large">Message From Us</IonTitle>
           </IonToolbar>
           <IonToolbar>
-            {/* <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar> */}
-            <IonSearchbar placeholder="Search"></IonSearchbar>
+            <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar>
           </IonToolbar>
         </IonHeader>
 
@@ -115,11 +113,11 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mo
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
     isLoading: state.delivery.dataLoading,
-    feedbackList: state.delivery.feedbacks,
+    feedbackList: selectors.getSearchedFeedbacks(state),
     mode: getConfig()!.get('mode')
   }),
   mapDispatchToProps: {
-    // setSearchText,
+    setSearchText,
   },
   component: React.memo(FeedbackPage)
 });

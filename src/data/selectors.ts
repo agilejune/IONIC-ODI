@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { Delivery } from '../models/Delivery';
+import { Feedback } from '../models/Feedback';
 import { Order } from '../models/Order';
 import { Transportloss } from '../models/Transportloss';
 import { AppState } from './state';
@@ -9,6 +10,7 @@ const getOngoingDeliverys = (state: AppState) => [...state.delivery.ongoingDeliv
 const getPastDeliverys = (state: AppState) => [...state.delivery.pastDeliverys];
 const getOrders = (state: AppState) => [...state.delivery.orders];
 const getTransportlosses = (state: AppState) => [...state.delivery.transLossAll];
+const getFeedbacks = (state: AppState) => [...state.delivery.feedbacks]
 const getSearchText = (state: AppState) => state.delivery.searchText;
 
 const getIdParam = (_state: AppState, props: any) => {
@@ -95,3 +97,18 @@ export const getSearchedTransportLossAll = createSelector(
     );
   }
 );
+
+export const getSearchedFeedbacks = createSelector(
+  getFeedbacks, getSearchText,
+  (feedbacks, searchText) => {
+    if (!searchText) {
+      return feedbacks;
+    }
+    return feedbacks.filter((f: Feedback) => 
+      f.Shipment.SPBU.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+      f.Shipment.Nopol.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+      f.Reason.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+    );
+  }
+);
+
