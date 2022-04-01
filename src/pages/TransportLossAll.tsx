@@ -1,35 +1,36 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig } from '@ionic/react';
+import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner } from '@ionic/react';
 import { options, search } from 'ionicons/icons';
-import './TransportLossAll.scss'
 
-// import * as selectors from '../data/selectors';
+import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import { Transportloss } from '../models/Transportloss';
 import TransportLossItem from '../components/TransportLossItem';
-// import { setSearchText } from '../data/sessions/sessions.actions';
+import { setSearchText } from '../data/delivery/delivery.actions';
 
 interface OwnProps { }
 
 interface StateProps {
   transportLossList: Transportloss[];
-  mode: 'ios' | 'md'
+  mode: 'ios' | 'md';
+  isLoading: boolean;
 }
 
 interface DispatchProps {
-  // setSearchText: typeof setSearchText;
+  setSearchText: typeof setSearchText;
 }
 
 type TransportLossPageProps = OwnProps & StateProps & DispatchProps;
 
-const TransportLossPage: React.FC<TransportLossPageProps> = ({ transportLossList, mode }) => {
+const TransportLossPage: React.FC<TransportLossPageProps> = ({ isLoading, transportLossList, mode, setSearchText }) => {
 
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
   const [showCompleteToast, setShowCompleteToast] = useState(false);
 
   const pageRef = useRef<HTMLElement>(null);
+  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
+
 
   const ios = mode === 'ios';
 
@@ -41,7 +42,7 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ transportLossList
   };
 
   return (
-    <IonPage ref={pageRef} id="transportLoss-page">
+    <IonPage ref={pageRef} >
       <IonHeader translucent={true}>
         <IonToolbar>
           {!showSearchbar &&
@@ -53,8 +54,7 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ transportLossList
             <IonTitle>TransportLoss</IonTitle>
           }
           {showSearchbar &&
-            // <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
-            <IonSearchbar showCancelButton="always" placeholder="Search"></IonSearchbar>
+            <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
           }
 
           <IonButtons slot="end">
@@ -68,13 +68,19 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ transportLossList
       </IonHeader>
 
       <IonContent fullscreen={true}>
+      { isLoading && 
+          <div className="spin">
+            <IonSpinner name="bubbles" color="primary" /> 
+          </div>
+        }
+        { !isLoading &&  
+        <>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Transport Loss</IonTitle>
           </IonToolbar>
           <IonToolbar>
-            {/* <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar> */}
-            <IonSearchbar placeholder="Search"></IonSearchbar>
+            <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar>
           </IonToolbar>
         </IonHeader>
 
@@ -99,6 +105,7 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ transportLossList
               <TransportLossItem transportLoss={list} listType={list.State.toLowerCase()} key={`transport-loss-all-${index}`} />
           ))}
         </IonList>
+        </> }
       </IonContent>
     </IonPage>
   );
@@ -106,11 +113,12 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ transportLossList
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    transportLossList: state.delivery.transLossAll,
+    isLoading: state.delivery.dataLoading,
+    transportLossList: selectors.getSearchedTransportLossAll(state),
     mode: getConfig()!.get('mode')
   }),
   mapDispatchToProps: {
-    // setSearchText,
+    setSearchText,
   },
   component: React.memo(TransportLossPage)
 });

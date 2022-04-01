@@ -70,7 +70,10 @@ export const setTankData = (data: Partial<DeliveryState>) => ({
   data
 } as const);
 
-
+export const setSearchText = (searchText?: string) => ({ 
+  type: 'set-search-text', 
+  searchText 
+} as const);
 
 export type DeliveryActions =
   | ActionType<typeof setLoading>
@@ -81,4 +84,5 @@ export type DeliveryActions =
   | ActionType<typeof setCheckListData>
   | ActionType<typeof setTankData>
   | ActionType<typeof setJustifyData>
+  | ActionType<typeof setSearchText>
 

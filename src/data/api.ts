@@ -18,7 +18,7 @@ const jsonUrl = {
   order : '/assets/data/order.json',
   feedback : '/assets/data/feedback.json',
   checklist : '/assets/data/survey.json',
-  justify : '/assets/data/transport_justify.json',
+  justify : '/assets/data/transportloss_justify.json',
   tank : '/assets/data/tank_spbu.json',
   lossForm : '/assets/data/transportloss_lonumber.json',
 };
@@ -26,7 +26,7 @@ const jsonUrl = {
 let commonFormData = new FormData();
 let spbu : string;
 
-const delay = () => new Promise(res => setTimeout(res, 2000));
+const delay = () => new Promise(res => setTimeout(res, 1000));
 
 export const doAuthenticate = async (formData : FormData) => {
   await delay();

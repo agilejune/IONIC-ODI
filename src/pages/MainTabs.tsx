@@ -18,10 +18,6 @@ const MainTabs: React.FC<MainTabsProps> = () => {
     <IonTabs>
       <IonRouterOutlet>
         <Redirect exact path="/tabs" to="/tabs/delivery" />
-        {/*
-          Using the render method prop cuts down the number of renders your components will have due to route changes.
-          Use the component prop when your component depends on the RouterComponentProps passed in automatically.
-        */}
         <Route path="/tabs/delivery" render={() => <DeliveryPage />} exact={true} />
         <Route path="/tabs/order" render={() => <OrderPage />} exact={true} />
         <Route path="/tabs/message" render={() => <FeedbackPage />} exact={true} />

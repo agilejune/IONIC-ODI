@@ -1,37 +1,37 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig } from '@ionic/react';
+import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner } from '@ionic/react';
 import { options, search } from 'ionicons/icons';
-import './Delivery.scss'
+import './MainPage.css'
 
-// import * as selectors from '../data/selectors';
+import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import DeliveryItem from '../components/DeliveryItem';
 import { Delivery } from '../models/Delivery';
-// import { setSearchText } from '../data/sessions/sessions.actions';
+import { setSearchText } from '../data/delivery/delivery.actions';
 
 interface OwnProps { }
 
 interface StateProps {
   pastDeliveryList: Delivery[];
   ongoingDeliveryList: Delivery[];
-  mode: 'ios' | 'md'
+  mode: 'ios' | 'md';
+  isLoading: boolean;
 }
 
 interface DispatchProps {
-  // setSearchText: typeof setSearchText;
+  setSearchText: typeof setSearchText;
 }
 
 type DeliveryPageProps = OwnProps & StateProps & DispatchProps;
 
-const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDeliveryList, mode }) => {
+const DeliveryPage: React.FC<DeliveryPageProps> = ({isLoading, ongoingDeliveryList, pastDeliveryList, mode, setSearchText }) => {
 
   const [segment, setSegment] = useState<'ongoing' | 'past'>('ongoing');
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
-  const [showCompleteToast, setShowCompleteToast] = useState(false);
-
+  const [showCompleteToast, setShowCompleteToast] = useState<boolean>(false);
   const pageRef = useRef<HTMLElement>(null);
+  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
 
   const ios = mode === 'ios';
 
@@ -43,7 +43,7 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDe
   };
 
   return (
-    <IonPage ref={pageRef} id="delivery-page">
+    <IonPage ref={pageRef} >
       <IonHeader translucent={true}>
         <IonToolbar>
           {!showSearchbar &&
@@ -65,8 +65,8 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDe
             <IonTitle>Delivery</IonTitle>
           }
           {showSearchbar &&
-            // <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
-            <IonSearchbar showCancelButton="always" placeholder="Search"></IonSearchbar>
+            <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
+            // <IonSearchbar showCancelButton="always" placeholder="Search"></IonSearchbar>
           }
 
           <IonButtons slot="end">
@@ -93,13 +93,20 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDe
       </IonHeader>
 
       <IonContent fullscreen={true}>
+        { isLoading && 
+          <div className="spin">
+            <IonSpinner name="bubbles" color="primary" /> 
+          </div>
+        }
+        { !isLoading &&  
+        <>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Delivery</IonTitle>
           </IonToolbar>
           <IonToolbar>
-            {/* <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar> */}
-            <IonSearchbar placeholder="Search"></IonSearchbar>
+            <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar>
+            {/* <IonSearchbar placeholder="Search"></IonSearchbar> */}
           </IonToolbar>
         </IonHeader>
 
@@ -140,6 +147,7 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDe
             ))}
           </IonList>
         }
+        </>}
       </IonContent>
     </IonPage>
   );
@@ -147,12 +155,13 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({ ongoingDeliveryList, pastDe
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    ongoingDeliveryList: state.delivery.ongoingDeliverys,
-    pastDeliveryList: state.delivery.pastDeliverys,
+    isLoading: state.delivery.dataLoading,
+    ongoingDeliveryList: selectors.getSearchedOngoingDeliverys(state),
+    pastDeliveryList: selectors.getSearchedPastDeliverys(state),
     mode: getConfig()!.get('mode')
   }),
   mapDispatchToProps: {
-    // setSearchText,
+    setSearchText,
   },
   component: React.memo(DeliveryPage)
 });

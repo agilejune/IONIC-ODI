@@ -65,8 +65,8 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
         await setIsLoggedIn(true);
         setUserData(userData!);
         await setUsernameAction(username);
-        await loadData();
         history.push('/tabs/delivery', {direction: 'none'});
+        await loadData();
       }
       setLoading(false);
     }
@@ -79,11 +79,6 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
   return (
     <IonPage id="login-page">
       <IonContent>
-        { isLoading && 
-          <div className="spin">
-            <IonSpinner name="bubbles" color="primary" /> 
-          </div>
-        }
         <div className="login-logo">
           <img src="assets/img/duck.jpg" alt="Ionic logo" />
           <h1>{t('welcome.title', {trademark : "ODI"})}</h1>
@@ -119,7 +114,10 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
 
           <IonRow>
             <IonCol className="ion-item-center">
-              <IonButton type="submit" expand="block"><IonIcon icon={enterOutline}></IonIcon>&nbsp;&nbsp;{t('welcome.login')}</IonButton>
+              <IonButton type="submit" expand="block">
+                { isLoading && <IonSpinner name="bubbles" color="light" /> }
+                <IonIcon icon={enterOutline}></IonIcon>&nbsp;&nbsp;{t('welcome.login')}
+              </IonButton>
             </IonCol>
             {/* <IonCol>
               <IonButton routerLink="/signup" color="light" expand="block">Signup</IonButton>

@@ -1,35 +1,36 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig } from '@ionic/react';
+import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner } from '@ionic/react';
 import { options, search } from 'ionicons/icons';
-import './Order.scss'
 
-// import * as selectors from '../data/selectors';
+import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import { Order } from '../models/Order';
 import OrderItem from '../components/OrderItem';
-// import { setSearchText } from '../data/sessions/sessions.actions';
+import { setSearchText } from '../data/delivery/delivery.actions';
 
 interface OwnProps { }
 
 interface StateProps {
   orderList: Order[];
-  mode: 'ios' | 'md'
+  mode: 'ios' | 'md';
+  isLoading: boolean;
 }
 
 interface DispatchProps {
-  // setSearchText: typeof setSearchText;
+  setSearchText: typeof setSearchText;
 }
 
 type OrderPageProps = OwnProps & StateProps & DispatchProps;
 
-const OrderPage: React.FC<OrderPageProps> = ({ orderList, mode }) => {
+const OrderPage: React.FC<OrderPageProps> = ({ isLoading, orderList, mode, setSearchText }) => {
 
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
   const [showCompleteToast, setShowCompleteToast] = useState(false);
 
   const pageRef = useRef<HTMLElement>(null);
+  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
+
 
   const ios = mode === 'ios';
 
@@ -41,7 +42,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderList, mode }) => {
   };
 
   return (
-    <IonPage ref={pageRef} id="order-page">
+    <IonPage ref={pageRef} >
       <IonHeader translucent={true}>
         <IonToolbar>
           {!showSearchbar &&
@@ -53,8 +54,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderList, mode }) => {
             <IonTitle>Your Orders</IonTitle>
           }
           {showSearchbar &&
-            // <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
-            <IonSearchbar showCancelButton="always" placeholder="Search"></IonSearchbar>
+            <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
           }
 
           <IonButtons slot="end">
@@ -68,13 +68,19 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderList, mode }) => {
       </IonHeader>
 
       <IonContent fullscreen={true}>
+      { isLoading && 
+          <div className="spin">
+            <IonSpinner name="bubbles" color="primary" /> 
+          </div>
+        }
+        { !isLoading &&  
+        <>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Your Orders</IonTitle>
           </IonToolbar>
           <IonToolbar>
-            {/* <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar> */}
-            <IonSearchbar placeholder="Search"></IonSearchbar>
+            <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar>
           </IonToolbar>
         </IonHeader>
 
@@ -99,6 +105,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderList, mode }) => {
               <OrderItem order={list} listType={list.Status.toLowerCase()} key={`order-${index}`} />
           ))}
         </IonList>
+        </> }
       </IonContent>
     </IonPage>
   );
@@ -106,11 +113,12 @@ const OrderPage: React.FC<OrderPageProps> = ({ orderList, mode }) => {
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    orderList: state.delivery.orders,
+    isLoading: state.delivery.dataLoading,
+    orderList: selectors.getSearchedOrders(state),
     mode: getConfig()!.get('mode')
   }),
   mapDispatchToProps: {
-    // setSearchText,
+    setSearchText,
   },
   component: React.memo(OrderPage)
 });

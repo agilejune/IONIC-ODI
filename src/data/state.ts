@@ -16,6 +16,7 @@ export const initialState: AppState = {
     checkLists: [],
     tanks: [],
     justify: [],
+    dataLoading: false,
   },
 };
 

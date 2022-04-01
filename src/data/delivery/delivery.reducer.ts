@@ -4,7 +4,7 @@ import { DeliveryState } from './delivery.state';
 export function deliveryReducer(state: DeliveryState, action: DeliveryActions): DeliveryState {
   switch (action.type) {
     case 'set-delivery-loading':
-      return { ...state, loading: action.isLoading };
+      return { ...state, dataLoading: action.isLoading };
     case 'set-delivery-data':
       return { ...state, ...action.data };
     case 'set-order-data':
@@ -19,5 +19,8 @@ export function deliveryReducer(state: DeliveryState, action: DeliveryActions): 
       return { ...state, ...action.data };
     case 'set-justify-data':
       return { ...state, ...action.data };
+    case 'set-search-text': {
+      return { ...state, searchText: action.searchText };
+    }
   }
 }

@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig } from '@ionic/react';
+import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner } from '@ionic/react';
 import { options, search } from 'ionicons/icons';
-import './Feedback.scss'
 
 // import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
@@ -14,7 +13,8 @@ interface OwnProps { }
 
 interface StateProps {
   feedbackList: Feedback[];
-  mode: 'ios' | 'md'
+  mode: 'ios' | 'md';
+  isLoading: boolean;
 }
 
 interface DispatchProps {
@@ -23,13 +23,13 @@ interface DispatchProps {
 
 type FeedbackPageProps = OwnProps & StateProps & DispatchProps;
 
-const FeedbackPage: React.FC<FeedbackPageProps> = ({ feedbackList, mode }) => {
+const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mode }) => {
 
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
   const [showCompleteToast, setShowCompleteToast] = useState(false);
 
   const pageRef = useRef<HTMLElement>(null);
+  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
 
   const ios = mode === 'ios';
 
@@ -41,7 +41,7 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ feedbackList, mode }) => {
   };
 
   return (
-    <IonPage ref={pageRef} id="feedback-page">
+    <IonPage ref={pageRef} >
       <IonHeader translucent={true}>
         <IonToolbar>
           {!showSearchbar &&
@@ -68,6 +68,13 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ feedbackList, mode }) => {
       </IonHeader>
 
       <IonContent fullscreen={true}>
+      { isLoading && 
+          <div className="spin">
+            <IonSpinner name="bubbles" color="primary" /> 
+          </div>
+        }
+        { !isLoading &&  
+        <>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Message From Us</IonTitle>
@@ -99,6 +106,7 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ feedbackList, mode }) => {
               <FeedbackItem feedback={list} listType={list.Status.toLowerCase()} key={`feedback-${index}`} />
           ))}
         </IonList>
+        </>}
       </IonContent>
     </IonPage>
   );
@@ -106,6 +114,7 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ feedbackList, mode }) => {
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
+    isLoading: state.delivery.dataLoading,
     feedbackList: state.delivery.feedbacks,
     mode: getConfig()!.get('mode')
   }),

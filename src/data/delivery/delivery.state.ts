@@ -5,7 +5,7 @@ import { Order } from "../../models/Order";
 import { Justify, Tank, Transportloss } from "../../models/Transportloss";
 
 export interface DeliveryState {
-  loading: boolean,
+  dataLoading: boolean,
   ongoingDeliverys: Delivery[],
   pastDeliverys: Delivery[],
   feedbacks: Feedback[],
@@ -14,4 +14,5 @@ export interface DeliveryState {
   checkLists: CheckList[],
   tanks: Tank[],
   justify: Justify[],
+  searchText?: string,
 };
