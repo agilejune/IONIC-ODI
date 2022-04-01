@@ -1,10 +1,131 @@
 {
- "welcome": {
-     "title": "Selamat datang di {{trademark}}",
-     "login": "Masuk"
- },
- "page_1": {
-     "item_1": "ABC",
-     "item_2": "DEF"
- }
+    "home": {
+        "title": "Online Delivery Info ( ODI )",
+        "login": "Masuk"
+    },
+    "menus": {
+        "title": "MySPBU",
+        "title_1": "INFORMASI PENGIRIMAN",
+        "ongoing_delivery": "Proses Pengiriman",
+        "past_delivery": "Pengiriman Selesai",
+        "your_orders": "Pesanan Anda",
+        "message_from_us": "Pesan dari Kami",
+        "transport_loss": "Rugi Pengangkutan",
+        "transport_loss_qrcode": "Pindai Kode QR",
+        "title_2": "INFORMASI OPERASIONAL",
+        "stock": "Stok",
+        "sales": "Penjualan",
+        "gain_loss": "Laba / Rugi",
+        "title_3": "SISTEM",
+        "help_feedback": "Bantuan & Masukan"
+    },
+    "pages_ongoing_delivery": {
+        "title": "Proses Pengiriman",
+        "tracking": "Pelacakan",
+        "survey": "Survey",
+        "status": "Status",
+        "last_position": "Posisi terakhir",
+        "produk": "Produk",
+        "produk_info": "* Urutan LO bukan merupakan urutan kompartemen produk. Pastikan kembali fisik produk yang akan dibongkar",
+        "transport_loss": "Rugi Pengangkutan",
+        "seal": "Segel"
+    },
+    "pages_past_delivery": {
+        "title": "Pengiriman Selesai",
+        "tracking": "Pelacakan",
+        "survey": "Survey",
+        "status": "Status",
+        "last_position": "Posisi terakhir",
+        "produk": "Produk",
+        "produk_info": "* Urutan LO bukan merupakan urutan kompartemen produk. Pastikan kembali posisi kompartemen yang akan dibongkar sudah sesuai",
+        "transport_loss": "Rugi Pengangkutan",
+        "seal": "Segel"
+    },
+    "modal_detail_vehicle": {
+        "title": "Detail Mobil Tangki",
+        "nopol": "Nopol",
+        "kapasitas": "Kapasitas",
+        "jenis_sewa": "Jenis Sewa",
+        "tanggal_tera": "Tera Kadaluarsa",
+        "download_dokumen_tera": "Unduh Dokumen Tera",
+        "detail_compartment": "Detail Kompartemen",
+        "comp": "kompartemen",
+        "tera_ulang": "(T2(mm)) sesuai surat tera",
+        "kepekaan": "Kepekaan (Lt/mm)",
+        "ruang_kosong": "Ruang Kosong (Lt)"
+    },
+    "modal_detail_crew": {
+        "title": "Detail Crew",
+        "nip": "N I P",
+        "nama_lengkap": "Nama Lengkap",
+        "jabatan": "Jabatan",
+        "klasifikasi": "Klasifikasi",
+        "jenis_sewa": "Jenis Sewa"
+    },
+    "modal_tracking": {
+        "title": "Detail Pelacakan"
+    },
+    "modal_survey": {
+        "title": "Form Survey"
+    },
+    "modal_feedback": {
+        "title": "Form Masukan",
+        "nopol": "Nopol",
+        "tgl_validasi": "Tgl Pengiriman",
+        "pengirim": "Pengirim",
+        "no_telepon": "No.Telepon",
+        "rating_layanan": "Rating Layanan",
+        "saran_pengembangan": "Saran Pengembangan",
+        "lingkup_keluhan": "Lingkup Keluhan",
+        "kategori_keluhan": "Kategori Keluhan",
+        "message": "Pesan",
+        "submit": "Kirim",
+        "close": "Keluar"
+    },
+    "modal_transport_loss_1": {
+        "title": "Form Transport Loss",
+        "pilihan": "Pilih (salah satu) untuk metode pengukuran serah terima pembongkaran BBM :",
+        "keterangan": "Keterangan :",
+        "keterangan_1": "1. Pilih Ijkbout apabila pembongkaran BBM menggunakan acuan serah terima custody transfer pada ijkbout mobil tangki (diukur menggunakan dipstick).",
+        "keterangan_2": "2. Pilih Flow Meter apabila pembongkaran BBM menggunakan acuan serah terima meter arus pada mobil tangki (meter arus PTO/meter portabel)."
+    },
+    "modal_transport_loss_2": {
+        "title": "Form Transport Loss",
+        "pengukuran_menggunakan": "Pengukuran Menggunakan",
+        "kompartemen": "Kompartemen",
+        "lo_number": "Nomor LO",
+        "level_bbm_sebelum_bongkar": "Level BBM Sebelum Bongkar (mm)",
+        "volume_meter": "Volume Meter (Lt)",
+        "delivery_discrepancy": "Selisih Pengiriman (Liter)",
+        "delivery_discrepancy_info": "* Untuk SPBU dengan program ATG sebagai custody transfer \n * Discrepancy diinput dengan tanda (-) jika loss, dan tanda (+) jika gain",
+        "tank_id": "nomor tangki timbun",
+        "volume_ar": "Penerimaan Aktual",
+        "volume_sales": "Volume Penjualan",
+        "temperatur_obs": "temperatur Obs",
+        "density_obs": "Density Obs",
+        "submit": "Kirim",
+        "keterangan": "Keterangan"
+    },
+    "pages_your_orders": {
+        "title": "Pesanan Anda",
+        "title_1": "Info",
+        "spbu": "SPBU",
+        "tbbm": "TBBM",
+        "product": "Produk",
+        "quantity": "Kuantitas",
+        "tgl_data_dibuat": "Tgl Data dibuat",
+        "rencana_kirim": "Rencana Kirim",
+        "shift": "Shift",
+        "kategori": "Kategori",
+        "status": "Status"
+    },
+    "pages_message_from_us": {
+        "title": "Pesan Dari kami"
+    },
+    "pages_Transport_loss": {
+        "title": "Rugi Pengangkutan",
+        "info": "Info",
+        "shipment": "Pengiriman",
+        "transport_loss": "Rugi Pengangkutan"
+    }
 }

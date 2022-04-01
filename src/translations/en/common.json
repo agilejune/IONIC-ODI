@@ -1,10 +1,131 @@
 {
- "welcome": {
-     "title": "Welcome to {{trademark}}",
-     "login": "Log In"
- },
- "page_1": {
-    "item_1": "abc",
-    "item_2": "def"
-}
+    "home": {
+        "title": "Online Delivery Info ( ODI )",
+        "login": "Log In"
+    },
+    "menus": {
+        "title": "MySPBU",
+        "title_1": "DELIVERY INFO",
+        "ongoing_delivery": "Ongoing Delivery",
+        "past_delivery": "Past Delivery",
+        "your_orders": "Your Orders",
+        "message_from_us": "Message from Us",
+        "transport_loss": "Transport Loss",
+        "transport_loss_qrcode": "Scan RQCode",
+        "title_2": "OPERATIONS INFO",
+        "stock": "Stock",
+        "sales": "Sales",
+        "gain_loss": "Gain / Loss",
+        "title_3": "SYSTEM",
+        "help_feedback": "Help & Feedback"
+    },
+    "pages_ongoing_delivery": {
+        "title": "Ongoing Delivery",
+        "tracking": "Tracking",
+        "survey": "Survey",
+        "status": "Status",
+        "last_position": "Last Position",
+        "produk": "Product",
+        "produk_info": "* The Order Number is not a product compartment order. Make sure physically the product to be unloaded",
+        "transport_loss": "Transport Loss",
+        "seal": "Seal"
+    },
+    "pages_past_delivery": {
+        "title": "Past Delivery",
+        "tracking": "Tracking",
+        "survey": "Survey",
+        "status": "Status",
+        "last_position": "Last Position",
+        "produk": "Product",
+        "produk_info": "* The Order Number is not a product compartment order. Make sure physically the product to be unloaded",
+        "transport_loss": "Transport Loss",
+        "seal": "Seal"
+    },
+    "modal_detail_vehicle": {
+        "title": "Vehicle Details",
+        "nopol": "Vehicle",
+        "kapasitas": "Capacity",
+        "jenis_sewa": "Contract Type",
+        "tanggal_tera": "Calibration Certificate Expired",
+        "download_dokumen_tera": "Download Tera Documents",
+        "detail_compartment": "Detail Compartment",
+        "comp": "Compartment",
+        "tera_ulang": "(T2(mm)) standard fuel height level",
+        "kepekaan": "Volume Sensitivity Ratio (Lt/mm)",
+        "ruang_kosong": "Empty Space (compartment) (Lt)"
+    },
+    "modal_detail_crew": {
+        "title": "Crew Details",
+        "nip": "Employee ID Number",
+        "nama_lengkap": "Full Name",
+        "jabatan": "Employment",
+        "klasifikasi": "Classification",
+        "jenis_sewa": "Placement Status"
+    },
+    "modal_tracking": {
+        "title": "Tracking Details"
+    },
+    "modal_survey": {
+        "title": "Form Survey"
+    },
+    "modal_feedback": {
+        "title": "Form Feedback",
+        "nopol": "Vehicle",
+        "tgl_validasi": "Delivery Date",
+        "pengirim": "user",
+        "no_telepon": "Phone Number",
+        "rating_layanan": "Service Rating",
+        "saran_pengembangan": "What to Improve",
+        "lingkup_keluhan": "Scope of Complaint",
+        "kategori_keluhan": "Category",
+        "message": "Message",
+        "submit": "Submit",
+        "close": "Close"
+    },
+    "modal_transport_loss_1": {
+        "title": "Form Transport Loss",
+        "pilihan": "Select (one) for the method of measuring the handover of fuel unloading:",
+        "keterangan": "Information :",
+        "keterangan_1": "1. Select Ijk Bout if the discharging of fuel uses the custody transfer handover reference on the tank car ijkbout (measured using a dipstick).",
+        "keterangan_2": "2. Select Flow Meter if the discharging of fuel uses the reference for handover of the flow meter on the tank truck (PTO flow meter/portable meter)."
+    },
+    "modal_transport_loss_2": {
+        "title": "Form Transport Loss",
+        "pengukuran_menggunakan": "Measurement Method",
+        "kompartemen": "Compartment",
+        "lo_number": "LO Number",
+        "level_bbm_sebelum_bongkar": "Tank Figure Before Discharge (mm)",
+        "volume_meter": "Volume Meter (Lt)",
+        "delivery_discrepancy": "Delivery Discrepancy (Liter)",
+        "delivery_discrepancy_info": "* For SPBU with ATG program as custody transfer \n * Discrepancy entered with (-) if there is a loss, and (+) if there is a gain",
+        "tank_id": "storage tank id",
+        "volume_ar": "Actual Received",
+        "volume_sales": "Volume Sales",
+        "temperatur_obs": "Temperature Obs",
+        "density_obs": "Density Obs",
+        "submit": "Submit",
+        "keterangan": "Information"
+    },
+    "pages_your_orders": {
+        "title": "Your Orders",
+        "title_1": "Information",
+        "spbu": "SPBU",
+        "tbbm": "TBBM",
+        "product": "Product",
+        "quantity": "Quantity",
+        "tgl_data_dibuat": "Create Date",
+        "rencana_kirim": "Planned Delivery Date",
+        "shift": "Shift",
+        "kategori": "Category",
+        "status": "Status"
+    },
+    "pages_message_from_us": {
+        "title": "Message from Us"
+    },
+    "pages_Transport_loss": {
+        "title": "Transport Loss",
+        "info": "Info",
+        "shipment": "Shipment",
+        "transport_loss": "Transport Loss"
+    }
 }
