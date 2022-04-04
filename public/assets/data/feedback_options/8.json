@@ -1,0 +1,26 @@
+{
+  "data": [
+      {
+          "id": 13,
+          "name": "Perilaku Awak Mobuil Tangki Tidak Menyenangkan"
+      },
+      {
+          "id": 14,
+          "name": "Pelayanan Awak Mobil Tangki Tidak Memuaskan"
+      },
+      {
+          "id": 15,
+          "name": "Awak Mobil Tangki Tidak Mematuhi Prosedur"
+      },
+      {
+          "id": 16,
+          "name": "Awak Mobil Tangki Tidak sesuai/Tidak Dikenal"
+      },
+      {
+          "id": 17,
+          "name": "Awak Mobul Tangki Meminta Imbalan"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

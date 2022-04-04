@@ -1,0 +1,14 @@
+{
+  "data": [
+      {
+          "id": 26,
+          "name": "Jumlah Kurang (Losses)"
+      },
+      {
+          "id": 27,
+          "name": "Kulaitas Produk Tidak Baik"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

@@ -1,7 +1,7 @@
 import { CheckList } from '../models/CheckList';
 import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
-import { Feedback, Feedback_Data } from '../models/Feedback';
+import { Feedback, FeedbackOption, Feedback_Data } from '../models/Feedback';
 import { Order } from '../models/Order';
 import { Justify, LossFormData, LossFormDataOffline, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
@@ -21,6 +21,7 @@ const jsonUrl = {
   justify : '/assets/data/transportloss_justify.json',
   tank : '/assets/data/tank_spbu.json',
   lossForm : '/assets/data/transportloss_lonumber.json',
+  feedbackOptions : '/assets/data/feedback_options/',
 };
 
 let commonFormData = new FormData();
@@ -275,5 +276,28 @@ export const getApiLossFormOffineData = async () => {
   const lossFormData = responseData.data as LossFormDataOffline[];
 
   return lossFormData;
+}
+
+export const getFeedbackOptions = async (id: string | undefined, code: string | undefined) => {
+  const response = await Promise.all([
+    fetch(jsonUrl.feedbackOptions + (id ?? code) + '.json')
+    // fetch(`${baseUrl}/slc_feedback`, {id: id, code: code})
+  ]);
+
+  const responseData = await response[0].json();
+  const options = responseData.data as FeedbackOption[];
+  return options;
+}
+
+export const sendApiFeedback = async (data: any) => {
+  data = {...data, ...{ nospbu: spbu }};
+  console.log(`send feedback api : ${data}`);
+  const response = await Promise.all([
+    fetch(`${baseUrl}/send_feedback`)
+  ]);
+
+  const responseData = await response[0].json();
+  const options = responseData.data as FeedbackOption[];
+  return options;
 }
 

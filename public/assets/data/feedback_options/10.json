@@ -1,0 +1,18 @@
+{
+  "data": [
+      {
+          "id": 23,
+          "name": "Terlambat/Tidak Sesuai Jadwal"
+      },
+      {
+          "id": 24,
+          "name": "Rute Tidak Wajar"
+      },
+      {
+          "id": 25,
+          "name": "Berhenti Bukan Pada Tujuan"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

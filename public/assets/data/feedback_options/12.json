@@ -1,0 +1,26 @@
+{
+  "data": [
+      {
+          "id": 28,
+          "name": "ODI Sulit Diakses/Lambat"
+      },
+      {
+          "id": 29,
+          "name": "GPS Error/Tidak Update"
+      },
+      {
+          "id": 30,
+          "name": "Beberapa Data Tidak Tampil"
+      },
+      {
+          "id": 31,
+          "name": "Semua Data dapat ditampilan"
+      },
+      {
+          "id": 32,
+          "name": "Buku Tera tidak dapat di unduh"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}

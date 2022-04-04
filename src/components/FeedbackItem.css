@@ -30,9 +30,19 @@
   height: 0;
 }
 
-ion-input, ion-select {
+#send-feedback ion-input, #send-feedback ion-select {
   border-color: #d6d6d6;
   border-width: thin;
   border-style: solid;
   border-radius: 5px;
+}
+
+#send-feedback ion-textarea {
+  border-color: #b3b2b2;
+  border-width: thin;
+  border-style: solid;
+  border-radius: 5px;
+  overflow-y: scroll;
+  height: 70px;
+  resize: none; 
 }

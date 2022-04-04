@@ -10,6 +10,9 @@ const JUSTIFY_DATA = 'justify';
 const TRANSPORTLOSS_ALL = 'transport_loss_all';
 const CHECK_LIST = 'check_list';
 const TRANSPORTLOSS_OFFLINE = 'transport_loss_offline';
+const OFFLINE_STACK = "offline_stack";
+
+Storage.set({ key: OFFLINE_STACK, value: JSON.stringify({transportLoss: [], feedback: [], profile: ""}) });
 
 export const setIsLoggedInData = async (isLoggedIn: boolean) => {
   await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
@@ -117,4 +120,38 @@ export const getStorageChecklists = async () => {
   if (value == null) return;
   
   return JSON.parse(value);
+}
+
+export const saveStorageStack = async (param: string, data: any) => {
+  const { value } = await Storage.get({ key: OFFLINE_STACK});
+  if (value == null) return;
+
+  const prevData = JSON.parse(value) as StackOffline;
+  
+  Object.entries(prevData).forEach(([key, value]) => {
+    if (key === param) {
+      if (Array.isArray(value))
+        value.push(data); 
+      else
+        value = data;  
+    }
+  });
+  
+  await Storage.set({ key: OFFLINE_STACK, value: JSON.stringify(prevData) });
+  console.log("successful to save into storage stack");
+}
+
+export const getStorageStack = async () => {
+  const { value } = await Storage.get({ key: OFFLINE_STACK });
+  console.log("get stroage stack");
+  console.log(value);
+  if (value == null) return;
+  
+  return JSON.parse(value) as StackOffline;
+}
+
+interface StackOffline {
+  feedback: any[],
+  transportLoss: any[],
+  profile: any,
 }

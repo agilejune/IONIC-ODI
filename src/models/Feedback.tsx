@@ -36,3 +36,8 @@ interface Shipment {
   Kernet: string,
   SPBU: string,
 }
+
+export interface FeedbackOption {
+  id: number,
+  name: string
+}

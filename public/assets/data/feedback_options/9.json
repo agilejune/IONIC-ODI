@@ -1,0 +1,26 @@
+{
+  "data": [
+      {
+          "id": 18,
+          "name": "Mobil Tangki Tidak Standar"
+      },
+      {
+          "id": 19,
+          "name": "Perlengkapan Mobil Tangki Tidak Lengkap\t"
+      },
+      {
+          "id": 20,
+          "name": "Kondisi Mobil Tangki Tidak Baik"
+      },
+      {
+          "id": 21,
+          "name": "Nopol Tangki Tidak Sesuai/Tidak dikenal"
+      },
+      {
+          "id": 22,
+          "name": "Buku Tera Tidak Sesuai"
+      }
+  ],
+  "desc_msg": "",
+  "status": "S"
+}
