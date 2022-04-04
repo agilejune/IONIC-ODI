@@ -16,6 +16,7 @@ import TransportLossMeter from '../components/TransportLossMeter';
 import TransportLossJustify from '../components/TransportLossJustify';
 import { CheckList } from '../models/CheckList';
 import { useTranslation } from "react-i18next";
+import SendFeedback from '../components/Feedback';
 
 interface OwnProps extends RouteComponentProps { };
 
@@ -38,6 +39,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
   const [showTransLossLjk, setShowTransLossLjk] = useState(false);
   const [showTransLossMeter, setShowTransLossMeter] = useState(false);
   const [showTransLossJustify, setShowTransLossJustify] = useState(false);
+  const [showSendFeedback, setShowSendFeedback] = useState(false);
   const pageRef = useRef<HTMLElement>(null);
   const [t, i18n] = useTranslation('common');
 
@@ -90,7 +92,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             <IonCol>
             </IonCol>
             <IonCol>
-              <IonButtons className="ion-float-right">
+              <IonButtons className="ion-float-right" onClick={() => setShowSendFeedback(true)}>
                 <IonIcon icon={receipt}></IonIcon>
                 <IonLabel>{ t('pages_delivery.send_feedback') }</IonLabel>
               </IonButtons>
@@ -190,6 +192,15 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             presentingElement={pageRef.current!}
           >
             <VehicleDetail vehicle_id={delivery.vehicle_id} onDismissModal={() => setShowVehicleDetail(false)}></VehicleDetail>
+          </IonModal>
+
+          <IonModal
+            isOpen={showSendFeedback}
+            onDidDismiss={() => setShowSendFeedback(false)}
+            swipeToClose={true}
+            presentingElement={pageRef.current!}
+          >
+            <SendFeedback delivery={delivery} onDismissModal={() => setShowSendFeedback(false)}></SendFeedback>
           </IonModal>
 
           <IonModal
