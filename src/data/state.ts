@@ -17,11 +17,12 @@ export const initialState: AppState = {
     tanks: [],
     justify: [],
     dataLoading: false,
+    willSendCount: 0
   },
 };
 
 export const reducers = combineReducers({
-  user: userReducer,
+  user:     userReducer,
   delivery: deliveryReducer,
 });
 

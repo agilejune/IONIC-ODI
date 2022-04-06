@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner } from '@ionic/react';
-import { options, search } from 'ionicons/icons';
+import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner, IonBadge } from '@ionic/react';
+import { notificationsCircleOutline, options, search } from 'ionicons/icons';
 import './MainPage.css'
-
 import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import DeliveryItem from '../components/DeliveryItem';
@@ -18,6 +17,7 @@ interface StateProps {
   ongoingDeliveryList: Delivery[];
   mode: 'ios' | 'md';
   isLoading: boolean;
+  willSendCount: number;
 }
 
 interface DispatchProps {
@@ -26,7 +26,7 @@ interface DispatchProps {
 
 type DeliveryPageProps = OwnProps & StateProps & DispatchProps;
 
-const DeliveryPage: React.FC<DeliveryPageProps> = ({isLoading, ongoingDeliveryList, pastDeliveryList, mode, setSearchText }) => {
+const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, ongoingDeliveryList, pastDeliveryList, mode, setSearchText }) => {
 
   const [segment, setSegment] = useState<'ongoing' | 'past'>('ongoing');
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
@@ -76,7 +76,14 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({isLoading, ongoingDeliveryLi
                 <IonIcon slot="icon-only" icon={search}></IonIcon>
               </IonButton>
             }
+            { willSendCount > 0 &&
+              <IonButton id="sync-noti">
+                <IonIcon icon={notificationsCircleOutline}></IonIcon>
+                <IonBadge id="sync-badge" color="primary">{ willSendCount }</IonBadge>
+              </IonButton>
+            }   
           </IonButtons>
+
         </IonToolbar>
 
         {!ios &&
@@ -158,7 +165,8 @@ export default connect<OwnProps, StateProps, DispatchProps>({
     isLoading: state.delivery.dataLoading,
     ongoingDeliveryList: selectors.getSearchedOngoingDeliverys(state),
     pastDeliveryList: selectors.getSearchedPastDeliverys(state),
-    mode: getConfig()!.get('mode')
+    mode: getConfig()!.get('mode'),
+    willSendCount: state.delivery.willSendCount
   }),
   mapDispatchToProps: {
     setSearchText,

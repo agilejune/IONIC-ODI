@@ -1,19 +1,24 @@
 import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
+import { connect } from '../data/connect';
 import { useTranslation } from 'react-i18next';
 import { Delivery } from '../models/Delivery';
 import { useForm } from "react-hook-form";
 import { getFeedbackOptions } from '../data/api';
 import { FeedbackOption } from '../models/Feedback';
-import { sendFeedback } from '../data/sync';
+import { sendFeedback } from '../data/delivery/delivery.actions';
 
 interface OwnProps {
   onDismissModal: () => void;
   delivery: Delivery;
 }
 
-const SendFeedback : React.FC<OwnProps> = ({onDismissModal, delivery}) => {
+interface DispatchProps {
+  sendFeedback: typeof sendFeedback;
+}
+
+const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDismissModal, delivery}) => {
   const [t, i18n] = useTranslation('common');
   const [devSuggestions, setDevSuggestions] = useState<FeedbackOption[]>([]);
   const [complaintScopes, setComplaintScopes] = useState<FeedbackOption[]>([]);
@@ -233,4 +238,10 @@ const SendFeedback : React.FC<OwnProps> = ({onDismissModal, delivery}) => {
   );
 } 
 
-export default SendFeedback;
+
+export default connect<OwnProps, {}, DispatchProps>({
+  mapDispatchToProps: {
+    sendFeedback,
+  },
+  component: React.memo(SendFeedback)
+});

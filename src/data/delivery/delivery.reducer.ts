@@ -19,8 +19,11 @@ export function deliveryReducer(state: DeliveryState, action: DeliveryActions): 
       return { ...state, ...action.data };
     case 'set-justify-data':
       return { ...state, ...action.data };
-    case 'set-search-text': {
+    case 'set-search-text':
+      console.log(`... ${action.searchText}`);
       return { ...state, searchText: action.searchText };
-    }
+    case 'set-will-send-count':
+      console.log(`... ${action.count}`);
+      return { ...state, willSendCount: action.count };
   }
 }

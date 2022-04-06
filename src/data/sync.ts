@@ -100,6 +100,7 @@ export const sendFeedback = async (data: any) => {
   else {
     await saveStorageStack("feedback", data);
   }
+
 }
 
 const sendOfflineStackData = async () => {
@@ -119,22 +120,25 @@ const sendOfflineStackData = async () => {
 
     }
   });
+
 }
 
-// const getOfflineDataCount = async () => {
-//   let count = 0;
-//   const datas= await getStorageStack();
-//   Object.entries(datas!).forEach(([key, value]) => {
-//     if (key === "profile") {
-//       ++count;
-//     }
-//     else if (key === "feedback" && value.isArray()) {
-//       count += value.length;
-//     }
-//     else if (key === "transportLoss" && value.isArray()) {
-//       count += value.length;
-//     }
-//   });
+export const getOfflineStackCount = async () => {
+  let count = 0;
 
-//   return count;
-// }
+  const datas= await getStorageStack();
+  
+  Object.entries(datas!).forEach(([key, value]) => {
+    if (key === "profile" && value !== "") {
+      ++count;
+    }
+    else if (key === "feedback" && Array.isArray(value)) {
+      count += value.length;
+    }
+    else if (key === "transportLoss" && Array.isArray(value)) {
+      count += value.length;
+    }
+  });
+
+  return count;
+}

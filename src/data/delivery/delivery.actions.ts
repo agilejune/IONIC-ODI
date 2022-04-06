@@ -1,4 +1,4 @@
-import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOrders, getTanks, getTransportLossAll } from '../sync';
+import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, sendFeedback as sendFeedbackSync } from '../sync';
 import { ActionType } from '../../util/types';
 import { DeliveryState } from './delivery.state';
 
@@ -28,6 +28,12 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setJustifyData(justify));
   
   dispatch(setLoading(false));
+}
+
+export const sendFeedback = (data: any) => async (dispatch: React.Dispatch<any>) => {
+  await sendFeedbackSync(data);
+  const count = await getOfflineStackCount();
+  dispatch(setWillSendCount(count));
 }
 
 export const setLoading = (isLoading: boolean) => ({
@@ -75,6 +81,13 @@ export const setSearchText = (searchText?: string) => ({
   searchText 
 } as const);
 
+export const setWillSendCount = (count: number) => {
+  console.log(`notification : ${count}`);
+  return ({ 
+  type: 'set-will-send-count', 
+  count 
+} as const)};
+
 export type DeliveryActions =
   | ActionType<typeof setLoading>
   | ActionType<typeof setDeliveryData>
@@ -85,4 +98,5 @@ export type DeliveryActions =
   | ActionType<typeof setTankData>
   | ActionType<typeof setJustifyData>
   | ActionType<typeof setSearchText>
+  | ActionType<typeof setWillSendCount>
 

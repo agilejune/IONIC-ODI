@@ -15,4 +15,5 @@ export interface DeliveryState {
   tanks: Tank[],
   justify: Justify[],
   searchText?: string,
+  willSendCount: number,
 };

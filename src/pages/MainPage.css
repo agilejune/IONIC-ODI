@@ -33,3 +33,13 @@ ion-item-sliding.delivery-past ion-label {
   transform: scale(3);
 }
 
+#sync-noti {
+  position: relative;
+}
+
+#sync-badge {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
