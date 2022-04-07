@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps, withRouter, useLocation } from 'react-router';
 
 import { IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle} from '@ionic/react';
-import { camera, pin, chatbox, basket, archiveOutline, help,  logIn, logOut, person, personAdd, send } from 'ionicons/icons';
+import { camera, pin, chatbox, basket, archiveOutline, help, logOut, person } from 'ionicons/icons';
 
 import { connect } from '../data/connect';
 
@@ -63,7 +63,7 @@ const Menu: React.FC<MenuProps> = ({ history, isAuthenticated }) => {
   }
 
   return (
-    <IonMenu  type="overlay" contentId="main">
+    <IonMenu  type="overlay" disabled={!isAuthenticated} contentId="main">
       <IonContent forceOverscroll={false}>
         <IonList lines="none">
           <IonListHeader>{ t('menus.title_1') }</IonListHeader>
@@ -86,7 +86,6 @@ export default connect<{}, StateProps, {}>({
   mapStateToProps: (state) => ({
     darkMode: state.user.darkMode,
     isAuthenticated: state.user.isLoggedin,
-    // menuEnabled: state.data.menuEnabled
   }),
   component: withRouter(Menu)
 })

@@ -12,8 +12,6 @@ const CHECK_LIST = 'check_list';
 const TRANSPORTLOSS_OFFLINE = 'transport_loss_offline';
 const OFFLINE_STACK = "offline_stack";
 
-Storage.set({ key: OFFLINE_STACK, value: JSON.stringify({transportLoss: [], feedback: [], profile: ""}) });
-
 export const setIsLoggedInData = async (isLoggedIn: boolean) => {
   await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
 }
@@ -155,3 +153,12 @@ interface StackOffline {
   transportLoss: any[],
   profile: any,
 }
+
+export const initStorageStack = async () => {
+  Storage.set({ key: OFFLINE_STACK, value: JSON.stringify({transportLoss: [], feedback: [], profile: ""}) });
+}
+
+
+
+
+initStorageStack();

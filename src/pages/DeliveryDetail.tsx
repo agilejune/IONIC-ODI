@@ -3,7 +3,7 @@ import { connect } from '../data/connect';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
 import { Delivery } from '../models/Delivery';
-import { IonButton, IonItem, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, useIonViewDidLeave, IonIcon, IonLabel, IonModal} from '@ionic/react';
+import { IonButton, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonIcon, IonLabel, IonModal} from '@ionic/react';
 import { person, receipt, car, reload, contrast, ticket } from 'ionicons/icons';
 import DriverDetail from '../components/DriverDetail';
 import VehicleDetail from '../components/VehicleDetail';

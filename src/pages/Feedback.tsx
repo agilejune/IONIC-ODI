@@ -26,19 +26,10 @@ type FeedbackPageProps = OwnProps & StateProps & DispatchProps;
 const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mode, setSearchText }) => {
 
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
-  const [showCompleteToast, setShowCompleteToast] = useState(false);
 
   const pageRef = useRef<HTMLElement>(null);
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
 
   const ios = mode === 'ios';
-
-  const doRefresh = () => {
-    setTimeout(() => {
-      ionRefresherRef.current!.complete();
-      setShowCompleteToast(true);
-    }, 2500)
-  };
 
   return (
     <IonPage ref={pageRef} >
@@ -83,16 +74,6 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mo
           </IonToolbar>
         </IonHeader>
 
-        <IonRefresher slot="fixed" ref={ionRefresherRef} onIonRefresh={doRefresh}>
-          <IonRefresherContent />
-        </IonRefresher>
-
-        <IonToast
-          isOpen={showCompleteToast}
-          message="Refresh complete"
-          duration={2000}
-          onDidDismiss={() => setShowCompleteToast(false)}
-        />
         <IonList>
           { feedbackList.length === 0 &&
             <IonListHeader>

@@ -7,8 +7,9 @@ import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import DeliveryItem from '../components/DeliveryItem';
 import { Delivery } from '../models/Delivery';
-import { setSearchText } from '../data/delivery/delivery.actions';
+import { sendOfflineData, setSearchText } from '../data/delivery/delivery.actions';
 import { useTranslation } from "react-i18next";
+import { ConnectionStatus, Network } from '@capacitor/network';
 
 interface OwnProps { }
 
@@ -22,27 +23,32 @@ interface StateProps {
 
 interface DispatchProps {
   setSearchText: typeof setSearchText;
+  sendOfflineData: typeof sendOfflineData;
 }
 
 type DeliveryPageProps = OwnProps & StateProps & DispatchProps;
 
-const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, ongoingDeliveryList, pastDeliveryList, mode, setSearchText }) => {
+const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, ongoingDeliveryList, pastDeliveryList, mode, setSearchText, sendOfflineData }) => {
 
   const [segment, setSegment] = useState<'ongoing' | 'past'>('ongoing');
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
-  const [showCompleteToast, setShowCompleteToast] = useState<boolean>(false);
   const pageRef = useRef<HTMLElement>(null);
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
   const [t, i18n] = useTranslation('common');
 
   const ios = mode === 'ios';
 
-  const doRefresh = () => {
-    setTimeout(() => {
-      ionRefresherRef.current!.complete();
-      setShowCompleteToast(true);
-    }, 2500)
-  };
+
+  const onNetWorkStatus = (status: ConnectionStatus) => {
+    console.log('Network status changed', status);
+    
+    if (status.connected) {
+      sendOfflineData(); 
+    }
+  }
+
+  useEffect(() => {
+    Network.addListener("networkStatusChange", onNetWorkStatus);
+  }, []);
 
   return (
     <IonPage ref={pageRef} >
@@ -117,16 +123,6 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, on
           </IonToolbar>
         </IonHeader>
 
-        <IonRefresher slot="fixed" ref={ionRefresherRef} onIonRefresh={doRefresh}>
-          <IonRefresherContent />
-        </IonRefresher>
-
-        <IonToast
-          isOpen={showCompleteToast}
-          message="Refresh complete"
-          duration={2000}
-          onDidDismiss={() => setShowCompleteToast(false)}
-        />
         { segment === 'ongoing' &&
           <IonList>
             { ongoingDeliveryList.length === 0 &&
@@ -170,6 +166,7 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   }),
   mapDispatchToProps: {
     setSearchText,
+    sendOfflineData
   },
   component: React.memo(DeliveryPage)
 });

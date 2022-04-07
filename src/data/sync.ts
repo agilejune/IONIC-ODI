@@ -1,14 +1,6 @@
 import { Network } from '@capacitor/network';
 import { getApiCheckLists, getApiDelivery, getApiFeedbacks, getApiJustify, getApiOrders, getApiTanks, getApiTransportLossAll, sendApiFeedback } from './api';
-import { getStorageChecklists, getStorageDeliverys, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, saveStorageStack, setChecklists, setDeliverys, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll } from './storage';
-
-Network.addListener('networkStatusChange', status => {
-  console.log('Network status changed', status);
-
-  if (status.connected) {
-    sendOfflineStackData(); 
-  }
-});
+import { getStorageChecklists, getStorageDeliverys, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll } from './storage';
 
 export const getCurrentNetworkStatus = async () => {
   const status = await Network.getStatus();
@@ -103,7 +95,8 @@ export const sendFeedback = async (data: any) => {
 
 }
 
-const sendOfflineStackData = async () => {
+export const sendOfflineStackData = async () => {
+  let success = false;
   const datas= await getStorageStack();
   Object.entries(datas!).forEach(([key, value]) => {
     if (key === "profile") {
@@ -112,8 +105,7 @@ const sendOfflineStackData = async () => {
     else if (key === "feedback" && Array.isArray(value)) {
       value.map(async (feedback: any) => {
         console.log("send feedback from offine stack");
-        console.log(feedback);
-        await sendApiFeedback(feedback);
+        success = await sendApiFeedback(feedback);
       });
     }
     else if (key === "transportLoss" && Array.isArray(value)) {
@@ -121,6 +113,8 @@ const sendOfflineStackData = async () => {
     }
   });
 
+  if (success)
+    initStorageStack();
 }
 
 export const getOfflineStackCount = async () => {

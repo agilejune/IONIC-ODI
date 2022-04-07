@@ -1,4 +1,4 @@
-import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, sendFeedback as sendFeedbackSync } from '../sync';
+import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, sendFeedback as sendFeedbackSync, sendOfflineStackData } from '../sync';
 import { ActionType } from '../../util/types';
 import { DeliveryState } from './delivery.state';
 
@@ -32,6 +32,12 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
 
 export const sendFeedback = (data: any) => async (dispatch: React.Dispatch<any>) => {
   await sendFeedbackSync(data);
+  const count = await getOfflineStackCount();
+  dispatch(setWillSendCount(count));
+}
+
+export const sendOfflineData = () => async (dispatch: React.Dispatch<any>) => {
+  await sendOfflineStackData();
   const count = await getOfflineStackCount();
   dispatch(setWillSendCount(count));
 }
@@ -99,4 +105,5 @@ export type DeliveryActions =
   | ActionType<typeof setJustifyData>
   | ActionType<typeof setSearchText>
   | ActionType<typeof setWillSendCount>
+
 

@@ -26,20 +26,11 @@ type OrderPageProps = OwnProps & StateProps & DispatchProps;
 const OrderPage: React.FC<OrderPageProps> = ({ isLoading, orderList, mode, setSearchText }) => {
 
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
-  const [showCompleteToast, setShowCompleteToast] = useState(false);
 
   const pageRef = useRef<HTMLElement>(null);
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
 
 
   const ios = mode === 'ios';
-
-  const doRefresh = () => {
-    setTimeout(() => {
-      ionRefresherRef.current!.complete();
-      setShowCompleteToast(true);
-    }, 2500)
-  };
 
   return (
     <IonPage ref={pageRef} >
@@ -84,16 +75,6 @@ const OrderPage: React.FC<OrderPageProps> = ({ isLoading, orderList, mode, setSe
           </IonToolbar>
         </IonHeader>
 
-        <IonRefresher slot="fixed" ref={ionRefresherRef} onIonRefresh={doRefresh}>
-          <IonRefresherContent />
-        </IonRefresher>
-
-        <IonToast
-          isOpen={showCompleteToast}
-          message="Refresh complete"
-          duration={2000}
-          onDidDismiss={() => setShowCompleteToast(false)}
-        />
         <IonList>
           { orderList.length === 0 &&
             <IonListHeader>

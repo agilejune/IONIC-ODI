@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState,} from 'react';
+import React, { useEffect, useState,} from 'react';
 import { connect } from '../data/connect';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
 import { Order } from '../models/Order';
-import { IonButton, IonItem, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, useIonViewDidLeave, IonIcon, IonLabel, IonModal} from '@ionic/react';
+import { IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonLabel} from '@ionic/react';
 
 interface OwnProps extends RouteComponentProps { };
 

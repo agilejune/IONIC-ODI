@@ -290,14 +290,17 @@ export const getFeedbackOptions = async (id: string | undefined, code: string | 
 }
 
 export const sendApiFeedback = async (data: any) => {
+
   data = {...data, ...{ nospbu: spbu }};
-  console.log(`send feedback api : ${data}`);
+
   const response = await Promise.all([
     fetch(`${baseUrl}/send_feedback`)
   ]);
 
   const responseData = await response[0].json();
-  const options = responseData.data as FeedbackOption[];
-  return options;
+  const status = responseData.status as string;
+  
+  return status == "S";
+
 }
 
