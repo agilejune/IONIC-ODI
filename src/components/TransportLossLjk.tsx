@@ -1,7 +1,8 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import { aperture, closeOutline, flag } from 'ionicons/icons';
-import React, { useEffect, useRef, useState } from 'react';
-import { getApiLossFormData } from '../data/api';
+import { closeOutline } from 'ionicons/icons';
+import React, { useState } from 'react';
+import * as selectors from '../data/selectors';
+import { connect } from '../data/connect';
 import { LossFormData, LossFormDataOffline } from '../models/Transportloss';
 import './TransportLossLjk.scss';
 
@@ -9,23 +10,20 @@ interface OwnProps {
   onDismissModal: () => void;
   onSubmit: () => void;
   shipID: number;
+  comp: number;
 }
 
-const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal, onSubmit, shipID}) => {
+interface StateProps {
+  lossFormOfflineData: LossFormDataOffline;
+}
+
+const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal, onSubmit, lossFormOfflineData}) => {
   const [lossFormData, setLossFormData] = useState<LossFormData>();
   const [lolinesId1, setLolinesId1] = useState('0');
   const [lolinesId2, setLolinesId2] = useState('0');
   const [heightAfter, setHeightAfter] = useState(0);
 
-  useEffect(() => {
-    getData();
-
-    async function getData() {
-      const lossData = await getApiLossFormData();
-      console.log(lossData)
-      setLossFormData(lossData);
-    }
-  }, [shipID]);
+  console.log(lossFormOfflineData);
 
   const getVolumeBefore = (data: LossFormData) => {
     const vol_1 = parseInt(data.lolines_ids.filter((id) => id.lo_id === lolinesId1)[0].lo_volume);
@@ -281,4 +279,9 @@ const TransportLossLjk : React.FC<OwnProps> = ({onDismissModal, onSubmit, shipID
   );
 } 
 
-export default TransportLossLjk;
+export default connect<OwnProps, StateProps, {}>({
+  mapStateToProps: (state, OwnProps) => ({
+    lossFormOfflineData: selectors.getLossFormOfflineData(state, OwnProps)
+  }),
+  component: React.memo(TransportLossLjk)
+});

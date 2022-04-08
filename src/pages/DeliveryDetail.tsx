@@ -40,8 +40,10 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
   const [showTransLossMeter, setShowTransLossMeter] = useState(false);
   const [showTransLossJustify, setShowTransLossJustify] = useState(false);
   const [showSendFeedback, setShowSendFeedback] = useState(false);
+  const [comp, setComp] = useState(0);
   const pageRef = useRef<HTMLElement>(null);
   const [t, i18n] = useTranslation('common');
+
 
   return (
     <IonPage ref={pageRef} id="delivery-detail">
@@ -142,19 +144,19 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
                   </IonButtons>
                 </IonCol>
                 <IonCol>
-                  <IonButtons onClick={() => setShowTransLossAgree(true)}>
+                  <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(1)}}>
                     <IonIcon icon={car} />
                     <IonLabel>C1:8KL</IonLabel>
                   </IonButtons>
                 </IonCol>
                 <IonCol>
-                  <IonButtons>
+                  <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(2)}}>
                     <IonIcon icon={car} />
                     <IonLabel>C2:8KL</IonLabel>
                   </IonButtons>
                 </IonCol>
                 <IonCol>
-                  <IonButtons>
+                  <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(3)}}>
                     <IonIcon icon={car} />
                     <IonLabel>C3:8KL</IonLabel>
                   </IonButtons>
@@ -218,7 +220,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossQuery checkLists={checkLists} onSubmit={() => {setShowTransLoss(true); setShowTransLossQuery(false);}} onDismissModal={() => setShowTransLossQuery(false)}></TransportLossQuery>
+            <TransportLossQuery shipid={delivery.shipment_id} comp={comp} checkLists={checkLists} onSubmit={() => {setShowTransLoss(true); setShowTransLossQuery(false);}} onDismissModal={() => setShowTransLossQuery(false)}></TransportLossQuery>
           </IonModal>
 
           <IonModal
@@ -236,7 +238,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossLjk shipID={delivery.shipment_id} onSubmit={() => {setShowTransLossJustify(true); setShowTransLossLjk(false);}} onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
+            <TransportLossLjk comp={comp} shipID={delivery.shipment_id} onSubmit={() => {setShowTransLossJustify(true); setShowTransLossLjk(false);}} onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
           </IonModal>
           <IonModal
             isOpen={showTransLossMeter}

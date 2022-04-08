@@ -1,16 +1,67 @@
 import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRow, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { CheckList } from '../models/CheckList';
 import './TransportLossQuery.scss';
+import { useForm } from 'react-hook-form';
+import { sendCheckLists } from '../data/sync';
 
 interface OwnProps {
   onDismissModal: () => void;
   onSubmit: () => void;
-  checkLists: CheckList[]
+  checkLists: CheckList[];
+  comp: number;
+  shipid: number;
 }
 
-const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, checkLists}) => {
+const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, checkLists, comp, shipid}) => {
+  const { register, handleSubmit, formState: { errors } } = useForm({
+		mode: "onSubmit",
+    reValidateMode: "onChange"
+	});
+
+  const onSubmitForm = (data : any) => {
+    let formData = {};
+    
+    checkLists.map(list => {
+      let tmp = {};
+
+      Object.entries(data).forEach(([key, value]) => {
+        const id_string = key.match(/_\d+_/g);
+  
+        if (id_string != null) {
+          const id = Number(id_string[0].substring(1).slice(0,-1));
+          if (id === list.id) {
+            if (
+              list.question_ids[0].type === "textbox" ||
+              (list.question_ids[0].type === "simple_choice" && typeof value !== "string")
+            ) {
+              tmp = {
+                ...tmp,
+                [key]: value
+              };
+            }
+          }
+        }
+      });
+
+      formData = {
+        ...formData,
+        [list.id.toString()]: tmp
+      };
+    });
+
+    const submitData = {
+      comp: comp,
+      survey_id: 7,
+      pages: formData,
+      shipid: shipid,
+    }
+
+    alert(JSON.stringify(submitData, null, 2));
+    
+    sendCheckLists(submitData);
+  };
 
   return(
     <IonPage id="transport-loss-query-page">
@@ -25,44 +76,49 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, chec
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <div className="ion-padding-top">
-          {checkLists.map(list => {
-            return (
-              <>
-                <div className="label-section">
-                  <IonLabel><strong>{list.title}</strong></IonLabel>
-                </div>
-                <div className='ion-padding-top'>
-                  {list.question_ids.map(q => {
-                    return (
-                      <>
-                        {q.type === "textbox" && 
-                          <>
-                            <IonText><strong>{q.question}</strong></IonText>
-                            <IonInput></IonInput>
-                          </>
-                        }
-                        {q.type === "simple_choice" && 
-                          <IonRow>
-                            <IonCol size="1">
-                              <IonCheckbox></IonCheckbox>
-                            </IonCol>
-                            <IonCol size="11">
-                              <IonText>{q.question}</IonText>
-                            </IonCol>
-                          </IonRow>
-                        }
-                      </>
-                    );
-                  })}
-                </div>
-              </>
-            );
-          })}
-        </div>
-        <div className="ion-padding-top">
-          <IonButton color="primary" expand="block" onClick={onSubmit}>Submit</IonButton>        
-        </div>
+        <form onSubmit={ handleSubmit(onSubmitForm) }>
+          <div className="ion-padding-top">
+            {checkLists.map(list => {
+              return (
+                <>
+                  <div className="label-section">
+                    <IonLabel><strong>{list.title}</strong></IonLabel>
+                  </div>
+                  <div className='ion-padding-top'>
+                    {list.question_ids.map(q => {
+                      return (
+                        <>
+                          {q.type === "textbox" && 
+                            <>
+                              <IonText><strong>{q.question}</strong></IonText>
+                              <IonInput {...register(`7_${list.id}_${q.id}`)} />
+                            </>
+                          }
+                          {q.type === "simple_choice" && 
+                            <IonRow>
+                              <IonCol size="1">
+                                <IonCheckbox
+                                  {...register(`7_${list.id}_${q.id}`)} 
+                                  value={q.label_ids[0].id}
+                                />
+                              </IonCol>
+                              <IonCol size="11">
+                                <IonText>{q.question}</IonText>
+                              </IonCol>
+                            </IonRow>
+                          }
+                        </>
+                      );
+                    })}
+                  </div>
+                </>
+              );
+            })}
+          </div>
+          <div className="ion-padding-top">
+            <IonButton type="submit" color="primary" expand="block" onClick={onSubmit}>Submit</IonButton>        
+          </div>
+        </form>
       </IonContent>
     </IonPage>
   );

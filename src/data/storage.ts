@@ -155,7 +155,15 @@ interface StackOffline {
 }
 
 export const initStorageStack = async () => {
-  Storage.set({ key: OFFLINE_STACK, value: JSON.stringify({transportLoss: [], feedback: [], profile: ""}) });
+  Storage.set({ 
+    key: OFFLINE_STACK, 
+    value: JSON.stringify({
+          checklist: [],
+          transportLoss: [], 
+          feedback: [], 
+          profile: ""
+        }) 
+  });
 }
 
 

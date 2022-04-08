@@ -5,7 +5,7 @@ import './TransportLossAgree.scss';
 
 interface OwnProps {
   onDismissModal: () => void;
-  onSubmit: () => void
+  onSubmit: () => void;
 }
 
 const TransportLossAgree : React.FC<OwnProps> = ({onDismissModal, onSubmit}) => {

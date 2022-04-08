@@ -1,6 +1,6 @@
 import { Network } from '@capacitor/network';
-import { getApiCheckLists, getApiDelivery, getApiFeedbacks, getApiJustify, getApiOrders, getApiTanks, getApiTransportLossAll, sendApiFeedback } from './api';
-import { getStorageChecklists, getStorageDeliverys, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll } from './storage';
+import { getApiCheckLists, getApiDelivery, getApiFeedbacks, getApiJustify, getApiLossFormOffineData, getApiOrders, getApiTanks, getApiTransportLossAll, sendApiCheckLists, sendApiFeedback } from './api';
+import { getStorageChecklists, getStorageDeliverys, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, getStorageTransportLossOffline, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll, setTransportLossOffline } from './storage';
 
 export const getCurrentNetworkStatus = async () => {
   const status = await Network.getStatus();
@@ -85,6 +85,19 @@ export const getTransportLossAll = async () => {
   }
 }
 
+export const getLossFormOffineData = async (shipIds : []) => {
+  if (await getCurrentNetworkStatus()) {
+    const lossFormOfflineData = await getApiLossFormOffineData(shipIds);
+    console.log(lossFormOfflineData);
+    await setTransportLossOffline(lossFormOfflineData);
+    return lossFormOfflineData;
+  }
+  else {
+    return await getStorageTransportLossOffline();
+  }
+}
+
+
 export const sendFeedback = async (data: any) => {
   if (await getCurrentNetworkStatus()) {
     await sendApiFeedback(data);
@@ -92,8 +105,18 @@ export const sendFeedback = async (data: any) => {
   else {
     await saveStorageStack("feedback", data);
   }
+}
+
+export const sendCheckLists = async (data: any) => {
+  if (await getCurrentNetworkStatus()) {
+    await sendApiCheckLists(data);
+  }
+  else {
+    await saveStorageStack("checklist", data);
+  }
 
 }
+
 
 export const sendOfflineStackData = async () => {
   let success = false;
@@ -110,6 +133,12 @@ export const sendOfflineStackData = async () => {
     }
     else if (key === "transportLoss" && Array.isArray(value)) {
 
+    }
+    else if (key === "checklist" && Array.isArray(value)) {
+      value.map(async (list: any) => {
+        console.log("send checklist from offine stack");
+        success = await sendApiCheckLists(list);
+      });
     }
   });
 

@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { Delivery } from '../models/Delivery';
 import { Feedback } from '../models/Feedback';
 import { Order } from '../models/Order';
-import { Transportloss } from '../models/Transportloss';
+import { LossFormDataOffline, Transportloss } from '../models/Transportloss';
 import { AppState } from './state';
 
 const getAllDeliverys = (state: AppState) => [...state.delivery.ongoingDeliverys, ...state.delivery.pastDeliverys];
@@ -12,6 +12,15 @@ const getOrders = (state: AppState) => [...state.delivery.orders];
 const getTransportlosses = (state: AppState) => [...state.delivery.transLossAll];
 const getFeedbacks = (state: AppState) => [...state.delivery.feedbacks]
 const getSearchText = (state: AppState) => state.delivery.searchText;
+const getLossFormOfflineDatas = (state: AppState) => state.delivery.transFormOfflineDatas;
+
+const getShipId = (_state: AppState, props: any) => {
+  return props.shipID;
+}
+
+const getCompNum = (_state: AppState, props: any) => {
+  return props.comp;
+}
 
 const getIdParam = (_state: AppState, props: any) => {
   return props.match.params['id'];
@@ -111,4 +120,13 @@ export const getSearchedFeedbacks = createSelector(
     );
   }
 );
+
+export const getLossFormOfflineData = createSelector(
+  getLossFormOfflineDatas, getShipId, getCompNum,
+  (datas, shipId, comp) => {
+    return datas.filter((d: LossFormDataOffline) => 
+      d.shipment_id == shipId && d.compartment == comp.toString()
+    );
+  }
+)
 

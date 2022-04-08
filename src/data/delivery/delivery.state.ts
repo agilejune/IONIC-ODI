@@ -2,7 +2,7 @@ import { CheckList } from "../../models/CheckList";
 import { Delivery } from "../../models/Delivery";
 import { Feedback } from "../../models/Feedback";
 import { Order } from "../../models/Order";
-import { Justify, Tank, Transportloss } from "../../models/Transportloss";
+import { Justify, LossFormDataOffline, Tank, Transportloss } from "../../models/Transportloss";
 
 export interface DeliveryState {
   dataLoading: boolean,
@@ -11,6 +11,7 @@ export interface DeliveryState {
   feedbacks: Feedback[],
   orders: Order[],
   transLossAll: Transportloss[],
+  transFormOfflineDatas: LossFormDataOffline[],
   checkLists: CheckList[],
   tanks: Tank[],
   justify: Justify[],

@@ -17,7 +17,8 @@ export const initialState: AppState = {
     tanks: [],
     justify: [],
     dataLoading: false,
-    willSendCount: 0
+    willSendCount: 0,
+    transFormOfflineDatas: []
   },
 };
 

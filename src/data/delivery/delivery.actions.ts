@@ -1,12 +1,13 @@
 import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, sendFeedback as sendFeedbackSync, sendOfflineStackData } from '../sync';
 import { ActionType } from '../../util/types';
 import { DeliveryState } from './delivery.state';
+import { getLossFormOffineData } from '../sync';
 
 
 export const loadData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setLoading(true));
 
-  const delivery = await getDelivery();
+  const {delivery, shipIds} = await getDelivery();
   dispatch(setDeliveryData(delivery));
 
   const order = await getOrders();
@@ -26,6 +27,9 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
 
   const justify = await getJustify();
   dispatch(setJustifyData(justify));
+
+  const lossFormDataOffline = await getLossFormOffineData(shipIds);
+  dispatch(setLossFormDataOffline(lossFormDataOffline));
   
   dispatch(setLoading(false));
 }
@@ -94,6 +98,11 @@ export const setWillSendCount = (count: number) => {
   count 
 } as const)};
 
+export const setLossFormDataOffline = (data: Partial<DeliveryState>) => ({
+  type: 'set-lossform-offline',
+  data
+} as const);
+
 export type DeliveryActions =
   | ActionType<typeof setLoading>
   | ActionType<typeof setDeliveryData>
@@ -105,5 +114,6 @@ export type DeliveryActions =
   | ActionType<typeof setJustifyData>
   | ActionType<typeof setSearchText>
   | ActionType<typeof setWillSendCount>
+  | ActionType<typeof setLossFormDataOffline>
 
 

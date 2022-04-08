@@ -80,8 +80,8 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
     <IonPage id="login-page">
       <IonContent>
         <div className="login-logo">
-          <img src="assets/img/duck.jpg" alt="Ionic logo" />
-          <h1>{t('home.title')}</h1>
+          <img src="assets/img/logo.png" alt="Ionic logo" />
+          <h4>{t('home.title')}</h4>
         </div>
         <form noValidate onSubmit={login}>
           <IonList>

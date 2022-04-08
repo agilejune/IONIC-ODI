@@ -22,6 +22,7 @@ const jsonUrl = {
   tank : '/assets/data/tank_spbu.json',
   lossForm : '/assets/data/transportloss_lonumber.json',
   feedbackOptions : '/assets/data/feedback_options/',
+  lossOfflineForm : '/assets/data/transportloss_offline.json'
 };
 
 let commonFormData = new FormData();
@@ -67,6 +68,7 @@ export const getApiDelivery = async () => {
 
   const ongoingData = await response_ongoing[0].json();
   const ongoingDeliverys = ongoingData.data as Delivery[];
+  const shipIds_ongoing = ongoingDeliverys.map(d => { return d.shipment_id; });
 
   commonFormData.delete('menu');
   commonFormData.append('menu', 'past_deliveries');
@@ -82,9 +84,16 @@ export const getApiDelivery = async () => {
  
   commonFormData.delete('menu');
 
+  const shipIds = [
+    ...ongoingDeliverys.map(d => { return d.shipment_id; }), 
+    ...pastDeliverys.map(d => { return d.shipment_id; }) 
+  ];
   return {
-    ongoingDeliverys,
-    pastDeliverys
+    delivery: {
+      ongoingDeliverys,
+      pastDeliverys
+      },
+    shipIds: shipIds
   };
 }
 
@@ -266,16 +275,21 @@ export const getApiLossFormData = async () => {
   return lossFormData[0];
 }
 
-export const getApiLossFormOffineData = async () => {
+export const getApiLossFormOffineData = async (shipIds : []) => {
   await delay();
   const response = await Promise.all([
-    fetch(jsonUrl.lossForm),
-    // fetch(`${baseUrl}/transportloss_ofline`,
+    fetch(jsonUrl.lossOfflineForm),
+    // fetch(`${baseUrl}/transportloss_ofline`, {
+    // method: "post",
+    // body: {shipIds: shipIds.join(","), no_spbu: spbu}
+    // }
   ]);
   const responseData = await response[0].json();
-  const lossFormData = responseData.data as LossFormDataOffline[];
+  const transFormOfflineDatas = responseData.data as LossFormDataOffline[];
 
-  return lossFormData;
+  return {
+    transFormOfflineDatas
+  };
 }
 
 export const getFeedbackOptions = async (id: string | undefined, code: string | undefined) => {
@@ -303,4 +317,23 @@ export const sendApiFeedback = async (data: any) => {
   return status == "S";
 
 }
+
+export const sendApiCheckLists = async (data: any) => {
+
+  data = {...data, ...{ no_spbu: spbu }};
+
+  const response = await Promise.all([
+    fetch(`${baseUrl}/send_survey`,{
+        method: "post",
+        body: data
+      })
+  ]);
+
+  const responseData = await response[0].json();
+  const status = responseData.status as string;
+  
+  return status == "S";
+
+}
+
 
