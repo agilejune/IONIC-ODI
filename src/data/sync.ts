@@ -1,5 +1,5 @@
 import { Network } from '@capacitor/network';
-import { getApiCheckLists, getApiDelivery, getApiFeedbacks, getApiJustify, getApiLossFormOffineData, getApiOrders, getApiTanks, getApiTransportLossAll, sendApiCheckLists, sendApiFeedback } from './api';
+import { getApiCheckLists, getApiDelivery, getApiFeedbacks, getApiJustify, getApiLossFormOffineData, getApiOrders, getApiTanks, getApiTransportLossAll, sendApiCheckLists, sendApiFeedback, sendApiTransportLossFormData } from './api';
 import { getStorageChecklists, getStorageDeliverys, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, getStorageTransportLossOffline, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll, setTransportLossOffline } from './storage';
 
 export const getCurrentNetworkStatus = async () => {
@@ -115,6 +115,15 @@ export const sendCheckLists = async (data: any) => {
     await saveStorageStack("checklist", data);
   }
 
+}
+
+export const sendTransportLossFormData = async (data: any) => {
+  if (await getCurrentNetworkStatus()) {
+    await sendApiTransportLossFormData(data);
+  }
+  else {
+    await saveStorageStack("transportLoss", data);
+  }
 }
 
 

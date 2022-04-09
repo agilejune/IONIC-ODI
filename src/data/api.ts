@@ -336,4 +336,24 @@ export const sendApiCheckLists = async (data: any) => {
 
 }
 
+export const sendApiTransportLossFormData = async (data: any) => {
+
+  data = {...data, ...{ spbu: spbu }};
+
+  const response = await Promise.all([
+    fetch(`${baseUrl}/send_transportloss_ofline`,{
+        method: "post",
+        body: data
+      })
+  ]);
+
+  const responseData = await response[0].json();
+  const status = responseData.status as string;
+  
+  return status == "S";
+
+}
+
+
+
 

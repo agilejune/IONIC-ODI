@@ -126,7 +126,7 @@ export const getLossFormOfflineData = createSelector(
   (datas, shipId, comp) => {
     return datas.filter((d: LossFormDataOffline) => 
       d.shipment_id == shipId && d.compartment == comp.toString()
-    );
+    )[0];
   }
 )
 

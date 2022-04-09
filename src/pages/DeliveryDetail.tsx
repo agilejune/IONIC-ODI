@@ -40,6 +40,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
   const [showTransLossMeter, setShowTransLossMeter] = useState(false);
   const [showTransLossJustify, setShowTransLossJustify] = useState(false);
   const [showSendFeedback, setShowSendFeedback] = useState(false);
+  const [measureBy, setMeasureBy] = useState("");
   const [comp, setComp] = useState(0);
   const pageRef = useRef<HTMLElement>(null);
   const [t, i18n] = useTranslation('common');
@@ -229,7 +230,19 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLoss onLjk={() => {setShowTransLossLjk(true); setShowTransLoss(false);}} onMeter={() => {setShowTransLossMeter(true);setShowTransLoss(false);}} onDismissModal={() => setShowTransLoss(false)}></TransportLoss>
+            <TransportLoss 
+              onLjk={() => {
+                setShowTransLossLjk(true); 
+                setShowTransLoss(false); 
+                setMeasureBy('ijkbout');
+                }} 
+              onMeter={() => {
+                setShowTransLossMeter(true);
+                setShowTransLoss(false);
+                setMeasureBy('flowmeter')
+                }} 
+              onDismissModal={() => setShowTransLoss(false)}>
+            </TransportLoss>
           </IonModal>
 
           <IonModal
@@ -238,7 +251,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossLjk comp={comp} shipID={delivery.shipment_id} onSubmit={() => {setShowTransLossJustify(true); setShowTransLossLjk(false);}} onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
+            <TransportLossLjk measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} onSubmit={() => {setShowTransLossJustify(true); setShowTransLossLjk(false);}} onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
           </IonModal>
           <IonModal
             isOpen={showTransLossMeter}
