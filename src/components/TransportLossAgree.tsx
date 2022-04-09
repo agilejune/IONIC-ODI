@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRow, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRow, IonText, IonTextarea, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 import './TransportLossAgree.scss';
@@ -9,7 +9,9 @@ interface OwnProps {
 }
 
 const TransportLossAgree : React.FC<OwnProps> = ({onDismissModal, onSubmit}) => {
-
+  const [check1, setCheck_1] = useState(false);
+  const [check2, setCheck_2] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(false);
   return(
     <IonPage id="transport-loss-agree-page">
       <IonHeader>
@@ -53,7 +55,7 @@ const TransportLossAgree : React.FC<OwnProps> = ({onDismissModal, onSubmit}) => 
         <div className="ion-padding-top">
           <IonRow>
             <IonCol size="1">
-              <IonCheckbox></IonCheckbox>
+              <IonCheckbox onIonChange={e => setCheck_1(e.detail.checked)}></IonCheckbox>
             </IonCol>
             <IonCol size="11">
               <IonText>
@@ -63,7 +65,7 @@ const TransportLossAgree : React.FC<OwnProps> = ({onDismissModal, onSubmit}) => 
           </IonRow>
           <IonRow>
             <IonCol size="1">
-              <IonCheckbox></IonCheckbox>
+              <IonCheckbox onIonChange={e => setCheck_2(e.detail.checked)}></IonCheckbox>
             </IonCol>
             <IonCol size="11">
               <IonText>
@@ -73,8 +75,24 @@ const TransportLossAgree : React.FC<OwnProps> = ({onDismissModal, onSubmit}) => 
           </IonRow>
         </div>
         <div className="ion-padding-top">
-          <IonButton color="primary" expand="block" onClick={onSubmit}>Submit</IonButton>        
+          <IonButton 
+            color="primary" 
+            expand="block" 
+            onClick={() => {
+              if (check1 && check2)
+                onSubmit(); 
+              setSubmitStatus(true)}
+            }>
+          Submit
+          </IonButton>        
         </div>
+        <IonToast
+          cssClass="fail-toast"
+          isOpen={submitStatus && (!check1 || !check2)}
+          message="Syarat dan Ketentuan Belum di Setujui/Check"
+          duration={2000}
+          onDidDismiss={()=>{setSubmitStatus(false)}}
+        />
       </IonContent>
     </IonPage>
   );

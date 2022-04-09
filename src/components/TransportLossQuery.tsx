@@ -20,7 +20,7 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, chec
     reValidateMode: "onChange"
 	});
 
-  const onSubmitForm = (data : any) => {
+  const onSubmitForm = async (data : any) => {
     let formData = {};
     
     checkLists.map(list => {
@@ -58,9 +58,11 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, chec
       shipid: shipid,
     }
 
-    alert(JSON.stringify(submitData, null, 2));
+    // alert(JSON.stringify(submitData, null, 2));
     
-    sendCheckLists(submitData);
+    await sendCheckLists(submitData);
+
+    onSubmit();
   };
 
   return(
@@ -116,7 +118,7 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, chec
             })}
           </div>
           <div className="ion-padding-top">
-            <IonButton type="submit" color="primary" expand="block" onClick={onSubmit}>Submit</IonButton>        
+            <IonButton type="submit" color="primary" expand="block">Submit</IonButton>        
           </div>
         </form>
       </IonContent>

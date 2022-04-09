@@ -9,8 +9,6 @@ interface OwnProps {
 }
 
 const TransportLoss : React.FC<OwnProps> = ({onDismissModal, onLjk, onMeter}) => {
-  const [showTransLossLjk, setShowTransLossLjk] = useState(false);
-  const [showTransLossMeter, setShowTransLossMeter] = useState(false);
 
   const pageRef = useRef<HTMLElement>(null);
   return(

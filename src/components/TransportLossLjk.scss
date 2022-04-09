@@ -11,10 +11,16 @@
     border-style: solid;
     border-radius: 5px;
   }
+}
 
-  ion-toast {
-    background-color: aquamarine;
-    color: red;
-    border: 1px solid rgb(41, 252, 181);
-  }
+.fail-toast {
+  --background: rgb(255, 204, 204) !important;
+  --color: rgb(255, 0, 0) !important;
+  --border-radius: 6px !important;
+}
+
+.success-toast {
+  --background: rgb(198, 255, 201) !important;
+  --color: rgb(0, 255, 0) !important;
+  --border-radius: 6px !important;
 }

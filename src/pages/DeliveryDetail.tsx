@@ -42,6 +42,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
   const [showSendFeedback, setShowSendFeedback] = useState(false);
   const [measureBy, setMeasureBy] = useState("");
   const [comp, setComp] = useState(0);
+  const [transLossCalcData, setTransLossCalcData] = useState<any>();
   const pageRef = useRef<HTMLElement>(null);
   const [t, i18n] = useTranslation('common');
 
@@ -251,7 +252,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossLjk measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} onSubmit={() => {setShowTransLossJustify(true); setShowTransLossLjk(false);}} onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
+            <TransportLossLjk measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} moveToJustify={data => {setShowTransLossJustify(true); setTransLossCalcData(data);} } onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
           </IonModal>
           <IonModal
             isOpen={showTransLossMeter}
@@ -268,7 +269,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <TransportLossJustify onDismissModal={() => setShowTransLossJustify(false)}></TransportLossJustify>
+            <TransportLossJustify calcData={transLossCalcData} onDismissModal={() => setShowTransLossJustify(false)}></TransportLossJustify>
           </IonModal>
         </div>
       </IonContent>

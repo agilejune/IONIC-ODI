@@ -11,7 +11,7 @@ import { sendTransportLossFormData } from '../data/sync';
 
 interface OwnProps {
   onDismissModal: () => void;
-  onSubmit: () => void;
+  moveToJustify: (data : any) => void;
   shipID: number;
   comp: number;
   measureBy: string;
@@ -22,13 +22,12 @@ interface StateProps {
   tankOptions: Tank[];
 }
 
-const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal, onSubmit, lossFormOfflineData, tankOptions, measureBy}) => {
-  const [volBefore, setVolBefore] = useState(0);
-  const [ttlLoss, setTtlLoss] = useState(0);
-  const [ttlLossClaim, setTtlLossClaim] = useState(0);
-  const [tolerance, setTolerance] = useState(0);
+const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [tryCount, setTryCount] = useState(0);
+
+  let isValid = true;
 
   const { register, handleSubmit, formState: { errors } } = useForm({
 		mode: "onSubmit",
@@ -36,8 +35,8 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
 	});
 
   const calculateVolumeBefore = (data: any) => {
-    const vol_1 = parseInt(lossFormOfflineData.lolines_ids.filter((id) => id.lo_id === data.lolines_id1)[0].lo_volume);
-    const vol_2 = parseInt(lossFormOfflineData.lolines_ids.filter((id) => id.lo_id === data.lolines_id2)[0].lo_volume);
+    const vol_1 = parseInt(lossFormOfflineData.lolines_ids.filter((id) => Number(id.lo_id) === data.lolines_id1)[0].lo_volume);
+    const vol_2 = parseInt(lossFormOfflineData.lolines_ids.filter((id) => Number(id.lo_id) === data.lolines_id2)[0].lo_volume);
 
     let vol_before = 0 as number;
     if (measureBy === 'ijkbout') {
@@ -50,59 +49,77 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
       else if (vol_1 + vol_2 > lossFormOfflineData.vol_compartment){
         const error = "'Total Volume LO (%s Liter) lebih besar dari Kapasitas Compartment (%s Liter), silakan periksa kembali data yang dientry' % \n(all_volbefore2,vals['vol_compartment'])";
         setErrorMessage(error);
+        isValid = false;
       }
     }
     else if (measureBy === 'flowmeter') {
       vol_before = vol_1 + vol_2;
     }
 
-    setVolBefore(vol_before);
+    return vol_before;
   };
 
-  const calculateTTLloss = (data: any) => {
+  const calculateTTLloss = (data: any, volBefore: number) => {
     let ttl_loss = 0 as number;
     if (measureBy === 'ijkbout') {
-      ttl_loss = data.height_after >= lossFormOfflineData.height_before ? 0 : (lossFormOfflineData.height_before - data.height_after) * lossFormOfflineData.sensitivity;
+      ttl_loss = Number(data.height_after) >= lossFormOfflineData.height_before ? 0 : (lossFormOfflineData.height_before - Number(data.height_after)) * lossFormOfflineData.sensitivity;
     }
     else if (measureBy === 'flowmeter') {
-      ttl_loss = data.vol_after >= volBefore ? 0 : volBefore - data.vol_after;
+      ttl_loss = Number(data.vol_after) >= volBefore ? 0 : volBefore - Number(data.vol_after);
     }
 
-    const ttl_loss_min = lossFormOfflineData.treshold_ttl_loss.match(/\[\d,/g);
-    const ttl_loss_max = lossFormOfflineData.treshold_ttl_loss.match(/,\d\]/g);
-    if (ttl_loss_min != null && ttl_loss_max != null && (ttl_loss < parseInt(ttl_loss_min[0]) || ttl_loss > parseInt(ttl_loss_max[0]))) {
+    const ttl_loss_min = Number((lossFormOfflineData.treshold_ttl_loss.match(/\[\d+,/g) ?? [""])[0].substring(1).slice(0, -1));
+    const ttl_loss_max = Number((lossFormOfflineData.treshold_ttl_loss.match(/,\d+\]/g) ?? [""])[0].substring(1).slice(0, -1));
+
+    if (ttl_loss < ttl_loss_min || ttl_loss > ttl_loss_max) {
       const error = "Total Loss (%s Liter) diluar batas kewajaran, Apakah anda yakin sudah benar memasukan data?"
       setErrorMessage(error);
+      isValid = false;
     }
 
-    setTtlLoss(ttl_loss);
+    return ttl_loss;
   }
 
-  const calculateTolerance = () => {
+  const calculateTolerance = (ttlLoss: number, volBefore: number) => {
     const tolerance = ttlLoss > 0 ? parseInt(lossFormOfflineData.conf_tolerance) / 100 * volBefore : 0;
-    setTolerance(tolerance);
     const ttl_loss_claim = ttlLoss - tolerance;
-    setTtlLossClaim(ttl_loss_claim);
+
+    return {tolerance: tolerance, ttlLossClaim: ttl_loss_claim}
   }
 
-  const onSubmitData = (data: any) => {
-    alert(JSON.stringify(data, null, 2));
-    calculateVolumeBefore(data);
-    calculateTTLloss(data);
-    calculateTolerance();
-    
-    if (errorMessage !== "") return;
+  const onSubmitData = async (data: any) => {
+    const volBefore = calculateVolumeBefore(data);
+    const ttlLoss = calculateTTLloss(data, volBefore);
+    const {tolerance, ttlLossClaim} = calculateTolerance(ttlLoss, volBefore);
     
     data = {
+      ...lossFormOfflineData,
       ...data,
-      shipment_id: lossFormOfflineData.shipment_id,
-      vol_before: volBefore,
-      ttl_loss: ttlLoss,
-      tolerance: tolerance,
-      ttl_loss_claim: ttlLossClaim
+      ...{
+        vol_before: volBefore,
+        ttl_loss: ttlLoss,
+        tolerance: tolerance,
+        ttl_loss_claim: ttlLossClaim,
+        measure_by: measureBy,
+        compartment: lossFormOfflineData.compartment
+      }
+    }
+
+    if (!isValid) {
+
+      if(tryCount >= 2) {
+        moveToJustify(data);
+        onDismissModal();
+      };
+
+      setTryCount(tryCount + 1);
+      
+      return;
     }
     
-    sendTransportLossFormData(data);
+    // alert(JSON.stringify(data, null, 2));
+    await sendTransportLossFormData(data);
+    onDismissModal();
   }
   
   const lo_ids = lossFormOfflineData.lolines_ids.map(id => {return {id: Number(id.lo_id), name: id.lo_number} as Tank}) as Tank[];
@@ -143,7 +160,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
       }
     },
     {
-      visible: lossFormOfflineData.state === 'confirm',
+      visible: lossFormOfflineData.state !== 'confirm',
       type: "select",
       label: "Lo Number",
       props: {
@@ -236,7 +253,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
       type: "input",
       label: "Volume AR (Liter)",
       props: {
-        name: "volume_after",
+        name: "vol_after",
         type: "number",
         disabled: lossFormOfflineData.state === 'confirm',
         value: lossFormOfflineData.volume_ar
@@ -350,13 +367,14 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
           })
         }
         {lossFormOfflineData.state !== "confirm" &&
-          <IonButton type="submit" color="primary" expand="block" onClick={onSubmit}>Submit</IonButton>
+          <IonButton type="submit" color="primary" expand="block">Submit</IonButton>
         } 
         </form>
         <IonToast
+          cssClass="fail-toast"
           isOpen={errorMessage !== ""}
           message={errorMessage}
-          duration={2000}
+          duration={5000}
           onDidDismiss={() => setErrorMessage("")}
         />
       </IonContent>

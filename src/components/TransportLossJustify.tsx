@@ -1,14 +1,44 @@
-import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { connect } from '../data/connect';
+import { sendTransportLossFormData } from '../data/sync';
+import { Justify } from '../models/Transportloss';
 import './TransportLossJustify.scss';
 
 interface OwnProps {
   onDismissModal: () => void;
+  calcData: any;
 }
 
-const TransportLossJustify : React.FC<OwnProps> = ({onDismissModal}) => {
+interface StateProps {
+  justifyOptions: Justify[];
+}
 
+const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal, justifyOptions, calcData}) => {
+  const { register, handleSubmit, formState: { errors } } = useForm({
+		mode: "onSubmit",
+    reValidateMode: "onChange"
+	});
+
+  const [check, setCheck] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const onSubmitData = async (data: any) => {
+    if (!check) {
+      setErrorMessage("must check box");
+      return;
+    }
+    if (data.password !== calcData.password) {
+      setErrorMessage("wrong password");
+      return;
+    }
+    data = {...calcData, ...data, ...{is_justified: "True"}};
+    // alert(JSON.stringify(data, null, 2));
+    await sendTransportLossFormData(data);
+    onDismissModal();
+  }
   return(
     <IonPage id="transport-loss-justify-page">
       <IonHeader>
@@ -24,41 +54,61 @@ const TransportLossJustify : React.FC<OwnProps> = ({onDismissModal}) => {
       <IonContent className="ion-padding">
         <hr/>
         <br/>
-        <IonText>
-          <h5><strong>VERIFIKASI</strong></h5>
-          <h6>Apahkah anda sudah yakin nilai yang diinput sudah sesuai dengan sebenarnya ?</h6>
-        </IonText>
-        <div className="ion-padding-top">
-          <IonLabel><h5><strong>Justify Reason</strong></h5></IonLabel>
-          <IonSelect></IonSelect>
-        </div>
-        <div className="ion-padding-top">
-          <IonLabel><h5><strong>Petugas</strong></h5></IonLabel>
-          <IonInput></IonInput>
-        </div>
-        <div className="ion-padding-top">
-          <IonLabel><h5><strong>Password (PIN_Supir)</strong></h5></IonLabel>
-          <IonInput></IonInput>
-        </div>
-        <hr/>
-        <div className="ion-padding-top">
-          <IonRow>
-              <IonCol size="1">
-                <IonCheckbox></IonCheckbox>
-              </IonCol>
-              <IonCol size="11">
-                <IonText>
-                saya telah membaca dan menyatakan bahwa data tersebut adalah benar.
-                </IonText>
-              </IonCol>
-          </IonRow>
-        </div>
-        <div className="ion-padding-top">
-          <IonButton color="primary" expand="block">Submit</IonButton>        
-        </div>
+        <form onSubmit={ handleSubmit(onSubmitData) }>
+          <IonText>
+            <h5><strong>VERIFIKASI</strong></h5>
+            <h6>Apahkah anda sudah yakin nilai yang diinput sudah sesuai dengan sebenarnya ?</h6>
+          </IonText>
+          <div className="ion-padding-top">
+            <IonLabel><h5><strong>Justify Reason</strong></h5></IonLabel>
+            <IonSelect {...register("justify_reason", {required: true})}>
+              {
+                justifyOptions.map((option, index) => (
+                  <IonSelectOption key={`justify-option-${index}`} value={option.id}>{option.name}</IonSelectOption>
+                ))
+              }
+            </IonSelect>
+          </div>
+          <div className="ion-padding-top">
+            <IonLabel><h5><strong>Petugas</strong></h5></IonLabel>
+            <IonInput {...register("users", {required: true})}></IonInput>
+          </div>
+          <div className="ion-padding-top">
+            <IonLabel><h5><strong>Password (PIN_Supir)</strong></h5></IonLabel>
+            <IonInput {...register("password", {required: true})}></IonInput>
+          </div>
+          <hr/>
+          <div className="ion-padding-top">
+            <IonRow>
+                <IonCol size="1">
+                  <IonCheckbox onIonChange={e=> setCheck(e.detail.checked)}></IonCheckbox>
+                </IonCol>
+                <IonCol size="11">
+                  <IonText>
+                    saya telah membaca dan menyatakan bahwa data tersebut adalah benar.
+                  </IonText>
+                </IonCol>
+            </IonRow>
+          </div>
+          <div className="ion-padding-top">
+            <IonButton type="submit" color="primary" expand="block">Submit</IonButton>        
+          </div>
+        </form>
+        <IonToast
+          cssClass="fail-toast"
+          isOpen={errorMessage !== ""}
+          message={errorMessage}
+          duration={5000}
+          onDidDismiss={() => setErrorMessage("")}
+        />
       </IonContent>
     </IonPage>
   );
 } 
 
-export default TransportLossJustify;
+export default connect<OwnProps, StateProps, {}>({
+  mapStateToProps: (state, OwnProps) => ({
+    justifyOptions: state.delivery.justify,
+  }),
+  component: React.memo(TransportLossJustify)
+});
