@@ -86,3 +86,16 @@ ion-menu.ios ion-item.selected ion-icon {
   color: var(--ion-color-primary);
 }
 
+ion-grid ion-col {
+  border: 1px solid #aeb7ca;
+}
+
+.menu-logo {
+  padding: 20px 0;
+  min-height: 200px;
+  text-align: center;
+}
+
+.menu-logo img {
+  max-width: 150px;
+}

@@ -1,4 +1,4 @@
-import { getCheckLists, getDelivery, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, sendFeedback as sendFeedbackSync, sendOfflineStackData } from '../sync';
+import { getCheckLists, getDelivery, getDriverDetails, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, getVehicleDatails, sendFeedback as sendFeedbackSync, sendOfflineStackData } from '../sync';
 import { ActionType } from '../../util/types';
 import { DeliveryState } from './delivery.state';
 import { getLossFormOffineData } from '../sync';
@@ -7,7 +7,7 @@ import { getLossFormOffineData } from '../sync';
 export const loadData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setLoading(true));
 
-  const {delivery, shipIds} = await getDelivery();
+  const {delivery, shipIds, driverAssistantIDs, vehicleIDs} = await getDelivery();
   dispatch(setDeliveryData(delivery));
 
   const order = await getOrders();
@@ -31,6 +31,12 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
   const lossFormDataOffline = await getLossFormOffineData(shipIds);
   dispatch(setLossFormDataOffline(lossFormDataOffline));
   
+  const driverDetails = await getDriverDetails(driverAssistantIDs);
+  dispatch(setDriverDetails(driverDetails));
+
+  const vehicleDetails = await getVehicleDatails(vehicleIDs);
+  dispatch(setVehicleDetails(vehicleDetails));
+
   dispatch(setLoading(false));
 }
 
@@ -103,6 +109,16 @@ export const setLossFormDataOffline = (data: Partial<DeliveryState>) => ({
   data
 } as const);
 
+export const setDriverDetails = (data: Partial<DeliveryState>) => ({
+  type: 'set-driver-detail',
+  data
+} as const);
+
+export const setVehicleDetails = (data: Partial<DeliveryState>) => ({
+  type: 'set-vehicle-detail',
+  data
+} as const);
+
 export type DeliveryActions =
   | ActionType<typeof setLoading>
   | ActionType<typeof setDeliveryData>
@@ -115,5 +131,7 @@ export type DeliveryActions =
   | ActionType<typeof setSearchText>
   | ActionType<typeof setWillSendCount>
   | ActionType<typeof setLossFormDataOffline>
+  | ActionType<typeof setDriverDetails> 
+  | ActionType<typeof setVehicleDetails> 
 
 

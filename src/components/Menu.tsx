@@ -18,13 +18,14 @@ interface Pages {
 }
 interface StateProps {
   isAuthenticated: boolean;
+  userName: string;
 }
 
 interface DispatchProps { }
 
 interface MenuProps extends RouteComponentProps, StateProps, DispatchProps { }
 
-const Menu: React.FC<MenuProps> = ({ history, isAuthenticated }) => {
+const Menu: React.FC<MenuProps> = ({ history, isAuthenticated, userName }) => {
   const location = useLocation();
   const [t, i18n] = useTranslation('common');
   
@@ -63,8 +64,12 @@ const Menu: React.FC<MenuProps> = ({ history, isAuthenticated }) => {
   }
 
   return (
-    <IonMenu  type="overlay" disabled={!isAuthenticated} contentId="main">
+    <IonMenu type="overlay" disabled={!isAuthenticated} contentId="main">
       <IonContent forceOverscroll={false}>
+        <div className="menu-logo">
+          <img src="assets/img/logo.png" alt="Ionic logo" />
+          <h6>{userName}</h6>
+        </div>
         <IonList lines="none">
           <IonListHeader>{ t('menus.title_1') }</IonListHeader>
           {renderlistItems(routes.deliveryPages)}
@@ -86,6 +91,7 @@ export default connect<{}, StateProps, {}>({
   mapStateToProps: (state) => ({
     darkMode: state.user.darkMode,
     isAuthenticated: state.user.isLoggedin,
+    userName: state.user.user_name,
   }),
   component: withRouter(Menu)
 })

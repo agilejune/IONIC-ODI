@@ -1,6 +1,6 @@
 import { Network } from '@capacitor/network';
-import { getApiCheckLists, getApiDelivery, getApiFeedbacks, getApiJustify, getApiLossFormOffineData, getApiOrders, getApiTanks, getApiTransportLossAll, sendApiCheckLists, sendApiFeedback, sendApiTransportLossFormData } from './api';
-import { getStorageChecklists, getStorageDeliverys, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, getStorageTransportLossOffline, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll, setTransportLossOffline } from './storage';
+import { getApiCheckLists, getApiDelivery, getApiDriverDetails, getApiFeedbacks, getApiJustify, getApiLossFormOffineData, getApiOrders, getApiTanks, getApiTransportLossAll, getApiVehicleDatails, sendApiCheckLists, sendApiFeedback, sendApiTransportLossFormData } from './api';
+import { getStorageChecklists, getStorageDeliverys, getStorageDriverDetails, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, getStorageTransportLossOffline, getStorageVehicleDatails, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setDriverDetails, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll, setTransportLossOffline, setVehicleDatails } from './storage';
 
 export const getCurrentNetworkStatus = async () => {
   const status = await Network.getStatus();
@@ -97,6 +97,29 @@ export const getLossFormOffineData = async (shipIds : []) => {
   }
 }
 
+export const getDriverDetails = async (driverIDs : []) => {
+  if (await getCurrentNetworkStatus()) {
+    const driverDetails = await getApiDriverDetails(driverIDs);
+    console.log(driverDetails);
+    await setDriverDetails(driverDetails);
+    return driverDetails;
+  }
+  else {
+    return await getStorageDriverDetails();
+  }
+}
+
+export const getVehicleDatails = async (vehicleIDs : []) => {
+  if (await getCurrentNetworkStatus()) {
+    const vehicleDetails = await getApiVehicleDatails(vehicleIDs);
+    console.log(vehicleDetails);
+    await setVehicleDatails(vehicleDetails);
+    return vehicleDetails;
+  }
+  else {
+    return await getStorageVehicleDatails();
+  }
+}
 
 export const sendFeedback = async (data: any) => {
   if (await getCurrentNetworkStatus()) {

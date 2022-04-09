@@ -1,28 +1,22 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
-import { getApiVehicleDetail } from '../data/api';
 import { Vehicle } from '../models/Vehicle';
 import { useTranslation } from 'react-i18next';
+import { connect } from '../data/connect';
+import * as selectors from '../data/selectors';
 
 interface OwnProps {
   onDismissModal: () => void;
   vehicle_id: number;
 }
 
-const VehicleDetail : React.FC<OwnProps> = ({onDismissModal, vehicle_id}) => {
-  const [vehicle, setVehicle] = useState<Vehicle>();
+interface StateProps {
+  vehicle: Vehicle;
+}
+
+const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicle}) => {
   const [t, i18n] = useTranslation('common');
-
-  useEffect(() => {
-    getData();
-
-    async function getData() {
-      const vehicleDetail = await getApiVehicleDetail(vehicle_id);
-      setVehicle(vehicleDetail);
-    }
-    
-  }, []);
 
   return(
     <>
@@ -37,7 +31,9 @@ const VehicleDetail : React.FC<OwnProps> = ({onDismissModal, vehicle_id}) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonGrid>
+        <div className='ion-padding'>
+          <img src="assets/img/mt_popup.png" alt="Ionic logo" />
+          <div className="ion-padding-top" />
           <IonRow>
             <IonCol>
               <IonText><strong>{ t('modal_detail_vehicle.nopol') }</strong></IonText>
@@ -82,43 +78,51 @@ const VehicleDetail : React.FC<OwnProps> = ({onDismissModal, vehicle_id}) => {
           </IonRow>
           <br/>
           <IonText><strong>{ t('modal_detail_vehicle.detail_compartment') }</strong></IonText>
-          <IonRow>
-            <IonCol>
-                <IonText><strong>{ t('modal_detail_vehicle.comp') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-                <IonText><strong>{ t('modal_detail_vehicle.tera_ulang') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-                <IonText><strong>{ t('modal_detail_vehicle.kepekaan') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-                <IonText><strong>{ t('modal_detail_vehicle.ruang_kosong') }</strong></IonText>
-            </IonCol>
-          </IonRow>
-          { vehicle?.comp.map((c, index) => (
-            
+          <div className="ion-padding-top" />
+          <IonGrid>
             <IonRow>
-              <IonCol>
-                  <IonText>{index}</IonText>
+              <IonCol size="3">
+                  <IonText><strong>{ t('modal_detail_vehicle.comp') }</strong></IonText>
               </IonCol>
-              <IonCol>
-                  <IonText>{ c.t2 }</IonText>
+              <IonCol size="3">
+                  <IonText><strong>{ t('modal_detail_vehicle.tera_ulang') }</strong></IonText>
               </IonCol>
-              <IonCol>
-                  <IonText>{ c.sensitivity }</IonText>
+              <IonCol size="3">
+                  <IonText><strong>{ t('modal_detail_vehicle.kepekaan') }</strong></IonText>
               </IonCol>
-              <IonCol>
-                  <IonText>{ c.empty_space }</IonText>
+              <IonCol size="3">
+                  <IonText><strong>{ t('modal_detail_vehicle.ruang_kosong') }</strong></IonText>
               </IonCol>
             </IonRow>
-          ))
+            { vehicle?.comp.map((c, index) => (
+              
+              <IonRow>
+                <IonCol size="3">
+                    <IonText>{index}</IonText>
+                </IonCol>
+                <IonCol size="3">
+                    <IonText>{ c.t2 }</IonText>
+                </IonCol>
+                <IonCol size="3">
+                    <IonText>{ c.sensitivity }</IonText>
+                </IonCol>
+                <IonCol size="3">
+                    <IonText>{ c.empty_space }</IonText>
+                </IonCol>
+              </IonRow>
+            ))
 
-          }
-        </IonGrid>
+            }
+          </IonGrid>
+        </div>
       </IonContent>
     </>
   );
 } 
 
-export default VehicleDetail;
+export default connect<OwnProps, StateProps, {}>({
+  mapStateToProps: (state, OwnProps) => ({
+    vehicle: selectors.getVehicleDetail(state, OwnProps),
+  }),
+  component: React.memo(VehicleDetail)
+});

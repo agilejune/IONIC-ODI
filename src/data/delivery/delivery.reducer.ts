@@ -13,6 +13,8 @@ export function deliveryReducer(state: DeliveryState, action: DeliveryActions): 
     case 'set-checklist-data':
     case 'set-tank-data':
     case 'set-justify-data':
+    case 'set-driver-detail':
+    case 'set-vehicle-detail':
       return { ...state, ...action.data };
     case 'set-search-text':
       return { ...state, searchText: action.searchText };

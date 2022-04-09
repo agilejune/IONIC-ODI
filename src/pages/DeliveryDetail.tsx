@@ -43,6 +43,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
   const [measureBy, setMeasureBy] = useState("");
   const [comp, setComp] = useState(0);
   const [transLossCalcData, setTransLossCalcData] = useState<any>();
+  const [driverAssistantID, setDriverAssistantID] = useState(0);
   const pageRef = useRef<HTMLElement>(null);
   const [t, i18n] = useTranslation('common');
 
@@ -66,7 +67,12 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
           </IonButtons>
           <IonRow>
             <IonCol>
-              <IonButtons onClick={() => setShowDriverDetail(true)}>
+            <IonButtons 
+                onClick={() => { 
+                  setShowDriverDetail(true); 
+                  setDriverAssistantID(delivery.driver_id); }
+                }
+              >
                 <IonIcon icon={person}></IonIcon>
                 <IonLabel>{delivery.driver}</IonLabel>
               </IonButtons>
@@ -80,7 +86,13 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonButtons className="ion-float-left">
+              <IonButtons 
+                className="ion-float-left" 
+                onClick={() => { 
+                  setShowDriverDetail(true); 
+                  setDriverAssistantID(delivery.driver_assistant_id); }
+                }
+              >
                 <IonIcon icon={person}></IonIcon>
                 <IonLabel>{delivery.driver_assistant}</IonLabel>
               </IonButtons>
@@ -186,7 +198,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
             swipeToClose={true}
             presentingElement={pageRef.current!}
           >
-            <DriverDetail driver_id={delivery.driver_id} onDismissModal={() => setShowDriverDetail(false)}></DriverDetail>
+            <DriverDetail driver_id={driverAssistantID} onDismissModal={() => setShowDriverDetail(false)}></DriverDetail>
           </IonModal>
 
           <IonModal

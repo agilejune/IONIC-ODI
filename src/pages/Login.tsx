@@ -64,7 +64,7 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
       else {        
         await setIsLoggedIn(true);
         setUserData(userData!);
-        await setUsernameAction(username);
+        await setUsernameAction(userData.user_name);
         history.push('/tabs/delivery', {direction: 'none'});
         await loadData();
       }

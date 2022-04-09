@@ -75,7 +75,7 @@ const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal,
           </div>
           <div className="ion-padding-top">
             <IonLabel><h5><strong>Password (PIN_Supir)</strong></h5></IonLabel>
-            <IonInput {...register("password", {required: true})}></IonInput>
+            <IonInput type="password" {...register("password", {required: true})}></IonInput>
           </div>
           <hr/>
           <div className="ion-padding-top">

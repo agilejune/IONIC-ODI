@@ -1,28 +1,22 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
-import { getApiDriverDetail } from '../data/api';
 import { Driver } from '../models/Driver';
 import { useTranslation } from 'react-i18next';
+import { connect } from '../data/connect';
+import * as selectors from '../data/selectors';
 
 interface OwnProps {
   onDismissModal: () => void;
   driver_id: number;
 }
 
-const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
-  const [driver, setDriver] = useState<Driver>();
+interface StateProps {
+  driver: Driver;
+}
+
+const DriverDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, driver}) => {
   const [t, i18n] = useTranslation('common');
-
-  useEffect(() => {
-    getData();
-
-    async function getData() {
-      const driverDetail = await getApiDriverDetail(driver_id);
-      setDriver(driverDetail);
-    }
-    
-  }, []);
 
   return(
     <>
@@ -37,7 +31,9 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonGrid>
+        <div className="ion-padding">
+          <img src="assets/img/default.jpg" alt="Ionic logo" />
+          <div className="ion-padding-top" />
           <IonRow>
             <IonCol>
               <IonText><strong>{ t('modal_detail_crew.nip') }</strong></IonText>
@@ -78,10 +74,15 @@ const DriverDetail : React.FC<OwnProps> = ({onDismissModal, driver_id}) => {
               <IonText>{ driver?.contract_type }</IonText>
             </IonCol>
           </IonRow>
-        </IonGrid>
+        </div>
       </IonContent>
     </>
   );
 } 
 
-export default DriverDetail;
+export default connect<OwnProps, StateProps, {}>({
+  mapStateToProps: (state, OwnProps) => ({
+    driver: selectors.getDriverDetail(state, OwnProps),
+  }),
+  component: React.memo(DriverDetail)
+});

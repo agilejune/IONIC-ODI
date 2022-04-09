@@ -1,8 +1,10 @@
 import { createSelector } from 'reselect';
 import { Delivery } from '../models/Delivery';
+import { Driver } from '../models/Driver';
 import { Feedback } from '../models/Feedback';
 import { Order } from '../models/Order';
 import { LossFormDataOffline, Transportloss } from '../models/Transportloss';
+import { Vehicle } from '../models/Vehicle';
 import { AppState } from './state';
 
 const getAllDeliverys = (state: AppState) => [...state.delivery.ongoingDeliverys, ...state.delivery.pastDeliverys];
@@ -13,6 +15,8 @@ const getTransportlosses = (state: AppState) => [...state.delivery.transLossAll]
 const getFeedbacks = (state: AppState) => [...state.delivery.feedbacks]
 const getSearchText = (state: AppState) => state.delivery.searchText;
 const getLossFormOfflineDatas = (state: AppState) => state.delivery.transFormOfflineDatas;
+const getDriverDetails = (state: AppState) => state.delivery.drivers;
+const getVehicleDatails = (state: AppState) => state.delivery.vehicles;
 
 const getShipId = (_state: AppState, props: any) => {
   return props.shipID;
@@ -20,6 +24,14 @@ const getShipId = (_state: AppState, props: any) => {
 
 const getCompNum = (_state: AppState, props: any) => {
   return props.comp;
+}
+
+const getDriverID = (_state: AppState, props: any) => {
+  return props.driver_id;
+}
+
+const getVehicleID = (_state: AppState, props: any) => {
+  return props.vehicle_id;
 }
 
 const getIdParam = (_state: AppState, props: any) => {
@@ -128,5 +140,26 @@ export const getLossFormOfflineData = createSelector(
       d.shipment_id == shipId && d.compartment == comp.toString()
     )[0];
   }
-)
+);
+
+export const getDriverDetail = createSelector(
+  getDriverDetails, getDriverID,
+  (datas, driver_id) => {
+    return datas.filter((d: Driver) => 
+      d.id == driver_id
+    )[0];
+  }
+);
+
+export const getVehicleDetail = createSelector(
+  getVehicleDatails, getVehicleID,
+  (datas, vehicle_id) => {
+    return datas.filter((v: Vehicle) => 
+      v.id == vehicle_id
+    )[0];
+  }
+);
+
+
+
 

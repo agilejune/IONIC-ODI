@@ -5,7 +5,8 @@ import { userReducer } from './user/user.reducer';
 export const initialState: AppState = {
   user: {
     isLoggedin: false,
-    loading: false
+    loading: false,
+    user_name: "",
   },
   delivery: {
     ongoingDeliverys: [],
@@ -18,7 +19,9 @@ export const initialState: AppState = {
     justify: [],
     dataLoading: false,
     willSendCount: 0,
-    transFormOfflineDatas: []
+    transFormOfflineDatas: [],
+    drivers: [],
+    vehicles: []
   },
 };
 

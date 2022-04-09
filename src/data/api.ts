@@ -5,7 +5,7 @@ import { Feedback, FeedbackOption, Feedback_Data } from '../models/Feedback';
 import { Order } from '../models/Order';
 import { Justify, LossFormData, LossFormDataOffline, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
-import { Comp } from '../models/Vehicle';
+import { Comp, Vehicle } from '../models/Vehicle';
 
 const baseUrl = 'http://182.23.86.213:4000/odi';
 const jsonUrl = {
@@ -88,12 +88,24 @@ export const getApiDelivery = async () => {
     ...ongoingDeliverys.map(d => { return d.shipment_id; }), 
     ...pastDeliverys.map(d => { return d.shipment_id; }) 
   ];
+
+  const driverAssistantIDs = [
+    ...ongoingDeliverys.map(d => { return [d.driver_id, d.driver_assistant_id]; }), 
+    ...pastDeliverys.map(d => { return [d.driver_id, d.driver_assistant_id]; }) ,
+  ];
+
+  const vehicleIDs = [
+    ...ongoingDeliverys.map(d => { return d.vehicle_id; }), 
+    ...pastDeliverys.map(d => { return d.vehicle_id; }) 
+  ];
   return {
     delivery: {
       ongoingDeliverys,
       pastDeliverys
       },
-    shipIds: shipIds
+    shipIds: shipIds,
+    driverAssistantIDs: driverAssistantIDs,
+    vehicleIDs: vehicleIDs
   };
 }
 
@@ -154,10 +166,10 @@ export const getApiTransportLossAll = async () => {
   };
 }
 
-export const getApiDriverDetail = async (driverID: number) => {
+export const getApiDriverDetails = async (driverIDs: []) => {
   await delay();
   const formData = new FormData();
-  formData.append('driver_id', driverID.toString());
+  formData.append('driver_id', driverIDs.join(","));
   const response = await Promise.all([
     fetch(jsonUrl.driverDetail),
     // fetch(`${baseUrl}/driver_detail`, {
@@ -166,15 +178,17 @@ export const getApiDriverDetail = async (driverID: number) => {
     // })
   ]);
   const responseData = await response[0].json();
-  const driverDetail = responseData.data[0] as Driver;
+  const drivers = responseData.data as Driver[];
  
-  return driverDetail;
+  return {
+    drivers
+  };
 }
 
-export const getApiVehicleDetail = async (vehicleID: number) => {
+export const getApiVehicleDatails = async (vehicleIDs: []) => {
   await delay();
   const formData = new FormData();
-  formData.append('vehicle', vehicleID.toString());
+  formData.append('vehicle_id', vehicleIDs.join(","));
 
   const response = await Promise.all([
     fetch(jsonUrl.vehicleDetail),
@@ -184,28 +198,35 @@ export const getApiVehicleDetail = async (vehicleID: number) => {
     // }),
   ]);
   const responseData = await response[0].json();
-  const vehicleDetail = responseData.data[0];
-  const comps = [] as Comp[];
-  [1,2,3,4,5,6].forEach(i => {
-    const comp = {
-      empty_space: vehicleDetail[`empty_space_comp${i}`],
-      sensitivity: vehicleDetail[`sensitivity_comp${i}`],
-      t2: vehicleDetail[`t2_comp${i}`],
-    };
-    comps.push(comp);
+  const vehicleDetails = responseData.data as [];
+
+  const vehicles = vehicleDetails.map(vehicleDetail => {
+    const comps = [] as Comp[];
+    [1,2,3,4,5,6].forEach(i => {
+      const comp = {
+        empty_space: vehicleDetail[`empty_space_comp1`],
+        sensitivity: vehicleDetail[`sensitivity_comp${i}`],
+        t2: vehicleDetail[`t2_comp${i}`],
+      };
+      comps.push(comp);
+    });
+    
+    const vehicle = {
+      attachment: vehicleDetail["attachment"],
+      capacity: vehicleDetail["capacity"],
+      comp: comps, 
+      id: vehicleDetail["id"], 
+      name: vehicleDetail["name"], 
+      re_calibration_time: vehicleDetail["re_calibration_time"],
+      rental_type: vehicleDetail["rental_type"],
+    }
+    
+    return vehicle;
   });
-  
-  const vehicle = {
-    attachment: vehicleDetail.attachment,
-    capacity: vehicleDetail.capacity,
-    comp: comps, 
-    id: vehicleDetail.id, 
-    name: vehicleDetail.name, 
-    re_calibration_time: vehicleDetail.re_calibration_time,
-    rental_type: vehicleDetail.rental_type,
-  }
-  
-  return vehicle;
+
+  return {
+    vehicles
+  };
 }
 
 export const getApiCheckLists = async () => {

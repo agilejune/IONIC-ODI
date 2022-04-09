@@ -11,6 +11,8 @@ const TRANSPORTLOSS_ALL = 'transport_loss_all';
 const CHECK_LIST = 'check_list';
 const TRANSPORTLOSS_OFFLINE = 'transport_loss_offline';
 const OFFLINE_STACK = "offline_stack";
+const DRIVER_DETAIL = "driver_detail";
+const VEHICLE_DETAIL = "vehicle_detail";
 
 export const setIsLoggedInData = async (isLoggedIn: boolean) => {
   await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
@@ -113,7 +115,31 @@ export const setChecklists = async (data : any) => {
 }
 
 export const getStorageChecklists = async () => {
-  const { value } = await Storage.get({ key: JUSTIFY_DATA });
+  const { value } = await Storage.get({ key: CHECK_LIST });
+  
+  if (value == null) return;
+  
+  return JSON.parse(value);
+}
+
+export const setDriverDetails = async (data : any) => {
+  await Storage.set({ key: DRIVER_DETAIL, value: JSON.stringify(data) });
+}
+
+export const getStorageDriverDetails = async () => {
+  const { value } = await Storage.get({ key: DRIVER_DETAIL });
+  
+  if (value == null) return;
+  
+  return JSON.parse(value);
+}
+
+export const setVehicleDatails = async (data : any) => {
+  await Storage.set({ key: VEHICLE_DETAIL, value: JSON.stringify(data) });
+}
+
+export const getStorageVehicleDatails = async () => {
+  const { value } = await Storage.get({ key: VEHICLE_DETAIL });
   
   if (value == null) return;
   

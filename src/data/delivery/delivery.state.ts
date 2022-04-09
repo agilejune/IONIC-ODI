@@ -1,8 +1,10 @@
 import { CheckList } from "../../models/CheckList";
 import { Delivery } from "../../models/Delivery";
+import { Driver } from "../../models/Driver";
 import { Feedback } from "../../models/Feedback";
 import { Order } from "../../models/Order";
 import { Justify, LossFormDataOffline, Tank, Transportloss } from "../../models/Transportloss";
+import { Vehicle } from "../../models/Vehicle";
 
 export interface DeliveryState {
   dataLoading: boolean,
@@ -17,4 +19,6 @@ export interface DeliveryState {
   justify: Justify[],
   searchText?: string,
   willSendCount: number,
+  drivers: Driver[],
+  vehicles: Vehicle[]
 };
