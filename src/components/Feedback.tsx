@@ -1,6 +1,6 @@
 import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect } from '../data/connect';
 import { useTranslation } from 'react-i18next';
 import { Delivery } from '../models/Delivery';
