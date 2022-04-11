@@ -343,7 +343,7 @@ export const sendApiFeedback = async (data: any) => {
 
   data = {...data, ...{ nospbu: spbu }};
 
-  console.log(`send feedback\n${data}`);
+  console.log(`send feedback\n${JSON.stringify(data)}`);
 
   const response = await Promise.all([
     fetch(`${baseUrl}/send_feedback`, {
@@ -363,7 +363,7 @@ export const sendApiCheckLists = async (data: any) => {
 
   data = {...data, ...{ no_spbu: spbu }};
 
-  console.log(`send checklist\n${data}`);
+  console.log(`send checklist\n${JSON.stringify(data)}`);
   const response = await Promise.all([
     fetch(`${baseUrl}/send_survey`,{
         method: "post",
@@ -381,7 +381,7 @@ export const sendApiCheckLists = async (data: any) => {
 export const sendApiTransportLossFormData = async (data: any) => {
 
   data = {...data, ...{ spbu: spbu }};
-  console.log(`send transport loss calculation data\n${data}`);
+  console.log(`send transport loss calculation data\n${JSON.stringify(data)}`);
   const response = await Promise.all([
     fetch(`${baseUrl}/send_transportloss_ofline`,{
         method: "post",
