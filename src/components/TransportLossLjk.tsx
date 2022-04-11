@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
@@ -26,6 +26,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
 
   const [errorMessage, setErrorMessage] = useState("");
   const [tryCount, setTryCount] = useState(0);
+  const [isSending, setIsSending] = useState(false);
 
   let isValid = true;
 
@@ -41,6 +42,24 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
       return 0;
     
     return parseInt(datas[0].lo_volume);
+  }
+
+  const getLoName = (lolines_id : number) => {
+    const datas = lossFormOfflineData.lolines_ids.filter((id) => Number(id.lo_id) === lolines_id);
+    
+    if (datas.length == 0)
+      return;
+    
+    return datas[0].lo_number;
+  }
+
+  const getLoProduct = (lolines_id : number) => {
+    const datas = lossFormOfflineData.lolines_ids.filter((id) => Number(id.lo_id) === lolines_id);
+    
+    if (datas.length == 0)
+      return;
+    
+    return datas[0].lo_product;
   }
 
   const calculateVolumeBefore = (data: any) => {
@@ -110,7 +129,11 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
         tolerance: tolerance,
         ttl_loss_claim: ttlLossClaim,
         measure_by: measureBy,
-        compartment: lossFormOfflineData.compartment
+        compartment: lossFormOfflineData.compartment,
+        lolines_name1: getLoName(Number(data.lolines_id1)) ?? "",
+        lolines_name2: getLoName(Number(data.lolines_id2)) ?? "",
+        produk: getLoProduct(Number(data.lolines_id1)) ?? getLoProduct(Number(data.lolines_id2)) ?? "",
+        locmb: 0
       }
     }
 
@@ -127,7 +150,9 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
     }
     
     // alert(JSON.stringify(data, null, 2));
+    setIsSending(true);
     await sendTransportLossFormData(data);
+    setIsSending(false);
     onDismissModal();
   }
   
@@ -375,8 +400,11 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
             );
           })
         }
-        {lossFormOfflineData.state !== "confirm" &&
-          <IonButton type="submit" color="primary" expand="block">Submit</IonButton>
+        {lossFormOfflineData.state !== "confirm" && 
+          <IonButton type="submit" color="primary" expand="block">
+            { isSending && <IonSpinner name="bubbles" color="light" /> }
+            Submit
+          </IonButton>
         } 
         </form>
         <IonToast

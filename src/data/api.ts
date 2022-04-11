@@ -371,9 +371,12 @@ export const sendApiFeedback = async (data: object) => {
 
   const responseData = await response[0].json();
   const status = responseData.status as string;
+  const desc_msg = responseData.desc_msg as string;
   
-  return status == "S";
-
+  return {
+    status: status,
+    message: desc_msg
+  };
 }
 
 export const sendApiCheckLists = async (data: object) => {
@@ -396,8 +399,12 @@ export const sendApiCheckLists = async (data: object) => {
 
   const responseData = await response[0].json();
   const status = responseData.status as string;
+  const desc_msg = responseData.desc_msg as string;
   
-  return status == "S";
+  return {
+    status: status,
+    message: desc_msg
+  };
 
 }
 
@@ -405,7 +412,7 @@ export const sendApiTransportLossFormData = async (data: object) => {
   const formData = new FormData();
 
   const exceptFields = ["lolines_ids", "conf_tolerance", "conf_tolerance_discrepancy", "datas_fname", "datas_fname_atg", "datas_id", "datas_id_atg", "is_atg"];
-  
+
   formData.append('spbu', spbu);
   Object.entries(data).forEach(([key, value]) => {
     if (exceptFields.indexOf(key) == -1)
@@ -421,8 +428,12 @@ export const sendApiTransportLossFormData = async (data: object) => {
 
   const responseData = await response[0].json();
   const status = responseData.status as string;
+  const desc_msg = responseData.desc_msg as string;
   
-  return status == "S";
+  return {
+    status: status,
+    message: desc_msg
+  };
 }
 
 

@@ -1,4 +1,4 @@
-import { getCheckLists, getDelivery, getDriverDetails, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, getVehicleDatails, sendFeedback as sendFeedbackSync, sendOfflineStackData } from '../sync';
+import { getCheckLists, getDelivery, getDriverDetails, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, getVehicleDatails, sendCheckLists as sendCheckListsSync, sendFeedback as sendFeedbackSync, sendTransportLossFormData as sendTransportLossFormDataSync, sendOfflineStackData } from '../sync';
 import { ActionType } from '../../util/types';
 import { DeliveryState } from './delivery.state';
 import { getLossFormOffineData } from '../sync';
@@ -41,9 +41,11 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
 }
 
 export const sendFeedback = (data: any) => async (dispatch: React.Dispatch<any>) => {
-  await sendFeedbackSync(data);
+  const { msg, responseStatus } = await sendFeedbackSync(data);
   const count = await getOfflineStackCount();
   dispatch(setWillSendCount(count));
+  dispatch(setServerMessage(msg));
+  dispatch(setServerResStatus(responseStatus));
 }
 
 export const sendOfflineData = () => async (dispatch: React.Dispatch<any>) => {
@@ -52,10 +54,37 @@ export const sendOfflineData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setWillSendCount(count));
 }
 
+export const sendCheckLists = (data: any) => async (dispatch: React.Dispatch<any>) => {
+  const { msg, responseStatus } = await sendCheckListsSync(data);
+  const count = await getOfflineStackCount();
+  dispatch(setWillSendCount(count));
+  dispatch(setServerMessage(msg));
+  dispatch(setServerResStatus(responseStatus));
+}
+
+export const sendTransportLossFormData = (data: any) => async (dispatch: React.Dispatch<any>) => {
+  const { msg, responseStatus } = await sendTransportLossFormDataSync(data);
+  const count = await getOfflineStackCount();
+  dispatch(setWillSendCount(count));
+  dispatch(setServerMessage(msg));
+  dispatch(setServerResStatus(responseStatus));
+}
+
 export const setLoading = (isLoading: boolean) => ({
   type: 'set-delivery-loading',
   isLoading
 } as const);
+
+export const setServerMessage = (msg: string) => ({
+  type: 'set-server-message',
+  msg
+} as const);
+
+export const setServerResStatus = (status: string) => ({
+  type: 'set-server-res-status',
+  status
+} as const);
+
 
 export const setDeliveryData = (data: Partial<DeliveryState>) => ({
   type: 'set-delivery-data',
@@ -133,5 +162,8 @@ export type DeliveryActions =
   | ActionType<typeof setLossFormDataOffline>
   | ActionType<typeof setDriverDetails> 
   | ActionType<typeof setVehicleDetails> 
+  | ActionType<typeof setServerMessage>
+  | ActionType<typeof setServerResStatus>
+  
 
 

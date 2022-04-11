@@ -21,7 +21,9 @@ export const initialState: AppState = {
     willSendCount: 0,
     transFormOfflineDatas: [],
     drivers: [],
-    vehicles: []
+    vehicles: [],
+    message: "",
+    responseStatus: ""
   },
 };
 

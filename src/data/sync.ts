@@ -122,31 +122,51 @@ export const getVehicleDatails = async (vehicleIDs : []) => {
 }
 
 export const sendFeedback = async (data: any) => {
+  let msg = "";
+  let responseStatus = "";
   if (await getCurrentNetworkStatus()) {
-    await sendApiFeedback(data);
+    const {message, status} = await sendApiFeedback(data);
+    msg = message;
+    responseStatus = status;
   }
   else {
     await saveStorageStack("feedback", data);
+    msg = "datas are saved to Storage temporarily"
+    responseStatus = "S";
   }
+  return { msg, responseStatus };
 }
 
 export const sendCheckLists = async (data: any) => {
+  let msg = "";
+  let responseStatus = "";
   if (await getCurrentNetworkStatus()) {
-    await sendApiCheckLists(data);
+    const {message, status} = await sendApiCheckLists(data);
+    msg = message;
+    responseStatus = status;
   }
   else {
     await saveStorageStack("checklist", data);
+    msg = "datas are saved to Storage temporarily";
+    responseStatus = "S";
   }
-
+  return { msg, responseStatus };
 }
 
 export const sendTransportLossFormData = async (data: any) => {
+  let msg = "";
+  let responseStatus = "";
   if (await getCurrentNetworkStatus()) {
-    await sendApiTransportLossFormData(data);
+    const {message, status} = await sendApiTransportLossFormData(data);
+    msg = message;
+    responseStatus = status;
   }
   else {
     await saveStorageStack("transportLoss", data);
+    msg = "datas are saved to Storage temporarily"
+    responseStatus = "S";
   }
+  return { msg, responseStatus };
 }
 
 
@@ -160,7 +180,8 @@ export const sendOfflineStackData = async () => {
     else if (key === "feedback" && Array.isArray(value)) {
       value.map(async (feedback: any) => {
         console.log("send feedback from offine stack");
-        success = await sendApiFeedback(feedback);
+        const { status } = await sendApiFeedback(feedback);
+        success = status == "S";
       });
     }
     else if (key === "transportLoss" && Array.isArray(value)) {
@@ -169,7 +190,8 @@ export const sendOfflineStackData = async () => {
     else if (key === "checklist" && Array.isArray(value)) {
       value.map(async (list: any) => {
         console.log("send checklist from offine stack");
-        success = await sendApiCheckLists(list);
+        const { status } = await sendApiFeedback(list);
+        success = status == "S";
       });
     }
   });

@@ -5,6 +5,10 @@ export function deliveryReducer(state: DeliveryState, action: DeliveryActions): 
   switch (action.type) {
     case 'set-delivery-loading':
       return { ...state, dataLoading: action.isLoading };
+    case 'set-server-message':
+      return { ...state, message: action.msg};
+    case 'set-server-res-status':
+      return { ...state, responseStatus: action.status};
     case 'set-delivery-data':
     case 'set-order-data':
     case 'set-feedback-data':

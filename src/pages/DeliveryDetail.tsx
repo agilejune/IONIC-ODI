@@ -3,7 +3,7 @@ import { connect } from '../data/connect';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
 import { Delivery } from '../models/Delivery';
-import { IonButton, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonIcon, IonLabel, IonModal} from '@ionic/react';
+import { IonButton, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonIcon, IonLabel, IonModal, IonToast} from '@ionic/react';
 import { person, receipt, car, reload, contrast, ticket } from 'ionicons/icons';
 import DriverDetail from '../components/DriverDetail';
 import VehicleDetail from '../components/VehicleDetail';
@@ -17,20 +17,25 @@ import TransportLossJustify from '../components/TransportLossJustify';
 import { CheckList } from '../models/CheckList';
 import { useTranslation } from "react-i18next";
 import SendFeedback from '../components/Feedback';
+import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
 
 interface OwnProps extends RouteComponentProps { };
 
 interface StateProps {
   delivery: Delivery;
   checkLists: CheckList[];
+  responseStatus: string,
+  message: string,
 };
 
 interface DispatchProps {
+  setServerMessage: typeof setServerMessage,
+  setServerResStatus: typeof setServerResStatus,
 }
 
 type DeliveryDetailProps = OwnProps & StateProps & DispatchProps;
 
-const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists }) => {
+const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, responseStatus, message, setServerResStatus, setServerMessage }) => {
   const [showDriverDetail, setShowDriverDetail] = useState(false);
   const [showVehicleDetail, setShowVehicleDetail] = useState(false);
   const [showTransLossAgree, setShowTransLossAgree] = useState(false);
@@ -282,6 +287,13 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
         >
           <TransportLossJustify calcData={transLossCalcData} onDismissModal={() => setShowTransLossJustify(false)}></TransportLossJustify>
         </IonModal>
+        <IonToast
+          cssClass={responseStatus == "S" ? "success-toast" : responseStatus == "E" ? "fail-toast" : ""}
+          isOpen={message !== "" && responseStatus !==""}
+          message={message}
+          duration={5000}
+          onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
+        />
       </IonContent>
     </IonPage>
   );
@@ -290,9 +302,13 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
     delivery: selectors.getDelivery(state, OwnProps),
-    checkLists: state.delivery.checkLists
+    checkLists: state.delivery.checkLists,
+    message: state.delivery.message,
+    responseStatus: state.delivery.responseStatus
   }),
   mapDispatchToProps: {
+    setServerMessage,
+    setServerResStatus
   },
   component: withRouter(DeliveryDetail)
 });

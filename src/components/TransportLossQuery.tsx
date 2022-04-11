@@ -1,10 +1,10 @@
-import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRow, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRow, IonSpinner, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { CheckList } from '../models/CheckList';
 import './TransportLossQuery.scss';
 import { useForm } from 'react-hook-form';
-import { sendCheckLists } from '../data/sync';
+import { sendCheckLists } from '../data/delivery/delivery.actions';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -15,6 +15,8 @@ interface OwnProps {
 }
 
 const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, checkLists, comp, shipid}) => {
+  const [isSending, setIsSending] = useState(false);
+  
   const { register, handleSubmit, formState: { errors } } = useForm({
 		mode: "onSubmit",
     reValidateMode: "onChange"
@@ -59,9 +61,9 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, chec
     }
 
     // alert(JSON.stringify(submitData, null, 2));
-    
+    setIsSending(true);
     await sendCheckLists(submitData);
-
+    setIsSending(false);
     onSubmit();
   };
 
@@ -118,7 +120,10 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, chec
             })}
           </div>
           <div className="ion-padding-top">
-            <IonButton type="submit" color="primary" expand="block">Submit</IonButton>        
+            <IonButton type="submit" color="primary" expand="block">
+              { isSending && <IonSpinner name="bubbles" color="light" /> }
+              Submit
+            </IonButton>        
           </div>
         </form>
       </IonContent>

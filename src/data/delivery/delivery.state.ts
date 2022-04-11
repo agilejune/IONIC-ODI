@@ -20,5 +20,7 @@ export interface DeliveryState {
   searchText?: string,
   willSendCount: number,
   drivers: Driver[],
-  vehicles: Vehicle[]
+  vehicles: Vehicle[],
+  message: string,
+  responseStatus: string,
 };

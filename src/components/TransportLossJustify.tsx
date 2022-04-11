@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,6 +17,8 @@ interface StateProps {
 }
 
 const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal, justifyOptions, calcData}) => {
+  const [isSending, setIsSending] = useState(false);
+
   const { register, handleSubmit, formState: { errors } } = useForm({
 		mode: "onSubmit",
     reValidateMode: "onChange"
@@ -36,7 +38,9 @@ const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal,
     }
     data = {...calcData, ...data, ...{is_justified: "True"}};
     // alert(JSON.stringify(data, null, 2));
+    setIsSending(true);
     await sendTransportLossFormData(data);
+    setIsSending(false);
     onDismissModal();
   }
   return(
@@ -91,7 +95,10 @@ const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal,
             </IonRow>
           </div>
           <div className="ion-padding-top">
-            <IonButton type="submit" color="primary" expand="block">Submit</IonButton>        
+            <IonButton type="submit" color="primary" expand="block">
+              { isSending && <IonSpinner name="bubbles" color="light" /> }
+              Submit
+            </IonButton>        
           </div>
         </form>
         <IonToast

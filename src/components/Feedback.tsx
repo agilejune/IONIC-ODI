@@ -1,4 +1,4 @@
-import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react'
 import { connect } from '../data/connect';
@@ -23,6 +23,7 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
   const [devSuggestions, setDevSuggestions] = useState<FeedbackOption[]>([]);
   const [complaintScopes, setComplaintScopes] = useState<FeedbackOption[]>([]);
   const [complaintCates, setComplaintCates] = useState<FeedbackOption[]>([]);
+  const [isSending, setIsSending] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
 		mode: "onSubmit",
@@ -46,7 +47,7 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
     );
   };
 
-  const onSubmit = (data : any) => {
+  const onSubmit = async (data : any) => {
   
     Object.entries(data).forEach(([key, value]) => {
       if (value === undefined) value = "";
@@ -62,9 +63,12 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
     }
     data = {...data, ...moreData};
 
-    alert(JSON.stringify(data, null, 2));
+    // alert(JSON.stringify(data, null, 2));
+    setIsSending(true);
+    await sendFeedback(data);
+    setIsSending(false);
 
-    sendFeedback(data);
+    onDismissModal();
   };
 
   const ratingOptions = [
@@ -94,7 +98,7 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
     const options = await getFeedbackOptions(id, code);
 
     if (options.length == 0) return;
-    
+
     if (options[0].id < 8) {
       setDevSuggestions(options);
       setComplaintScopes([]);
@@ -240,6 +244,11 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
               {showError("message")}
             </IonCol>
           </IonRow>
+
+          <IonButton type="submit" color="primary" expand="block">
+            { isSending && <IonSpinner name="bubbles" color="light" /> }
+            Submit
+          </IonButton>
           <IonButton type="submit" color="primary" expand="block">{ t('modal_feedback.submit') }</IonButton>
         </form>
       </IonContent>
