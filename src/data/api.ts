@@ -406,10 +406,10 @@ export const sendApiTransportLossFormData = async (data: object) => {
 
   formData.append('spbu', spbu);
   Object.entries(data).forEach(([key, value]) => {
-    formData.append(key, value);
+    if (key !== "lolines_ids")
+      formData.append(key, value);
   });
 
-  console.log(`send transport loss calculation data\n${JSON.stringify(data)}`);
   const response = await Promise.all([
     fetch(`${baseUrl}/send_transportloss_ofline`,{
         method: "post",
