@@ -34,9 +34,18 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
     reValidateMode: "onChange"
 	});
 
+  const getLoVolume = (lolines_id : number) => {
+    const datas = lossFormOfflineData.lolines_ids.filter((id) => Number(id.lo_id) === lolines_id);
+    
+    if (datas.length == 0)
+      return 0;
+    
+    return parseInt(datas[0].lo_volume);
+  }
+
   const calculateVolumeBefore = (data: any) => {
-    const vol_1 = data.lolines_id1 !== undefined ? parseInt(lossFormOfflineData.lolines_ids.filter((id) => Number(id.lo_id) === Number(data.lolines_id1))[0].lo_volume) : 0;
-    const vol_2 = data.lolines_id2 !== undefined ? parseInt(lossFormOfflineData.lolines_ids.filter((id) => Number(id.lo_id) === Number(data.lolines_id2))[0].lo_volume) : 0;
+    const vol_1 = getLoVolume(Number(data.lolines_id1));
+    const vol_2 = getLoVolume(Number(data.lolines_id2));
 
     let vol_before = 0 as number;
     if (measureBy === 'ijkbout') {

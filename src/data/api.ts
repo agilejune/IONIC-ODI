@@ -381,7 +381,10 @@ export const sendApiCheckLists = async (data: object) => {
   formData.append('no_spbu', spbu);
 
   Object.entries(data).forEach(([key, value]) => {
-    formData.append(key, value);
+    if (typeof value === "object")
+      formData.append(key, JSON.stringify(value));
+    else 
+      formData.append(key, value);
   });
 
   const response = await Promise.all([
