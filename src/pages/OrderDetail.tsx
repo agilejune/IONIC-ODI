@@ -71,26 +71,24 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order }) => {
           <IonTitle>Order Detail</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <div className="ion-padding">
-          <IonLabel><strong>{order.LO_Number}</strong></IonLabel>
-          <IonText></IonText>
-          <div className="ion-padding-top">
-            <IonLabel><strong>Info:</strong></IonLabel>
-          </div>
-          { orderDetail.map(d => {
-            return (
-            <IonRow>
-              <IonCol size="5">
-                <IonText>{d.label}</IonText>
-              </IonCol>
-              <IonCol size="7">
-                <IonText>{d.data}</IonText>
-              </IonCol>
-            </IonRow>
-            );
-          })}
+      <IonContent className="ion-padding">
+        <IonLabel><strong>{order.LO_Number}</strong></IonLabel>
+        <IonText></IonText>
+        <div className="ion-padding-top">
+          <IonLabel><strong>Info:</strong></IonLabel>
         </div>
+        { orderDetail.map(d => {
+          return (
+          <IonRow>
+            <IonCol size="5">
+              <IonText>{d.label}</IonText>
+            </IonCol>
+            <IonCol size="7">
+              <IonText>{d.data}</IonText>
+            </IonCol>
+          </IonRow>
+          );
+        })}
       </IonContent>
     </IonPage>
   );

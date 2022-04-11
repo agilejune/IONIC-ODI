@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, withRouter, useLocation } from 'react-router';
 
-import { IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle} from '@ionic/react';
+import { IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonTitle, IonToolbar} from '@ionic/react';
 import { camera, pin, chatbox, basket, archiveOutline, help, logOut, person } from 'ionicons/icons';
 
 import { connect } from '../data/connect';
@@ -65,11 +65,17 @@ const Menu: React.FC<MenuProps> = ({ history, isAuthenticated, userName }) => {
 
   return (
     <IonMenu type="overlay" disabled={!isAuthenticated} contentId="main">
+      <IonHeader no-border>
+        <IonToolbar>
+          <IonTitle> 
+            <div className="menu-logo">
+              <img src="assets/img/logo.png" alt="Ionic logo" /> 
+              <h6>{userName}</h6>
+            </div>
+          </IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent forceOverscroll={false}>
-        <div className="menu-logo">
-          <img src="assets/img/logo.png" alt="Ionic logo" />
-          <h6>{userName}</h6>
-        </div>
         <IonList lines="none">
           <IonListHeader>{ t('menus.title_1') }</IonListHeader>
           {renderlistItems(routes.deliveryPages)}

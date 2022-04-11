@@ -58,232 +58,230 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists })
           <IonTitle>{ t('pages_delivery.title_detail') }</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <div className="ion-padding">
-          <IonButtons onClick={() => setShowVehicleDetail(true)}>
-            <IonText color="primary">
-              <h5><strong>{delivery.vehicle}</strong>&nbsp;/&nbsp;<span className="">{delivery.volume}&nbsp;KL</span></h5>
-            </IonText>
-          </IonButtons>
-          <IonRow>
-            <IonCol>
+      <IonContent className="ion-padding">
+        <IonButtons onClick={() => setShowVehicleDetail(true)}>
+          <IonText color="primary">
+            <h5><strong>{delivery.vehicle}</strong>&nbsp;/&nbsp;<span className="">{delivery.volume}&nbsp;KL</span></h5>
+          </IonText>
+        </IonButtons>
+        <IonRow>
+          <IonCol>
+          <IonButtons 
+              onClick={() => { 
+                setShowDriverDetail(true); 
+                setDriverAssistantID(delivery.driver_id); }
+              }
+            >
+              <IonIcon icon={person}></IonIcon>
+              <IonLabel>{delivery.driver}</IonLabel>
+            </IonButtons>
+          </IonCol>
+          <IonCol>
+            <IonButtons className="ion-float-right">
+              <IonIcon icon={car}></IonIcon>
+              <IonLabel>{ t('pages_delivery.tracking') }</IonLabel>
+            </IonButtons>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
             <IonButtons 
-                onClick={() => { 
-                  setShowDriverDetail(true); 
-                  setDriverAssistantID(delivery.driver_id); }
-                }
-              >
-                <IonIcon icon={person}></IonIcon>
-                <IonLabel>{delivery.driver}</IonLabel>
-              </IonButtons>
-            </IonCol>
-            <IonCol>
-              <IonButtons className="ion-float-right">
-                <IonIcon icon={car}></IonIcon>
-                <IonLabel>{ t('pages_delivery.tracking') }</IonLabel>
-              </IonButtons>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButtons 
-                className="ion-float-left" 
-                onClick={() => { 
-                  setShowDriverDetail(true); 
-                  setDriverAssistantID(delivery.driver_assistant_id); }
-                }
-              >
-                <IonIcon icon={person}></IonIcon>
-                <IonLabel>{delivery.driver_assistant}</IonLabel>
-              </IonButtons>
-            </IonCol>
-            <IonCol>
-              <IonButtons className="ion-float-right">
-                <IonIcon icon={car}></IonIcon>
-                <IonLabel>{ t('pages_delivery.survey') }</IonLabel>
-              </IonButtons>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-            </IonCol>
-            <IonCol>
-              <IonButtons className="ion-float-right" onClick={() => setShowSendFeedback(true)}>
-                <IonIcon icon={receipt}></IonIcon>
-                <IonLabel>{ t('pages_delivery.send_feedback') }</IonLabel>
-              </IonButtons>
-            </IonCol>
-          </IonRow>
-          
-          <h5 className="ion-padding-top"><strong>{ t('pages_delivery.status') }:</strong></h5>
+              className="ion-float-left" 
+              onClick={() => { 
+                setShowDriverDetail(true); 
+                setDriverAssistantID(delivery.driver_assistant_id); }
+              }
+            >
+              <IonIcon icon={person}></IonIcon>
+              <IonLabel>{delivery.driver_assistant}</IonLabel>
+            </IonButtons>
+          </IonCol>
+          <IonCol>
+            <IonButtons className="ion-float-right">
+              <IonIcon icon={car}></IonIcon>
+              <IonLabel>{ t('pages_delivery.survey') }</IonLabel>
+            </IonButtons>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+          </IonCol>
+          <IonCol>
+            <IonButtons className="ion-float-right" onClick={() => setShowSendFeedback(true)}>
+              <IonIcon icon={receipt}></IonIcon>
+              <IonLabel>{ t('pages_delivery.send_feedback') }</IonLabel>
+            </IonButtons>
+          </IonCol>
+        </IonRow>
+        
+        <h5 className="ion-padding-top"><strong>{ t('pages_delivery.status') }:</strong></h5>
 
-          <h6>
-            {delivery.company_name}&nbsp;/&nbsp;{delivery.gate_in_time}
-            <br/>Gate Out: {delivery.gate_out_time}
-            <br/>End Shipment: {delivery.end_shipment}
-          </h6>
-          <IonRow>
-            <IonCol>
-              <h5><strong>{ t('pages_delivery.last_position') }:</strong></h5>
-            </IonCol>
-            <IonCol>
-              <IonButton fill="outline" className="ion-float-right">
-                <IonIcon icon={reload}></IonIcon>
-                <IonLabel>Refresh GPS</IonLabel>
-              </IonButton>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <h5>{delivery.last_position.Jalan}</h5>
-          </IonRow>
-          <div>
-            <h5><strong>{ t('pages_delivery.produk') }:</strong></h5>        
-            { delivery.spbu_product_volume_lo !== null && delivery.spbu_product_volume_lo.split('\n').map((pro_vol) => (
-                <div>
-                  <IonIcon icon={contrast}></IonIcon>
-                  <IonText>{pro_vol}</IonText>
-                </div>
-            ))}
-          </div>
-          <div className="ion-padding-top">
-            <h6>{ t('pages_delivery.produk_info') }</h6>
-          </div>
-          <div className="ion-padding-top">
-            <h5><strong>Receiving & Loss claim</strong></h5>
-            <div className="transport-loss">
-              <IonRow>
-                <IonCol>
-                  <IonButtons>
-                    <IonIcon icon={car} />
-                  </IonButtons>
-                </IonCol>
-                <IonCol>
-                  <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(1)}}>
-                    <IonIcon icon={car} />
-                    <IonLabel>C1:8KL</IonLabel>
-                  </IonButtons>
-                </IonCol>
-                <IonCol>
-                  <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(2)}}>
-                    <IonIcon icon={car} />
-                    <IonLabel>C2:8KL</IonLabel>
-                  </IonButtons>
-                </IonCol>
-                <IonCol>
-                  <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(3)}}>
-                    <IonIcon icon={car} />
-                    <IonLabel>C3:8KL</IonLabel>
-                  </IonButtons>
-                </IonCol>
-              </IonRow>
-            </div>
-          </div>
-          <div className="ion-padding-top">
-            <h5><strong>{ t('pages_delivery.seal') }:</strong></h5>
+        <h6>
+          {delivery.company_name}&nbsp;/&nbsp;{delivery.gate_in_time}
+          <br/>Gate Out: {delivery.gate_out_time}
+          <br/>End Shipment: {delivery.end_shipment}
+        </h6>
+        <IonRow>
+          <IonCol>
+            <h5><strong>{ t('pages_delivery.last_position') }:</strong></h5>
+          </IonCol>
+          <IonCol>
+            <IonButton fill="outline" className="ion-float-right">
+              <IonIcon icon={reload}></IonIcon>
+              <IonLabel>Refresh GPS</IonLabel>
+            </IonButton>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <h5>{delivery.last_position.Jalan}</h5>
+        </IonRow>
+        <div>
+          <h5><strong>{ t('pages_delivery.produk') }:</strong></h5>        
+          { delivery.spbu_product_volume_lo !== null && delivery.spbu_product_volume_lo.split('\n').map((pro_vol) => (
+              <div>
+                <IonIcon icon={contrast}></IonIcon>
+                <IonText>{pro_vol}</IonText>
+              </div>
+          ))}
+        </div>
+        <div className="ion-padding-top">
+          <h6>{ t('pages_delivery.produk_info') }</h6>
+        </div>
+        <div className="ion-padding-top">
+          <h5><strong>Receiving & Loss claim</strong></h5>
+          <div className="transport-loss">
             <IonRow>
-            { delivery.seal_compiled !== null && delivery.seal_compiled.slice(0, -1).split(",").map((seal, index) => (
-                <IonCol size="4">
-                  <IonLabel>
-                    <IonIcon icon={ticket} color="warning"></IonIcon>
-                    <IonText>{seal}</IonText>
-                  </IonLabel>
-                </IonCol>
-            ))}
+              <IonCol>
+                <IonButtons>
+                  <IonIcon icon={car} />
+                </IonButtons>
+              </IonCol>
+              <IonCol>
+                <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(1)}}>
+                  <IonIcon icon={car} />
+                  <IonLabel>C1:8KL</IonLabel>
+                </IonButtons>
+              </IonCol>
+              <IonCol>
+                <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(2)}}>
+                  <IonIcon icon={car} />
+                  <IonLabel>C2:8KL</IonLabel>
+                </IonButtons>
+              </IonCol>
+              <IonCol>
+                <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(3)}}>
+                  <IonIcon icon={car} />
+                  <IonLabel>C3:8KL</IonLabel>
+                </IonButtons>
+              </IonCol>
             </IonRow>
           </div>
-
-          <IonModal
-            isOpen={showDriverDetail}
-            onDidDismiss={() => setShowDriverDetail(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <DriverDetail driver_id={driverAssistantID} onDismissModal={() => setShowDriverDetail(false)}></DriverDetail>
-          </IonModal>
-
-          <IonModal
-            isOpen={showVehicleDetail}
-            onDidDismiss={() => setShowVehicleDetail(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <VehicleDetail vehicle_id={delivery.vehicle_id} onDismissModal={() => setShowVehicleDetail(false)}></VehicleDetail>
-          </IonModal>
-
-          <IonModal
-            isOpen={showSendFeedback}
-            onDidDismiss={() => setShowSendFeedback(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <SendFeedback delivery={delivery} onDismissModal={() => setShowSendFeedback(false)}></SendFeedback>
-          </IonModal>
-
-          <IonModal
-            isOpen={showTransLossAgree}
-            onDidDismiss={() => setShowTransLossAgree(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <TransportLossAgree onSubmit={() => {setShowTransLossQuery(true); setShowTransLossAgree(false);}} onDismissModal={() => setShowTransLossAgree(false)}></TransportLossAgree>
-          </IonModal>
-
-          <IonModal
-            isOpen={showTransLossQuery}
-            onDidDismiss={() => setShowTransLossQuery(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <TransportLossQuery shipid={delivery.shipment_id} comp={comp} checkLists={checkLists} onSubmit={() => {setShowTransLoss(true); setShowTransLossQuery(false);}} onDismissModal={() => setShowTransLossQuery(false)}></TransportLossQuery>
-          </IonModal>
-
-          <IonModal
-            isOpen={showTransLoss}
-            onDidDismiss={() => setShowTransLoss(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <TransportLoss 
-              onLjk={() => {
-                setShowTransLossLjk(true); 
-                setShowTransLoss(false); 
-                setMeasureBy('ijkbout');
-                }} 
-              onMeter={() => {
-                setShowTransLossMeter(true);
-                setShowTransLoss(false);
-                setMeasureBy('flowmeter')
-                }} 
-              onDismissModal={() => setShowTransLoss(false)}>
-            </TransportLoss>
-          </IonModal>
-
-          <IonModal
-            isOpen={showTransLossLjk}
-            onDidDismiss={() => setShowTransLossLjk(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <TransportLossLjk measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} moveToJustify={data => {setShowTransLossJustify(true); setTransLossCalcData(data);} } onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
-          </IonModal>
-          <IonModal
-            isOpen={showTransLossMeter}
-            onDidDismiss={() => setShowTransLossMeter(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <TransportLossMeter onOpenLjk={() => {setShowTransLossLjk(true); setShowTransLossMeter(false);}} onDismissModal={() => setShowTransLossMeter(false)}></TransportLossMeter>
-          </IonModal>
-
-          <IonModal
-            isOpen={showTransLossJustify}
-            onDidDismiss={() => setShowTransLossJustify(false)}
-            swipeToClose={true}
-            presentingElement={pageRef.current!}
-          >
-            <TransportLossJustify calcData={transLossCalcData} onDismissModal={() => setShowTransLossJustify(false)}></TransportLossJustify>
-          </IonModal>
         </div>
+        <div className="ion-padding-top">
+          <h5><strong>{ t('pages_delivery.seal') }:</strong></h5>
+          <IonRow>
+          { delivery.seal_compiled !== null && delivery.seal_compiled.slice(0, -1).split(",").map((seal, index) => (
+              <IonCol size="4">
+                <IonLabel>
+                  <IonIcon icon={ticket} color="warning"></IonIcon>
+                  <IonText>{seal}</IonText>
+                </IonLabel>
+              </IonCol>
+          ))}
+          </IonRow>
+        </div>
+
+        <IonModal
+          isOpen={showDriverDetail}
+          onDidDismiss={() => setShowDriverDetail(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <DriverDetail driver_id={driverAssistantID} onDismissModal={() => setShowDriverDetail(false)}></DriverDetail>
+        </IonModal>
+
+        <IonModal
+          isOpen={showVehicleDetail}
+          onDidDismiss={() => setShowVehicleDetail(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <VehicleDetail vehicle_id={delivery.vehicle_id} onDismissModal={() => setShowVehicleDetail(false)}></VehicleDetail>
+        </IonModal>
+
+        <IonModal
+          isOpen={showSendFeedback}
+          onDidDismiss={() => setShowSendFeedback(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <SendFeedback delivery={delivery} onDismissModal={() => setShowSendFeedback(false)}></SendFeedback>
+        </IonModal>
+
+        <IonModal
+          isOpen={showTransLossAgree}
+          onDidDismiss={() => setShowTransLossAgree(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <TransportLossAgree onSubmit={() => {setShowTransLossQuery(true); setShowTransLossAgree(false);}} onDismissModal={() => setShowTransLossAgree(false)}></TransportLossAgree>
+        </IonModal>
+
+        <IonModal
+          isOpen={showTransLossQuery}
+          onDidDismiss={() => setShowTransLossQuery(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <TransportLossQuery shipid={delivery.shipment_id} comp={comp} checkLists={checkLists} onSubmit={() => {setShowTransLoss(true); setShowTransLossQuery(false);}} onDismissModal={() => setShowTransLossQuery(false)}></TransportLossQuery>
+        </IonModal>
+
+        <IonModal
+          isOpen={showTransLoss}
+          onDidDismiss={() => setShowTransLoss(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <TransportLoss 
+            onLjk={() => {
+              setShowTransLossLjk(true); 
+              setShowTransLoss(false); 
+              setMeasureBy('ijkbout');
+              }} 
+            onMeter={() => {
+              setShowTransLossMeter(true);
+              setShowTransLoss(false);
+              setMeasureBy('flowmeter')
+              }} 
+            onDismissModal={() => setShowTransLoss(false)}>
+          </TransportLoss>
+        </IonModal>
+
+        <IonModal
+          isOpen={showTransLossLjk}
+          onDidDismiss={() => setShowTransLossLjk(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <TransportLossLjk measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} moveToJustify={data => {setShowTransLossJustify(true); setTransLossCalcData(data);} } onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
+        </IonModal>
+        <IonModal
+          isOpen={showTransLossMeter}
+          onDidDismiss={() => setShowTransLossMeter(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <TransportLossMeter onOpenLjk={() => {setShowTransLossLjk(true); setShowTransLossMeter(false);}} onDismissModal={() => setShowTransLossMeter(false)}></TransportLossMeter>
+        </IonModal>
+
+        <IonModal
+          isOpen={showTransLossJustify}
+          onDidDismiss={() => setShowTransLossJustify(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <TransportLossJustify calcData={transLossCalcData} onDismissModal={() => setShowTransLossJustify(false)}></TransportLossJustify>
+        </IonModal>
       </IonContent>
     </IonPage>
   );

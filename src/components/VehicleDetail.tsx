@@ -30,91 +30,89 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <div className='ion-padding'>
-          <img src="assets/img/mt_popup.png" alt="Ionic logo" />
-          <div className="ion-padding-top" />
+      <IonContent className='ion-padding'>
+        <img src="assets/img/mt_popup.png" alt="Ionic logo" />
+        <div className="ion-padding-top" />
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_vehicle.nopol') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ vehicle?.name }</IonText>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_vehicle.kapasitas') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ vehicle?.capacity }</IonText>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_vehicle.jenis_sewa') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ vehicle?.rental_type }</IonText>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_vehicle.tanggal_tera') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ vehicle?.re_calibration_time }KL</IonText>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_vehicle.download_dokumen_tera') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            { vehicle && vehicle.attachment.map((a, index) => (
+              <a key={index} href={ a.datas_download }>{ a.datas_fname }</a>
+            )) }
+          </IonCol>
+        </IonRow>
+        <br/>
+        <IonText><strong>{ t('modal_detail_vehicle.detail_compartment') }</strong></IonText>
+        <div className="ion-padding-top" />
+        <IonGrid>
           <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_vehicle.nopol') }</strong></IonText>
+            <IonCol size="3">
+                <IonText><strong>{ t('modal_detail_vehicle.comp') }</strong></IonText>
             </IonCol>
-            <IonCol>
-              <IonText>{ vehicle?.name }</IonText>
+            <IonCol size="3">
+                <IonText><strong>{ t('modal_detail_vehicle.tera_ulang') }</strong></IonText>
+            </IonCol>
+            <IonCol size="3">
+                <IonText><strong>{ t('modal_detail_vehicle.kepekaan') }</strong></IonText>
+            </IonCol>
+            <IonCol size="3">
+                <IonText><strong>{ t('modal_detail_vehicle.ruang_kosong') }</strong></IonText>
             </IonCol>
           </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_vehicle.kapasitas') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              <IonText>{ vehicle?.capacity }</IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_vehicle.jenis_sewa') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              <IonText>{ vehicle?.rental_type }</IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_vehicle.tanggal_tera') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              <IonText>{ vehicle?.re_calibration_time }KL</IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_vehicle.download_dokumen_tera') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              { vehicle && vehicle.attachment.map((a, index) => (
-                <a key={index} href={ a.datas_download }>{ a.datas_fname }</a>
-              )) }
-            </IonCol>
-          </IonRow>
-          <br/>
-          <IonText><strong>{ t('modal_detail_vehicle.detail_compartment') }</strong></IonText>
-          <div className="ion-padding-top" />
-          <IonGrid>
+          { vehicle?.comp.map((c, index) => (
+            
             <IonRow>
               <IonCol size="3">
-                  <IonText><strong>{ t('modal_detail_vehicle.comp') }</strong></IonText>
+                  <IonText>{index}</IonText>
               </IonCol>
               <IonCol size="3">
-                  <IonText><strong>{ t('modal_detail_vehicle.tera_ulang') }</strong></IonText>
+                  <IonText>{ c.t2 }</IonText>
               </IonCol>
               <IonCol size="3">
-                  <IonText><strong>{ t('modal_detail_vehicle.kepekaan') }</strong></IonText>
+                  <IonText>{ c.sensitivity }</IonText>
               </IonCol>
               <IonCol size="3">
-                  <IonText><strong>{ t('modal_detail_vehicle.ruang_kosong') }</strong></IonText>
+                  <IonText>{ c.empty_space }</IonText>
               </IonCol>
             </IonRow>
-            { vehicle?.comp.map((c, index) => (
-              
-              <IonRow>
-                <IonCol size="3">
-                    <IonText>{index}</IonText>
-                </IonCol>
-                <IonCol size="3">
-                    <IonText>{ c.t2 }</IonText>
-                </IonCol>
-                <IonCol size="3">
-                    <IonText>{ c.sensitivity }</IonText>
-                </IonCol>
-                <IonCol size="3">
-                    <IonText>{ c.empty_space }</IonText>
-                </IonCol>
-              </IonRow>
-            ))
+          ))
 
-            }
-          </IonGrid>
-        </div>
+          }
+        </IonGrid>
       </IonContent>
     </>
   );

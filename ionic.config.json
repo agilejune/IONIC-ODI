@@ -1,5 +1,7 @@
 {
   "name": "ODI",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "react"
 }

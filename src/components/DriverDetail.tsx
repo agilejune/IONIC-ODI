@@ -30,51 +30,49 @@ const DriverDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, driver}
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <div className="ion-padding">
-          <img src="assets/img/default.jpg" alt="Ionic logo" />
-          <div className="ion-padding-top" />
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_crew.nip') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              <IonText>{ driver?.driver_code }</IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_crew.nama_lengkap') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              <IonText>{ driver?.driver }</IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_crew.jabatan') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              <IonText>{ driver?.position }</IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_crew.klasifikasi') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              <IonText>{ driver?.classification }KL</IonText>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonText><strong>{ t('modal_detail_crew.jenis_sewa') }</strong></IonText>
-            </IonCol>
-            <IonCol>
-              <IonText>{ driver?.contract_type }</IonText>
-            </IonCol>
-          </IonRow>
-        </div>
+      <IonContent className="ion-padding">
+        <img src="assets/img/default.jpg" alt="Ionic logo" />
+        <div className="ion-padding-top" />
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_crew.nip') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ driver?.driver_code }</IonText>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_crew.nama_lengkap') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ driver?.driver }</IonText>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_crew.jabatan') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ driver?.position }</IonText>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_crew.klasifikasi') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ driver?.classification }KL</IonText>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonText><strong>{ t('modal_detail_crew.jenis_sewa') }</strong></IonText>
+          </IonCol>
+          <IonCol>
+            <IonText>{ driver?.contract_type }</IonText>
+          </IonCol>
+        </IonRow>
       </IonContent>
     </>
   );

@@ -109,8 +109,7 @@ const TransportlossDetail: React.FC<TransportlossDetailProps> = ({ transportloss
           <IonTitle>Transport Loss Detail</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <div className="ion-padding">
+      <IonContent className="ion-padding">
         <div className="ion-padding-top">
           <IonLabel><strong>Info:</strong></IonLabel>
         </div>
@@ -144,7 +143,6 @@ const TransportlossDetail: React.FC<TransportlossDetailProps> = ({ transportloss
           </IonRow>
           );
         })}
-        </div>
       </IonContent>
     </IonPage>
   );

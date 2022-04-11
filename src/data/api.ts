@@ -329,7 +329,10 @@ export const sendApiFeedback = async (data: any) => {
   data = {...data, ...{ nospbu: spbu }};
 
   const response = await Promise.all([
-    fetch(`${baseUrl}/send_feedback`)
+    fetch(`${baseUrl}/send_feedback`, {
+      method: "post",
+      body: data
+    })
   ]);
 
   const responseData = await response[0].json();

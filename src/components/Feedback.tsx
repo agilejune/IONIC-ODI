@@ -113,7 +113,7 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className="ion-padding">
         <form onSubmit={ handleSubmit(onSubmit) }>
           <IonRow>
             <IonCol>

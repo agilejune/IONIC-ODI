@@ -99,3 +99,7 @@ ion-grid ion-col {
 .menu-logo img {
   max-width: 150px;
 }
+
+ion-menu ion-toolbar {
+  --ion-background-color: rgba(44, 83, 255, 0.918);
+}
