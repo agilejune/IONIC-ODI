@@ -302,7 +302,7 @@ export const getApiLossFormData = async () => {
 export const getApiLossFormOffineData = async (shipIds : []) => {
   // await delay();
   const formData = new FormData();
-  formData.append('shipIds', shipIds.join(","));
+  formData.append('shipids', shipIds.join(","));
   formData.append('no_spbu', spbu);
   const response = await Promise.all([
     // fetch(jsonUrl.lossOfflineForm),
