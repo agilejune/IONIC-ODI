@@ -404,9 +404,11 @@ export const sendApiCheckLists = async (data: object) => {
 export const sendApiTransportLossFormData = async (data: object) => {
   const formData = new FormData();
 
+  const exceptFields = ["lolines_ids", "conf_tolerance", "conf_tolerance_discrepancy", "datas_fname", "datas_fname_atg", "datas_id", "datas_id_atg", "is_atg"];
+  
   formData.append('spbu', spbu);
   Object.entries(data).forEach(([key, value]) => {
-    if (key !== "lolines_ids")
+    if (exceptFields.indexOf(key) == -1)
       formData.append(key, value);
   });
 
