@@ -93,6 +93,8 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
   const changeOption = async (id: string | undefined, code: string | undefined) => {
     const options = await getFeedbackOptions(id, code);
 
+    if (options.length == 0) return;
+    
     if (options[0].id < 8) {
       setDevSuggestions(options);
       setComplaintScopes([]);

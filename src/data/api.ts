@@ -339,16 +339,33 @@ export const getFeedbackOptions = async (id: string | undefined, code: string | 
   return options;
 }
 
-export const sendApiFeedback = async (data: any) => {
+const getFormData = (data : any, addData: object) => {
 
-  data = {...data, ...{ nospbu: spbu }};
+  const formData = new FormData();
+  Object.entries(addData).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
 
-  console.log(`send feedback\n${JSON.stringify(data)}`);
+  Object.entries(data).forEach(([key, value]) => {
+    if (typeof value === "string") formData.append(key, value);
+    else if (typeof value === "number") formData.append(key, value.toString());
+    else if (typeof value === "object") formData.append(key, JSON.stringify(value));
+  });
+
+  return formData;
+}
+
+export const sendApiFeedback = async (data: object) => {
+  const formData = new FormData();
+  formData.append('nospbu', spbu);
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
 
   const response = await Promise.all([
     fetch(`${baseUrl}/send_feedback`, {
       method: "post",
-      body: data
+      body: formData
     })
   ]);
 
@@ -359,15 +376,18 @@ export const sendApiFeedback = async (data: any) => {
 
 }
 
-export const sendApiCheckLists = async (data: any) => {
+export const sendApiCheckLists = async (data: object) => {
+  const formData = new FormData();
+  formData.append('no_spbu', spbu);
 
-  data = {...data, ...{ no_spbu: spbu }};
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
 
-  console.log(`send checklist\n${JSON.stringify(data)}`);
   const response = await Promise.all([
     fetch(`${baseUrl}/send_survey`,{
         method: "post",
-        body: data
+        body: formData
       })
   ]);
 
@@ -378,14 +398,19 @@ export const sendApiCheckLists = async (data: any) => {
 
 }
 
-export const sendApiTransportLossFormData = async (data: any) => {
+export const sendApiTransportLossFormData = async (data: object) => {
+  const formData = new FormData();
 
-  data = {...data, ...{ spbu: spbu }};
+  formData.append('spbu', spbu);
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
   console.log(`send transport loss calculation data\n${JSON.stringify(data)}`);
   const response = await Promise.all([
     fetch(`${baseUrl}/send_transportloss_ofline`,{
         method: "post",
-        body: data
+        body: formData
       })
   ]);
 
@@ -393,7 +418,6 @@ export const sendApiTransportLossFormData = async (data: any) => {
   const status = responseData.status as string;
   
   return status == "S";
-
 }
 
 
