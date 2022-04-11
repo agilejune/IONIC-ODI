@@ -47,7 +47,11 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
   };
 
   const onSubmit = (data : any) => {
-    alert(JSON.stringify(data, null, 2));
+  
+    Object.entries(data).forEach(([key, value]) => {
+      if (value === undefined) value = "";
+    });
+
     const moreData = {
       vehicle: delivery.vehicle,
       date: delivery.date_shipment,
@@ -57,6 +61,9 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
       state: 1
     }
     data = {...data, ...moreData};
+
+    alert(JSON.stringify(data, null, 2));
+
     sendFeedback(data);
   };
 
