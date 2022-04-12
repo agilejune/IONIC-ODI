@@ -390,8 +390,8 @@ export const sendApiCheckLists = async (data: object) => {
       formData.append(key, value);
   });
 
-  console.log("send data with api");
-  console.log(JSON.stringify(data));
+  console.log("send checklist with api");
+  console.log(JSON.stringify(formData));
 
   const response = await Promise.all([
     fetch(`${baseUrl}/send_survey`,{
@@ -414,13 +414,15 @@ export const sendApiCheckLists = async (data: object) => {
 export const sendApiTransportLossFormData = async (data: object) => {
   const formData = new FormData();
 
-  const exceptFields = ["lolines_ids", "conf_tolerance", "conf_tolerance_discrepancy", "datas_fname", "datas_fname_atg", "datas_id", "datas_id_atg", "is_atg"];
+  const exceptFields = ["density_15c", "password", "state", "tank_name", "treshold_ttl_loss", "lolines_ids", "conf_tolerance", "conf_tolerance_discrepancy", "datas_fname", "datas_fname_atg", "datas_id", "datas_id_atg", "is_atg"];
 
-  formData.append('spbu', spbu);
   Object.entries(data).forEach(([key, value]) => {
     if (exceptFields.indexOf(key) == -1)
       formData.append(key, value);
   });
+
+  console.log("send checklist with api");
+  console.log(JSON.stringify(formData));
 
   const response = await Promise.all([
     fetch(`${baseUrl}/send_transportloss_ofline`,{

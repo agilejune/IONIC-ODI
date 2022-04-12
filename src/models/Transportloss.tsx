@@ -57,7 +57,6 @@ export interface LossFormData {
   shipment_id: number,
   state: string,
   tank_id: number,
-  tank_name: string,
   temperatur_obs: number,
   tolerance: number,
   tolerance_discrepancy: number,
