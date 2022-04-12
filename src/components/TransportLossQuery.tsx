@@ -18,8 +18,12 @@ interface OwnProps {
 interface DispatchProps {
   sendCheckLists: typeof sendCheckLists;
 }
-const TransportLossQuery : React.FC<OwnProps & DispatchProps> = ({sendCheckLists, onDismissModal, onSubmit, checkLists, comp, shipid}) => {
-  const [isSending, setIsSending] = useState(false);
+
+interface StateProps {
+  isSending: boolean;
+}
+
+const TransportLossQuery : React.FC<OwnProps & DispatchProps & StateProps> = ({isSending, sendCheckLists, onDismissModal, onSubmit, checkLists, comp, shipid}) => {
   
   const { register, handleSubmit, formState: { errors } } = useForm({
 		mode: "onSubmit",
@@ -65,9 +69,8 @@ const TransportLossQuery : React.FC<OwnProps & DispatchProps> = ({sendCheckLists
     }
 
     // alert(JSON.stringify(submitData, null, 2));
-    setIsSending(true);
     await sendCheckLists(submitData);
-    setIsSending(false);
+
     onSubmit();
   };
 
@@ -135,7 +138,10 @@ const TransportLossQuery : React.FC<OwnProps & DispatchProps> = ({sendCheckLists
   );
 } 
 
-export default connect<OwnProps, {}, DispatchProps>({
+export default connect<OwnProps, StateProps, DispatchProps>({
+  mapStateToProps: (state, OwnProps) => ({
+    isSending: state.delivery.dataSending,
+  }),
   mapDispatchToProps: {
     sendCheckLists,
   },

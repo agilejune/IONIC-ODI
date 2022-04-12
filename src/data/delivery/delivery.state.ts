@@ -23,4 +23,5 @@ export interface DeliveryState {
   vehicles: Vehicle[],
   message: string,
   responseStatus: string,
+  dataSending: boolean
 };

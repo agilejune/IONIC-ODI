@@ -1,14 +1,29 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
+import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
+import { connect } from '../data/connect';
 import './TransportLoss.scss';
+
 interface OwnProps {
   onDismissModal: () => void;
   onLjk: () => void;
   onMeter: () => void;
 }
 
-const TransportLoss : React.FC<OwnProps> = ({onDismissModal, onLjk, onMeter}) => {
+interface StateProps {
+  responseStatus: string,
+  message: string,
+};
+
+interface DispatchProps {
+  setServerMessage: typeof setServerMessage,
+  setServerResStatus: typeof setServerResStatus,
+}
+
+type TransportLossProps = OwnProps & StateProps & DispatchProps;
+
+const TransportLoss : React.FC<TransportLossProps> = ({setServerMessage, setServerResStatus, responseStatus, message, onDismissModal, onLjk, onMeter}) => {
 
   const pageRef = useRef<HTMLElement>(null);
   return(
@@ -57,9 +72,26 @@ const TransportLoss : React.FC<OwnProps> = ({onDismissModal, onLjk, onMeter}) =>
           2. Pilih Flow Meter apabila pembongkaran BBM menggunakan acuan serah terima meter arus pada mobil tangki (meter arus PTO/meter portabel).
           </h6>
         </IonText>
+        <IonToast
+          cssClass={responseStatus == "S" ? "success-toast" : responseStatus == "E" ? "fail-toast" : ""}
+          isOpen={message !== "" && responseStatus !==""}
+          message={message}
+          duration={5000}
+          onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
+        />
       </IonContent>
     </IonPage>
   );
 } 
 
-export default TransportLoss;
+export default connect<OwnProps, StateProps, DispatchProps>({
+  mapStateToProps: (state, OwnProps) => ({
+    message: state.delivery.message,
+    responseStatus: state.delivery.responseStatus
+  }),
+  mapDispatchToProps: {
+    setServerMessage,
+    setServerResStatus
+  },
+  component: React.memo(TransportLoss)
+});

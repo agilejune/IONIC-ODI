@@ -18,12 +18,15 @@ interface DispatchProps {
   sendFeedback: typeof sendFeedback;
 }
 
-const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDismissModal, delivery}) => {
+interface StateProps {
+  isSending: boolean;
+}
+
+const SendFeedback : React.FC<OwnProps & DispatchProps & StateProps> = ({isSending, sendFeedback, onDismissModal, delivery}) => {
   const [t, i18n] = useTranslation('common');
   const [devSuggestions, setDevSuggestions] = useState<FeedbackOption[]>([]);
   const [complaintScopes, setComplaintScopes] = useState<FeedbackOption[]>([]);
   const [complaintCates, setComplaintCates] = useState<FeedbackOption[]>([]);
-  const [isSending, setIsSending] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
 		mode: "onSubmit",
@@ -64,9 +67,7 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
     data = {...data, ...moreData};
 
     // alert(JSON.stringify(data, null, 2));
-    setIsSending(true);
     await sendFeedback(data);
-    setIsSending(false);
 
     onDismissModal();
   };
@@ -256,7 +257,10 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
 } 
 
 
-export default connect<OwnProps, {}, DispatchProps>({
+export default connect<OwnProps, StateProps, DispatchProps>({
+  mapStateToProps: (state, OwnProps) => ({
+    isSending: state.delivery.dataSending,
+  }),
   mapDispatchToProps: {
     sendFeedback,
   },

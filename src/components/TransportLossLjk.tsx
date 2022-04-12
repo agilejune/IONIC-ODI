@@ -20,17 +20,17 @@ interface OwnProps {
 interface StateProps {
   lossFormOfflineData: LossFormDataOffline;
   tankOptions: Tank[];
+  isSending: boolean;
 }
 
 interface DispatchProps {
   sendTransportLossFormData: typeof sendTransportLossFormData;
 }
 
-const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({sendTransportLossFormData, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
+const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({isSending, sendTransportLossFormData, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [tryCount, setTryCount] = useState(0);
-  const [isSending, setIsSending] = useState(false);
 
   let isValid = true;
 
@@ -154,9 +154,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({sen
     }
     
     // alert(JSON.stringify(data, null, 2));
-    setIsSending(true);
     await sendTransportLossFormData(data);
-    setIsSending(false);
     onDismissModal();
   }
   
@@ -428,7 +426,8 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({sen
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
     lossFormOfflineData: selectors.getLossFormOfflineData(state, OwnProps),
-    tankOptions: state.delivery.tanks
+    tankOptions: state.delivery.tanks,
+    isSending: state.delivery.dataSending,
   }),
   mapDispatchToProps: {
     sendTransportLossFormData
