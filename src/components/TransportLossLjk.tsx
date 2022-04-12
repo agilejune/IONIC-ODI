@@ -375,7 +375,9 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
                     }
                     { type === "select" && 
                       <IonCol size="6">
-                        <IonSelect interface="popover" value={props.value} disabled={props.disabled} {...register(props.name!)}>
+                        <IonSelect 
+                        interface="popover" 
+                        value={props.value} disabled={props.disabled} {...register(props.name!)}>
                           {props.options!.map(option => (
                             <IonSelectOption value={option.id}>
                               {option.name}

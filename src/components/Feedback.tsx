@@ -1,4 +1,4 @@
-import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react'
 import { connect } from '../data/connect';
@@ -247,9 +247,8 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({sendFeedback, onDism
 
           <IonButton type="submit" color="primary" expand="block">
             { isSending && <IonSpinner name="bubbles" color="light" /> }
-            Submit
+            { t('modal_feedback.submit') }
           </IonButton>
-          <IonButton type="submit" color="primary" expand="block">{ t('modal_feedback.submit') }</IonButton>
         </form>
       </IonContent>
     </IonPage>

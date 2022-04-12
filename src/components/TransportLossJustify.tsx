@@ -65,7 +65,9 @@ const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal,
           </IonText>
           <div className="ion-padding-top">
             <IonLabel><h5><strong>Justify Reason</strong></h5></IonLabel>
-            <IonSelect interface="popover" {...register("justify_reason", {required: true})}>
+            <IonSelect 
+            interface="popover" 
+            {...register("justify_reason", {required: true})}>
               {
                 justifyOptions.map((option, index) => (
                   <IonSelectOption key={`justify-option-${index}`} value={option.id}>{option.name}</IonSelectOption>
