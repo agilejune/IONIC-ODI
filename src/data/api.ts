@@ -391,7 +391,7 @@ export const sendApiCheckLists = async (data: object) => {
   });
 
   console.log("send checklist with api");
-  console.log(JSON.stringify(formData));
+  console.log(JSON.stringify(data));
 
   const response = await Promise.all([
     fetch(`${baseUrl}/send_survey`,{
@@ -421,8 +421,8 @@ export const sendApiTransportLossFormData = async (data: object) => {
       formData.append(key, value);
   });
 
-  console.log("send checklist with api");
-  console.log(JSON.stringify(formData));
+  console.log("send form offline data with api");
+  console.log(JSON.stringify(data));
 
   const response = await Promise.all([
     fetch(`${baseUrl}/send_transportloss_ofline`,{

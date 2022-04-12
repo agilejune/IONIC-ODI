@@ -5,6 +5,7 @@ import { CheckList } from '../models/CheckList';
 import './TransportLossQuery.scss';
 import { useForm } from 'react-hook-form';
 import { sendCheckLists } from '../data/delivery/delivery.actions';
+import { connect } from '../data/connect';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -14,7 +15,10 @@ interface OwnProps {
   shipid: number;
 }
 
-const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, checkLists, comp, shipid}) => {
+interface DispatchProps {
+  sendCheckLists: typeof sendCheckLists;
+}
+const TransportLossQuery : React.FC<OwnProps & DispatchProps> = ({sendCheckLists, onDismissModal, onSubmit, checkLists, comp, shipid}) => {
   const [isSending, setIsSending] = useState(false);
   
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -131,4 +135,9 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, chec
   );
 } 
 
-export default TransportLossQuery;
+export default connect<OwnProps, {}, DispatchProps>({
+  mapDispatchToProps: {
+    sendCheckLists,
+  },
+  component: React.memo(TransportLossQuery)
+});

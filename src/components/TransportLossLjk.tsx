@@ -22,7 +22,11 @@ interface StateProps {
   tankOptions: Tank[];
 }
 
-const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
+interface DispatchProps {
+  sendTransportLossFormData: typeof sendTransportLossFormData;
+}
+
+const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({sendTransportLossFormData, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [tryCount, setTryCount] = useState(0);
@@ -421,10 +425,13 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & {}> = ({onDismissModal
   );
 } 
 
-export default connect<OwnProps, StateProps, {}>({
+export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
     lossFormOfflineData: selectors.getLossFormOfflineData(state, OwnProps),
     tankOptions: state.delivery.tanks
   }),
+  mapDispatchToProps: {
+    sendTransportLossFormData
+  },
   component: React.memo(TransportLossLjk)
 });
