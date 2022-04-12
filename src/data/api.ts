@@ -390,6 +390,9 @@ export const sendApiCheckLists = async (data: object) => {
       formData.append(key, value);
   });
 
+  console.log("send data with api");
+  console.log(JSON.stringify(data));
+
   const response = await Promise.all([
     fetch(`${baseUrl}/send_survey`,{
         method: "post",

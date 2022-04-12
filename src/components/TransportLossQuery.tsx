@@ -60,7 +60,7 @@ const TransportLossQuery : React.FC<OwnProps> = ({onDismissModal, onSubmit, chec
       shipid: shipid,
     }
 
-    // alert(JSON.stringify(submitData, null, 2));
+    alert(JSON.stringify(submitData, null, 2));
     setIsSending(true);
     await sendCheckLists(submitData);
     setIsSending(false);

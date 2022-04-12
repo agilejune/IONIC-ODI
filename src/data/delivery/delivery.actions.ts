@@ -55,6 +55,8 @@ export const sendOfflineData = () => async (dispatch: React.Dispatch<any>) => {
 }
 
 export const sendCheckLists = (data: any) => async (dispatch: React.Dispatch<any>) => {
+  console.log("delivery action");
+  console.log(JSON.stringify(data));
   const { msg, responseStatus } = await sendCheckListsSync(data);
   const count = await getOfflineStackCount();
   dispatch(setWillSendCount(count));

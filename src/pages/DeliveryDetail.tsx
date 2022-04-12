@@ -196,6 +196,14 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           </IonRow>
         </div>
 
+        <IonToast
+          cssClass={responseStatus == "S" ? "success-toast" : responseStatus == "E" ? "fail-toast" : ""}
+          isOpen={message !== "" && responseStatus !==""}
+          message={message}
+          duration={5000}
+          onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
+        />
+
         <IonModal
           isOpen={showDriverDetail}
           onDidDismiss={() => setShowDriverDetail(false)}
@@ -287,13 +295,6 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
         >
           <TransportLossJustify calcData={transLossCalcData} onDismissModal={() => setShowTransLossJustify(false)}></TransportLossJustify>
         </IonModal>
-        <IonToast
-          cssClass={responseStatus == "S" ? "success-toast" : responseStatus == "E" ? "fail-toast" : ""}
-          isOpen={message !== "" && responseStatus !==""}
-          message={message}
-          duration={5000}
-          onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
-        />
       </IonContent>
     </IonPage>
   );
