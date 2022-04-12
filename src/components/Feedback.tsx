@@ -7,7 +7,7 @@ import { Delivery } from '../models/Delivery';
 import { useForm } from "react-hook-form";
 import { getFeedbackOptions } from '../data/api';
 import { FeedbackOption } from '../models/Feedback';
-import { sendFeedback } from '../data/delivery/delivery.actions';
+import { sendFeedback, setSending } from '../data/delivery/delivery.actions';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -16,13 +16,14 @@ interface OwnProps {
 
 interface DispatchProps {
   sendFeedback: typeof sendFeedback;
+  setSending: typeof setSending;
 }
 
 interface StateProps {
   isSending: boolean;
 }
 
-const SendFeedback : React.FC<OwnProps & DispatchProps & StateProps> = ({isSending, sendFeedback, onDismissModal, delivery}) => {
+const SendFeedback : React.FC<OwnProps & DispatchProps & StateProps> = ({setSending, isSending, sendFeedback, onDismissModal, delivery}) => {
   const [t, i18n] = useTranslation('common');
   const [devSuggestions, setDevSuggestions] = useState<FeedbackOption[]>([]);
   const [complaintScopes, setComplaintScopes] = useState<FeedbackOption[]>([]);
@@ -67,8 +68,9 @@ const SendFeedback : React.FC<OwnProps & DispatchProps & StateProps> = ({isSendi
     data = {...data, ...moreData};
 
     // alert(JSON.stringify(data, null, 2));
+    setSending(true);
     await sendFeedback(data);
-
+    setSending(false);
     onDismissModal();
   };
 
@@ -263,6 +265,7 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   }),
   mapDispatchToProps: {
     sendFeedback,
+    setSending,
   },
   component: React.memo(SendFeedback)
 });

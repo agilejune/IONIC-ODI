@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { CheckList } from '../models/CheckList';
 import './TransportLossQuery.scss';
 import { useForm } from 'react-hook-form';
-import { sendCheckLists } from '../data/delivery/delivery.actions';
+import { sendCheckLists, setSending } from '../data/delivery/delivery.actions';
 import { connect } from '../data/connect';
 
 interface OwnProps {
@@ -17,13 +17,14 @@ interface OwnProps {
 
 interface DispatchProps {
   sendCheckLists: typeof sendCheckLists;
+  setSending: typeof setSending;
 }
 
 interface StateProps {
   isSending: boolean;
 }
 
-const TransportLossQuery : React.FC<OwnProps & DispatchProps & StateProps> = ({isSending, sendCheckLists, onDismissModal, onSubmit, checkLists, comp, shipid}) => {
+const TransportLossQuery : React.FC<OwnProps & DispatchProps & StateProps> = ({setSending, isSending, sendCheckLists, onDismissModal, onSubmit, checkLists, comp, shipid}) => {
   
   const { register, handleSubmit, formState: { errors } } = useForm({
 		mode: "onSubmit",
@@ -69,8 +70,9 @@ const TransportLossQuery : React.FC<OwnProps & DispatchProps & StateProps> = ({i
     }
 
     // alert(JSON.stringify(submitData, null, 2));
+    setSending(true);
     await sendCheckLists(submitData);
-
+    setSending(false);
     onSubmit();
   };
 
@@ -144,6 +146,7 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   }),
   mapDispatchToProps: {
     sendCheckLists,
+    setSending,
   },
   component: React.memo(TransportLossQuery)
 });
