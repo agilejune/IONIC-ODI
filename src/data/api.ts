@@ -412,6 +412,7 @@ export const sendApiCheckLists = async (data: object) => {
 }
 
 export const sendApiTransportLossFormData = async (data: object) => {
+  data = {...data, ...{spbu: spbu}};
   const formData = new FormData();
 
   const exceptFields = ["density_15c", "password", "state", "tank_name", "treshold_ttl_loss", "lolines_ids", "conf_tolerance", "conf_tolerance_discrepancy", "datas_fname", "datas_fname_atg", "datas_id", "datas_id_atg", "is_atg"];
