@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { CheckList } from '../models/CheckList';
 import './TransportLossQuery.scss';
 import { useForm } from 'react-hook-form';
-import { setResInfoAfterSend, setSending } from '../data/delivery/delivery.actions';
+import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
 import { connect } from '../data/connect';
 import { sendCheckLists } from '../data/sync';
 
