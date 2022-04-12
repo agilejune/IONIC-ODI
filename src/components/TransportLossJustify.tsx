@@ -1,8 +1,9 @@
 import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { aperture, closeOutline, flag } from 'ionicons/icons';
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from '../data/connect';
+import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
 import { sendTransportLossFormData } from '../data/sync';
 import { Justify } from '../models/Transportloss';
 import './TransportLossJustify.scss';
@@ -16,7 +17,11 @@ interface StateProps {
   justifyOptions: Justify[];
 }
 
-const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal, justifyOptions, calcData}) => {
+interface DispatchProps {
+  setResInfoAfterSend: typeof setResInfoAfterSend;
+}
+
+const TransportLossJustify : React.FC<OwnProps & StateProps & DispatchProps> = ({setResInfoAfterSend, onDismissModal, justifyOptions, calcData}) => {
   const [isSending, setIsSending] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -39,8 +44,10 @@ const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal,
     data = {...calcData, ...data, ...{is_justified: "True"}};
     // alert(JSON.stringify(data, null, 2));
     setIsSending(true);
-    await sendTransportLossFormData(data);
+    const {msg, responseStatus} = await sendTransportLossFormData(data);
     setIsSending(false);
+
+    setResInfoAfterSend(msg, responseStatus);
     onDismissModal();
   }
   return(
@@ -100,7 +107,7 @@ const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal,
             <IonButton type="submit" color="primary" expand="block">
               { isSending && <IonSpinner name="bubbles" color="light" /> }
               Submit
-            </IonButton>        
+            </IonButton>
           </div>
         </form>
         <IonToast
@@ -115,9 +122,12 @@ const TransportLossJustify : React.FC<OwnProps & StateProps> = ({onDismissModal,
   );
 } 
 
-export default connect<OwnProps, StateProps, {}>({
+export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
     justifyOptions: state.delivery.justify,
   }),
+  mapDispatchToProps: {
+    setResInfoAfterSend
+  },
   component: React.memo(TransportLossJustify)
 });

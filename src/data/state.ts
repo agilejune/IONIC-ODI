@@ -18,7 +18,6 @@ export const initialState: AppState = {
     tanks: [],
     justify: [],
     dataLoading: false,
-    dataSending: false,
     willSendCount: 0,
     transFormOfflineDatas: [],
     drivers: [],

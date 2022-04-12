@@ -8,6 +8,7 @@ import { LossFormDataOffline, Tank } from '../models/Transportloss';
 import './TransportLossLjk.scss';
 import { TextFieldTypes } from '@ionic/core';
 import { sendTransportLossFormData } from '../data/sync';
+import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -20,15 +21,14 @@ interface OwnProps {
 interface StateProps {
   lossFormOfflineData: LossFormDataOffline;
   tankOptions: Tank[];
-  isSending: boolean;
 }
 
 interface DispatchProps {
-  sendTransportLossFormData: typeof sendTransportLossFormData;
+  setResInfoAfterSend: typeof setResInfoAfterSend;
 }
 
-const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({isSending, sendTransportLossFormData, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
-
+const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({setResInfoAfterSend, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
+  const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [tryCount, setTryCount] = useState(0);
 
@@ -154,7 +154,11 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({isS
     }
     
     // alert(JSON.stringify(data, null, 2));
-    await sendTransportLossFormData(data);
+    setIsSending(true);
+    const {msg, responseStatus} = await sendTransportLossFormData(data);
+    setIsSending(false);
+
+    setResInfoAfterSend(msg, responseStatus);
     onDismissModal();
   }
   
@@ -430,7 +434,7 @@ export default connect<OwnProps, StateProps, DispatchProps>({
     isSending: state.delivery.dataSending,
   }),
   mapDispatchToProps: {
-    sendTransportLossFormData
+    setResInfoAfterSend
   },
   component: React.memo(TransportLossLjk)
 });

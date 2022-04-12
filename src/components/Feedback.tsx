@@ -7,7 +7,8 @@ import { Delivery } from '../models/Delivery';
 import { useForm } from "react-hook-form";
 import { getFeedbackOptions } from '../data/api';
 import { FeedbackOption } from '../models/Feedback';
-import { sendFeedback, setSending } from '../data/delivery/delivery.actions';
+import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
+import { sendFeedback } from '../data/sync';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -15,15 +16,11 @@ interface OwnProps {
 }
 
 interface DispatchProps {
-  sendFeedback: typeof sendFeedback;
-  setSending: typeof setSending;
+  setResInfoAfterSend: typeof setResInfoAfterSend;
 }
 
-interface StateProps {
-  isSending: boolean;
-}
-
-const SendFeedback : React.FC<OwnProps & DispatchProps & StateProps> = ({setSending, isSending, sendFeedback, onDismissModal, delivery}) => {
+const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend, onDismissModal, delivery}) => {
+  const [isSending, setIsSending] = useState(false);
   const [t, i18n] = useTranslation('common');
   const [devSuggestions, setDevSuggestions] = useState<FeedbackOption[]>([]);
   const [complaintScopes, setComplaintScopes] = useState<FeedbackOption[]>([]);
@@ -68,9 +65,11 @@ const SendFeedback : React.FC<OwnProps & DispatchProps & StateProps> = ({setSend
     data = {...data, ...moreData};
 
     // alert(JSON.stringify(data, null, 2));
-    setSending(true);
-    await sendFeedback(data);
-    setSending(false);
+    setIsSending(true);
+    const {msg, responseStatus} = await sendFeedback(data);
+    setIsSending(false);
+
+    setResInfoAfterSend(msg, responseStatus);
     onDismissModal();
   };
 
@@ -259,13 +258,9 @@ const SendFeedback : React.FC<OwnProps & DispatchProps & StateProps> = ({setSend
 } 
 
 
-export default connect<OwnProps, StateProps, DispatchProps>({
-  mapStateToProps: (state, OwnProps) => ({
-    isSending: state.delivery.dataSending,
-  }),
+export default connect<OwnProps, DispatchProps>({
   mapDispatchToProps: {
-    sendFeedback,
-    setSending,
+    setResInfoAfterSend
   },
   component: React.memo(SendFeedback)
 });

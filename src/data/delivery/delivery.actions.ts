@@ -39,15 +39,11 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
 
   dispatch(setLoading(false));
 }
-
-export const sendFeedback = (data: any) => async (dispatch: React.Dispatch<any>) => {
-  setSending(true);
-  const { msg, responseStatus } = await sendFeedbackSync(data);
+export const setResInfoAfterSend = (msg: string, responseStatus: string) => async (dispatch: React.Dispatch<any>) => {
   const count = await getOfflineStackCount();
   dispatch(setWillSendCount(count));
   dispatch(setServerMessage(msg));
   dispatch(setServerResStatus(responseStatus));
-  setSending(false);
 }
 
 export const sendOfflineData = () => async (dispatch: React.Dispatch<any>) => {
@@ -56,34 +52,9 @@ export const sendOfflineData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setWillSendCount(count));
 }
 
-export const sendCheckLists = (data: any) => async (dispatch: React.Dispatch<any>) => {
-  setSending(true);
-  const { msg, responseStatus } = await sendCheckListsSync(data);
-  const count = await getOfflineStackCount();
-  dispatch(setWillSendCount(count));
-  dispatch(setServerMessage(msg));
-  dispatch(setServerResStatus(responseStatus));
-  setSending(false);
-}
-
-export const sendTransportLossFormData = (data: any) => async (dispatch: React.Dispatch<any>) => {
-  setSending(true);
-  const { msg, responseStatus } = await sendTransportLossFormDataSync(data);
-  const count = await getOfflineStackCount();
-  dispatch(setWillSendCount(count));
-  dispatch(setServerMessage(msg));
-  dispatch(setServerResStatus(responseStatus));
-  setSending(false);
-}
-
 export const setLoading = (isLoading: boolean) => ({
   type: 'set-delivery-loading',
   isLoading
-} as const);
-
-export const setSending = (isSending: boolean) => ({
-  type: 'set-data-sending',
-  isSending
 } as const);
 
 export const setServerMessage = (msg: string) => ({
@@ -161,7 +132,6 @@ export const setVehicleDetails = (data: Partial<DeliveryState>) => ({
 
 export type DeliveryActions =
   | ActionType<typeof setLoading>
-  | ActionType<typeof setSending>
   | ActionType<typeof setDeliveryData>
   | ActionType<typeof setOrderData>
   | ActionType<typeof setFeedbackData>
