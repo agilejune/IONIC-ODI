@@ -13,6 +13,19 @@ const TRANSPORTLOSS_OFFLINE = 'transport_loss_offline';
 const OFFLINE_STACK = "offline_stack";
 const DRIVER_DETAIL = "driver_detail";
 const VEHICLE_DETAIL = "vehicle_detail";
+const AUTHENTICATED = "authenticated";
+
+export const setIsAuthenticated = async (isAuthenticated: boolean) => {
+  await Storage.set({ key: AUTHENTICATED, value: JSON.stringify(isAuthenticated) });
+}
+
+export const getIsAuthenticated = async () => {
+  const { value } = await Storage.get({ key: AUTHENTICATED });
+  
+  if (value == null) return false;
+
+  return JSON.parse(value) === true;
+}
 
 export const setIsLoggedInData = async (isLoggedIn: boolean) => {
   await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
@@ -151,7 +164,6 @@ export const saveStorageStack = async (param: string, data: any) => {
   if (value == null) return;
 
   const prevData = JSON.parse(value) as StackOffline;
-  
   Object.entries(prevData).forEach(([key, value]) => {
     if (key === param) {
       if (Array.isArray(value))
@@ -176,6 +188,7 @@ export const getStorageStack = async () => {
 
 interface StackOffline {
   feedback: any[],
+  checklist: any[],
   transportLoss: any[],
   profile: any,
 }
@@ -192,7 +205,4 @@ export const initStorageStack = async () => {
   });
 }
 
-
-
-
-initStorageStack();
+// initStorageStack();

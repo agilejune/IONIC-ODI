@@ -25,13 +25,21 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import { AppContextProvider } from './data/AppContext';
 import { connect } from './data/connect';
+import { loadData, refreshWillSendCount, sendOfflineData } from './data/delivery/delivery.actions';
+import { useEffect } from 'react';
+import React from 'react';
+import { ConnectionStatus, Network } from '@capacitor/network';
 
 setupIonicReact();
 
-const App: React.FC = () => {
+interface OwnProps {
+  authenticated: boolean;
+}
+
+const App: React.FC<OwnProps> = ({authenticated}) => {
   return (
     <AppContextProvider>
-      <OdiAppConnected />
+      <OdiAppConnected authenticated={authenticated}/>
     </AppContextProvider>
   );
 };
@@ -41,12 +49,49 @@ interface StateProps {
 }
 
 interface DispatchProps {
-
+  loadData: typeof loadData;
+  refreshWillSendCount: typeof refreshWillSendCount;
+  sendOfflineData: typeof sendOfflineData;
 }
 
-interface OdiAppProps extends StateProps, DispatchProps { }
+const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated, loadData, refreshWillSendCount, sendOfflineData }) => {
 
-const OdiApp: React.FC<OdiAppProps> = ({ }) => {
+  const getCurrentNetworkStatus = async () => {
+    const status = await Network.getStatus();
+  
+    return status.connected;
+  };
+
+  const onNetWorkStatus = (status: ConnectionStatus) => {
+    console.log('Network status changed', status);
+    
+    if (status.connected) {
+      sendOfflineData(); 
+    }
+    else {
+      refreshWillSendCount();
+    }
+  }
+
+  const checkNetWorkAndSend = async () => {
+    const online = await getCurrentNetworkStatus();
+
+    if (online) 
+      sendOfflineData(); 
+  }
+
+  useEffect(() => {
+    Network.addListener("networkStatusChange", onNetWorkStatus);
+    
+    refreshWillSendCount();
+    
+    checkNetWorkAndSend();
+    
+    if(authenticated) {
+      loadData();
+    }
+  }, [authenticated]);
+
   return (
     <IonApp>
       <IonReactRouter>
@@ -55,7 +100,7 @@ const OdiApp: React.FC<OdiAppProps> = ({ }) => {
           <IonRouterOutlet id="main">
             <Route path="/tabs" render={() => <MainTabs />} />
             <Route path="/login" component={ Login } />
-            <Redirect from="/" to="/login" exact />
+            <Redirect from="/" to={authenticated ? "/tabs/delivery" : "/login"} exact />
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
@@ -64,10 +109,13 @@ const OdiApp: React.FC<OdiAppProps> = ({ }) => {
 }
 export default App;
 
-const OdiAppConnected = connect<{}, StateProps, DispatchProps>({
+const OdiAppConnected = connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: () => ({
-
   }),
-  mapDispatchToProps: {},
+  mapDispatchToProps: {
+    loadData,
+    sendOfflineData,
+    refreshWillSendCount
+  },
   component: OdiApp
 })

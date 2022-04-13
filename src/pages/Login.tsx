@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonIcon, IonContent, IonPage,  IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText, IonSpinner } from '@ionic/react';
 import './Login.scss';
 import { setIsLoggedIn, setUsername, setUserData, setLoading } from '../data/user/user.actions';
@@ -8,6 +8,7 @@ import { RouteComponentProps } from 'react-router';
 import { eyeOffOutline, eyeOutline, personOutline, lockClosedOutline, enterOutline } from 'ionicons/icons';
 import { loadData } from '../data/delivery/delivery.actions';
 import { useTranslation } from "react-i18next";
+import { getIsAuthenticated, setIsAuthenticated } from '../data/storage';
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -63,6 +64,7 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
       }
       else {        
         await setIsLoggedIn(true);
+        await setIsAuthenticated(true);
         setUserData(userData!);
         await setUsernameAction(userData.user_name);
         history.push('/tabs/delivery', {direction: 'none'});
@@ -75,6 +77,19 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  // const checkAuthenticated = async () => {
+  //   const isAuthenticated = await getIsAuthenticated(); 
+  //   console.log(isAuthenticated);
+  //   if (isAuthenticated) {
+  //     history.push('/tabs/delivery', {direction: 'none'});
+  //     loadData();
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   checkAuthenticated();
+  // }, []);
 
   return (
     <IonPage id="login-page">

@@ -6,7 +6,6 @@ import { getLossFormOffineData } from '../sync';
 
 export const loadData = () => async (dispatch: React.Dispatch<any>) => {
   dispatch(setLoading(true));
-
   const {delivery, shipIds, driverAssistantIDs, vehicleIDs} = await getDelivery();
   dispatch(setDeliveryData(delivery));
 
@@ -48,6 +47,11 @@ export const setResInfoAfterSend = (msg: string, responseStatus: string) => asyn
 
 export const sendOfflineData = () => async (dispatch: React.Dispatch<any>) => {
   await sendOfflineStackData();
+  const count = await getOfflineStackCount();
+  dispatch(setWillSendCount(count));
+}
+
+export const refreshWillSendCount = () => async (dispatch: React.Dispatch<any>) => {
   const count = await getOfflineStackCount();
   dispatch(setWillSendCount(count));
 }

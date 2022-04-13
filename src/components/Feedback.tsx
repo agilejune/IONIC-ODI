@@ -131,44 +131,44 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend,
       <IonContent className="ion-padding">
         <form onSubmit={ handleSubmit(onSubmit) }>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.nopol') }</strong></IonText>
             </IonCol>
-            <IonCol>
+            <IonCol size="6">
               <IonInput disabled>{ delivery.vehicle }</IonInput>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.tgl_validasi') }</strong></IonText>
             </IonCol>
-            <IonCol>
+            <IonCol size="6">
               <IonInput disabled>{ delivery.date_shipment }</IonInput>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.pengirim') }</strong></IonText>
             </IonCol>
-            <IonCol>
+            <IonCol size="6">
               <IonInput {...register("sender", { required: true, minLength: { value: 4, message: "Must be 4 chars long" } })} />
               {showError("sender")}
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.no_telepon') }</strong></IonText>
             </IonCol>
-            <IonCol>
+            <IonCol size="6">
               <IonInput type="number" {...register("mobile", { required: true })} />
               {showError("mobile")}
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.rating_layanan') }</strong></IonText>
             </IonCol>
-            <IonCol>
+            <IonCol size="6">
               <IonSelect 
                 interface="popover"
                 onIonChange={e => changeOption(undefined, e.detail.value)} 
@@ -182,10 +182,10 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend,
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.saran_pengembangan') }</strong></IonText>
             </IonCol>
-            <IonCol>
+            <IonCol size="6">
               <IonSelect 
                 interface="popover"
                 disabled={devSuggestions.length === 0}
@@ -200,10 +200,10 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend,
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.lingkup_keluhan') }</strong></IonText>
             </IonCol>
-            <IonCol>
+            <IonCol size="6">
               <IonSelect 
                 interface="popover"
                 disabled={complaintScopes.length === 0}
@@ -218,10 +218,10 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend,
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.kategori_keluhan') }</strong></IonText>
             </IonCol>
-            <IonCol>
+            <IonCol size="6">
               <IonSelect 
                 interface="popover"
                 disabled={complaintCates.length === 0}
@@ -236,13 +236,13 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend,
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol>
+            <IonCol size="6">
               <IonText><strong>{ t('modal_feedback.message') }</strong></IonText>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonTextarea {...register("message", {required: true, minLength: {value: 100, message: "Must be more than 100 letters"}})}></IonTextarea>
+              <IonTextarea {...register("message", {required: true, minLength: {value: 20, message: "Must be more than 20 letters"}})}></IonTextarea>
               {showError("message")}
             </IonCol>
           </IonRow>

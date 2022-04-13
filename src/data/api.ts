@@ -25,15 +25,15 @@ const jsonUrl = {
   lossOfflineForm : '/assets/data/transportloss_offline.json'
 };
 
+const jsonMode = false;
 let commonFormData = new FormData();
 let spbu : string;
 
 const delay = () => new Promise(res => setTimeout(res, 1000));
 
 export const doAuthenticate = async (formData : FormData) => {
-  // await delay();
   const response = await Promise.all([
-    // fetch(jsonUrl.auth)
+    jsonMode ? fetch(jsonUrl.auth) :
     fetch(`${baseUrl}/authenticate`, {
       method: "post",
       body: formData
@@ -54,12 +54,10 @@ export const doAuthenticate = async (formData : FormData) => {
 }
 
 export const getApiDelivery = async () => {
-  // await delay();
-
   commonFormData.append('menu', 'ongoing_deliveries');
   
   const response_ongoing = await Promise.all([
-    // fetch(jsonUrl.ongoingDelivery),
+    jsonMode ? fetch(jsonUrl.ongoingDelivery) :
     fetch(`${baseUrl}/shipment`, {
       method: "post",
       body: commonFormData
@@ -73,7 +71,7 @@ export const getApiDelivery = async () => {
   commonFormData.delete('menu');
   commonFormData.append('menu', 'past_deliveries');
   const response_past = await Promise.all([
-    // fetch(jsonUrl.pastDelivery)
+    jsonMode ? fetch(jsonUrl.pastDelivery) :
     fetch(`${baseUrl}/shipment`, {
       method: "post",
       body: commonFormData
@@ -110,9 +108,8 @@ export const getApiDelivery = async () => {
 }
 
 export const getApiOrders = async () => {
-  // await delay();
   const response = await Promise.all([
-    // fetch(jsonUrl.order),
+    jsonMode ? fetch(jsonUrl.order) :
     fetch(`${baseUrl}/order`, {
       method: "post",
       body: commonFormData
@@ -127,9 +124,8 @@ export const getApiOrders = async () => {
 }
 
 export const getApiFeedbacks = async () => {
-  // await delay();
   const response = await Promise.all([
-    // fetch(jsonUrl.feedback),
+    jsonMode ? fetch(jsonUrl.feedback) :
     fetch(`${baseUrl}/feedback`, {
       method: "post",
       body: commonFormData
@@ -150,9 +146,8 @@ export const getApiFeedbacks = async () => {
 }
 
 export const getApiTransportLossAll = async () => {
-  // await delay();
   const response = await Promise.all([
-    // fetch(jsonUrl.transportLossAll),
+    jsonMode ? fetch(jsonUrl.transportLossAll) :
     fetch(`${baseUrl}/transportloss_all`,  {
       method: "post",
       body: commonFormData
@@ -167,11 +162,10 @@ export const getApiTransportLossAll = async () => {
 }
 
 export const getApiDriverDetails = async (driverIDs: []) => {
-  // await delay();
   const formData = new FormData();
   formData.append('driver_id', driverIDs.join(","));
   const response = await Promise.all([
-    // fetch(jsonUrl.driverDetail),
+    jsonMode ? fetch(jsonUrl.driverDetail) :
     fetch(`${baseUrl}/driver_detail`, {
       method: "post",
       body: formData
@@ -186,12 +180,11 @@ export const getApiDriverDetails = async (driverIDs: []) => {
 }
 
 export const getApiVehicleDatails = async (vehicleIDs: []) => {
-  // await delay();
   const formData = new FormData();
   formData.append('vehicle_id', vehicleIDs.join(","));
 
   const response = await Promise.all([
-    // fetch(jsonUrl.vehicleDetail),
+    jsonMode ? fetch(jsonUrl.vehicleDetail) :
     fetch(`${baseUrl}/vehicle_detail`, {
       method: "post",
       body: formData
@@ -230,11 +223,10 @@ export const getApiVehicleDatails = async (vehicleIDs: []) => {
 }
 
 export const getApiCheckLists = async () => {
-  // await delay();
   const formData = new FormData();
   formData.append('survey_id', "7");
   const response = await Promise.all([
-    // fetch(jsonUrl.checklist),
+    jsonMode ? fetch(jsonUrl.checklist) :
     fetch(`${baseUrl}/get_survey`,  {
       method: "post",
       body: formData
@@ -249,12 +241,11 @@ export const getApiCheckLists = async () => {
 }
 
 export const getApiTanks = async () => {
-  // await delay();
   const formData = new FormData();
   formData.append('site_id', spbu);
 
   const response = await Promise.all([
-    // fetch(jsonUrl.tank),
+    jsonMode ? fetch(jsonUrl.tank) :
     fetch(`${baseUrl}/slc_tank_spbu`, {
       method: "post",
       body: formData
@@ -269,9 +260,8 @@ export const getApiTanks = async () => {
 }
 
 export const getApiJustify = async () => {
-  // await delay();
   const response = await Promise.all([
-    // fetch(jsonUrl.justify),
+    jsonMode ? fetch(jsonUrl.justify) :
     fetch(`${baseUrl}/slc_justify`, {
       method: "post"
     }),
@@ -285,9 +275,8 @@ export const getApiJustify = async () => {
 }
 
 export const getApiLossFormData = async () => {
-  // await delay();
   const response = await Promise.all([
-    // fetch(jsonUrl.lossForm),
+    jsonMode ? fetch(jsonUrl.lossForm) :
     fetch(`${baseUrl}/transportloss`, {
       method: "post",
       body: new FormData()
@@ -300,12 +289,11 @@ export const getApiLossFormData = async () => {
 }
 
 export const getApiLossFormOffineData = async (shipIds : []) => {
-  // await delay();
   const formData = new FormData();
   formData.append('shipids', shipIds.join(","));
   formData.append('no_spbu', spbu);
   const response = await Promise.all([
-    // fetch(jsonUrl.lossOfflineForm),
+    jsonMode ? fetch(jsonUrl.lossOfflineForm) :
     fetch(`${baseUrl}/transportloss_ofline`, {
       method: "post",
       body: formData
@@ -325,7 +313,7 @@ export const getFeedbackOptions = async (id: string | undefined, code: string | 
   formData.append('code', code ?? "");
 
   const response = await Promise.all([
-    // fetch(jsonUrl.feedbackOptions + (id ?? code) + '.json')
+    jsonMode ? fetch(jsonUrl.feedbackOptions + (id ?? code) + '.json') :
     fetch(`${baseUrl}/slc_feedback`, 
       {
         method: "post",

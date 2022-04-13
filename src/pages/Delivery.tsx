@@ -7,9 +7,8 @@ import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import DeliveryItem from '../components/DeliveryItem';
 import { Delivery } from '../models/Delivery';
-import { sendOfflineData, setSearchText } from '../data/delivery/delivery.actions';
+import { setSearchText } from '../data/delivery/delivery.actions';
 import { useTranslation } from "react-i18next";
-import { ConnectionStatus, Network } from '@capacitor/network';
 
 interface OwnProps { }
 
@@ -23,12 +22,11 @@ interface StateProps {
 
 interface DispatchProps {
   setSearchText: typeof setSearchText;
-  sendOfflineData: typeof sendOfflineData;
 }
 
 type DeliveryPageProps = OwnProps & StateProps & DispatchProps;
 
-const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, ongoingDeliveryList, pastDeliveryList, mode, setSearchText, sendOfflineData }) => {
+const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, ongoingDeliveryList, pastDeliveryList, mode, setSearchText }) => {
 
   const [segment, setSegment] = useState<'ongoing' | 'past'>('ongoing');
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
@@ -36,19 +34,6 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, on
   const [t, i18n] = useTranslation('common');
 
   const ios = mode === 'ios';
-
-
-  const onNetWorkStatus = (status: ConnectionStatus) => {
-    console.log('Network status changed', status);
-    
-    if (status.connected) {
-      sendOfflineData(); 
-    }
-  }
-
-  useEffect(() => {
-    Network.addListener("networkStatusChange", onNetWorkStatus);
-  }, []);
 
   return (
     <IonPage ref={pageRef} >
@@ -166,7 +151,6 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   }),
   mapDispatchToProps: {
     setSearchText,
-    sendOfflineData
   },
   component: React.memo(DeliveryPage)
 });

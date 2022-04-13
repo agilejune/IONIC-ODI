@@ -3,7 +3,7 @@ import { connect } from '../data/connect';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
 import { Delivery } from '../models/Delivery';
-import { IonButton, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonIcon, IonLabel, IonModal, IonToast} from '@ionic/react';
+import { IonButton, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonIcon, IonLabel, IonModal, IonToast, IonItem} from '@ionic/react';
 import { person, receipt, car, reload, contrast, ticket } from 'ionicons/icons';
 import DriverDetail from '../components/DriverDetail';
 import VehicleDetail from '../components/VehicleDetail';
@@ -70,13 +70,13 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           </IonText>
         </IonButtons>
         <IonRow>
-          <IonCol>
-          <IonButtons 
-              onClick={() => { 
-                setShowDriverDetail(true); 
-                setDriverAssistantID(delivery.driver_id); }
-              }
-            >
+          <IonCol size="8">
+            <IonButtons 
+                onClick={() => { 
+                  setShowDriverDetail(true); 
+                  setDriverAssistantID(delivery.driver_id); }
+                }
+              >
               <IonIcon icon={person}></IonIcon>
               <IonLabel>{delivery.driver}</IonLabel>
             </IonButtons>
@@ -89,9 +89,9 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           </IonCol>
         </IonRow>
         <IonRow>
-          <IonCol>
+          <IonCol size="8">
             <IonButtons 
-              className="ion-float-left" 
+              className="ion-float-left"
               onClick={() => { 
                 setShowDriverDetail(true); 
                 setDriverAssistantID(delivery.driver_assistant_id); }
@@ -127,13 +127,13 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           <br/>End Shipment: {delivery.end_shipment}
         </h6>
         <IonRow>
-          <IonCol>
+          <IonCol size="8">
             <h5><strong>{ t('pages_delivery.last_position') }:</strong></h5>
           </IonCol>
-          <IonCol>
+          <IonCol size="4">
             <IonButton fill="outline" className="ion-float-right">
               <IonIcon icon={reload}></IonIcon>
-              <IonLabel>Refresh GPS</IonLabel>
+              <p style={{fontSize: 12}}>Refresh GPS</p>
             </IonButton>
           </IonCol>
         </IonRow>
