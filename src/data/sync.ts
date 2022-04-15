@@ -173,7 +173,10 @@ export const sendTransportLossFormData = async (data: any) => {
 export const sendOfflineStackData = async () => {
   let success = false;
   const datas= await getStorageStack();
-  Object.entries(datas!).forEach(([key, value]) => {
+  
+  if (datas == null) return;
+
+  Object.entries(datas).forEach(([key, value]) => {
     if (key === "profile") {
 
     }
@@ -205,7 +208,9 @@ export const getOfflineStackCount = async () => {
 
   const datas= await getStorageStack();
   
-  Object.entries(datas!).forEach(([key, value]) => {
+  if (datas == null) return 0;
+
+  Object.entries(datas).forEach(([key, value]) => {
     if (key === "profile" && value !== "") {
       ++count;
     }

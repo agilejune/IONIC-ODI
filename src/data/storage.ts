@@ -160,10 +160,17 @@ export const getStorageVehicleDatails = async () => {
 }
 
 export const saveStorageStack = async (param: string, data: any) => {
+  let storageData = undefined;
   const { value } = await Storage.get({ key: OFFLINE_STACK});
-  if (value == null) return;
-
-  const prevData = JSON.parse(value) as StackOffline;
+  storageData = value;
+  
+  if (value == null) {
+    await initStorageStack();
+    const { value } = await Storage.get({ key: OFFLINE_STACK});
+    storageData = value;
+  }
+  
+  const prevData = JSON.parse(storageData!) as StackOffline;
   Object.entries(prevData).forEach(([key, value]) => {
     if (key === param) {
       if (Array.isArray(value))
@@ -178,12 +185,17 @@ export const saveStorageStack = async (param: string, data: any) => {
 }
 
 export const getStorageStack = async () => {
-  const { value } = await Storage.get({ key: OFFLINE_STACK });
-  console.log("get stroage stack");
-  console.log(value);
-  if (value == null) return;
+  let storageData = undefined;
+  const { value } = await Storage.get({ key: OFFLINE_STACK});
+  storageData = value;
   
-  return JSON.parse(value) as StackOffline;
+  if (value == null) {
+    await initStorageStack();
+    const { value } = await Storage.get({ key: OFFLINE_STACK});
+    storageData = value;
+  }
+  
+  return JSON.parse(storageData!) as StackOffline;
 }
 
 interface StackOffline {
