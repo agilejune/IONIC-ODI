@@ -1,4 +1,4 @@
-import { setIsLoggedInData, setUsernameData } from '../storage';
+import { setIsLoggedInData } from '../storage';
 import { ActionType } from '../../util/types';
 import { UserState } from './user.state';
 
@@ -21,7 +21,6 @@ export const setIsLoggedIn = (loggedIn: boolean) => async (dispatch: React.Dispa
 };
 
 export const setUsername = (user_name?: string) => async (dispatch: React.Dispatch<any>) => {
-  await setUsernameData(user_name);
   return ({
     type: 'set-username',
     user_name

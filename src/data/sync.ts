@@ -9,129 +9,199 @@ export const getCurrentNetworkStatus = async () => {
 };
 
 export const getCheckLists = async () => {
+  let checklist = undefined;
   if (await getCurrentNetworkStatus()) {
-    const checklist = await getApiCheckLists();
-    await setChecklists(checklist);
-    return checklist;
+    try {
+      checklist = await getApiCheckLists();
+      await setChecklists(checklist);
+    } catch(err) {
+      checklist = await getStorageChecklists();  
+    }
   }
   else {
-    return await getStorageChecklists();
+    checklist = await getStorageChecklists();
   }
+  return checklist;
 }
 
 export const getDelivery = async () => {
+  let delivery = undefined;
+
   if (await getCurrentNetworkStatus()) {
-    const delivery = await getApiDelivery();
-    await setDeliverys(delivery);
-    return delivery;
+    try {
+      delivery = await getApiDelivery()
+      await setDeliverys(delivery);
+    } catch(err) {
+      delivery = await getStorageDeliverys();
+    }
+
   }
   else {
-    return await getStorageDeliverys();
+    delivery = await getStorageDeliverys();
   }
+
+  return delivery;
 }
 
 export const getFeedbacks = async () => {
+  let feedbacks = undefined;
   if (await getCurrentNetworkStatus()) {
-    const feedbacks = await getApiFeedbacks();
-    await setFeedback(feedbacks);
-    return feedbacks;
+    try {
+      feedbacks = await getApiFeedbacks();
+      await setFeedback(feedbacks);
+    } catch(err) {
+      feedbacks = await getStorageFeedbacks();  
+    }
+    
   }
   else {
-    return await getStorageFeedbacks();
+    feedbacks = await getStorageFeedbacks();
   }
+
+  return feedbacks;
 }
 
 export const getJustify = async () => {
+  let justify = undefined;
+
   if (await getCurrentNetworkStatus()) {
-    const justify = await getApiJustify();
-    await setJustify(justify);
-    return justify;
+    try {
+      justify = await getApiJustify();
+      await setJustify(justify);
+    } catch(err) {
+      justify = await getStorageJustify();  
+    }
+    
   }
   else {
-    return await getStorageJustify();
+    justify = await getStorageJustify();
   }
+
+  return justify;
 }
 
 export const getOrders = async () => {
+  let order = undefined;
+
   if (await getCurrentNetworkStatus()) {
-    const order = await getApiOrders();
-    await setOrder(order);
-    return order;
+    try {
+      order = await getApiOrders();
+      await setOrder(order);
+    } catch(err) {
+      order = await getStorageOrders();
+    }
   }
   else {
-    return await getStorageOrders();
+    order = await getStorageOrders();
   }
+
+  return order;
 }
 
 export const getTanks = async () => {
+  let tank = undefined;
   if (await getCurrentNetworkStatus()) {
-    const tank = getApiTanks();
-    await setTankOptions(tank);
-    return tank;
+    try {
+      tank = getApiTanks();
+      await setTankOptions(tank);
+    } catch(err) {
+      tank = await getStorageTankOptions();
+    }
+    
   }
   else {
-    return await getStorageTankOptions();
+    tank = await getStorageTankOptions();
   }
+
+  return tank;
 }
 
 export const getTransportLossAll = async () => {
+  let transportlossAll = undefined;
   if (await getCurrentNetworkStatus()) {
-    const transportlossAll = await getApiTransportLossAll();
-    await setTransportLossAll(transportlossAll);
-    return transportlossAll;
+    try {
+      transportlossAll = await getApiTransportLossAll();
+      await setTransportLossAll(transportlossAll);
+    } catch(err) {
+      transportlossAll = await getStorageTransportLossAll();
+    }
   }
   else {
-    return await getStorageTransportLossAll();
+    transportlossAll = await getStorageTransportLossAll();
   }
+
+  return transportlossAll;
 }
 
 export const getLossFormOffineData = async (shipIds : []) => {
+  let lossFormOfflineData = undefined;
+
   if (await getCurrentNetworkStatus()) {
-    const lossFormOfflineData = await getApiLossFormOffineData(shipIds);
-    console.log(lossFormOfflineData);
-    await setTransportLossOffline(lossFormOfflineData);
-    return lossFormOfflineData;
+    try {
+      lossFormOfflineData = await getApiLossFormOffineData(shipIds);
+      await setTransportLossOffline(lossFormOfflineData);
+    } catch(err) {
+      lossFormOfflineData = await getStorageTransportLossOffline();  
+    }
   }
   else {
-    return await getStorageTransportLossOffline();
+    lossFormOfflineData = await getStorageTransportLossOffline();
   }
+
+  return lossFormOfflineData;
+
 }
 
 export const getDriverDetails = async (driverIDs : []) => {
+  let driverDetails = undefined;
   if (await getCurrentNetworkStatus()) {
-    const driverDetails = await getApiDriverDetails(driverIDs);
-    console.log(driverDetails);
-    await setDriverDetails(driverDetails);
-    return driverDetails;
+    try {
+      driverDetails = await getApiDriverDetails(driverIDs);
+      await setDriverDetails(driverDetails);
+    } catch(err) {
+      driverDetails = await getStorageDriverDetails();  
+    }
   }
   else {
-    return await getStorageDriverDetails();
+    driverDetails = await getStorageDriverDetails();
   }
+  return driverDetails;
 }
 
 export const getVehicleDatails = async (vehicleIDs : []) => {
+  let vehicleDetails = undefined;
   if (await getCurrentNetworkStatus()) {
-    const vehicleDetails = await getApiVehicleDatails(vehicleIDs);
-    console.log(vehicleDetails);
-    await setVehicleDatails(vehicleDetails);
-    return vehicleDetails;
+    try {
+      vehicleDetails = await getApiVehicleDatails(vehicleIDs);
+      await setVehicleDatails(vehicleDetails);
+    } catch(err) {
+      vehicleDetails =  await getStorageVehicleDatails();  
+    }
   }
   else {
-    return await getStorageVehicleDatails();
+    vehicleDetails =  await getStorageVehicleDatails();
   }
+
+  return vehicleDetails;
 }
 
 export const sendFeedback = async (data: any) => {
   let msg = "";
   let responseStatus = "";
   if (await getCurrentNetworkStatus()) {
-    const {message, status} = await sendApiFeedback(data);
-    msg = message;
-    responseStatus = status;
+    try {
+      const {message, status} = await sendApiFeedback(data);
+      msg = message;
+      responseStatus = status;
+    } catch(err) {
+      await saveStorageStack("feedback", data);
+      msg = "Error is occured with Network, So Datas are saved to Storage temporarily"
+      responseStatus = "E";
+    }
   }
   else {
     await saveStorageStack("feedback", data);
-    msg = "datas are saved to Storage temporarily"
+    msg = "Datas are saved to Storage temporarily"
     responseStatus = "S";
   }
   return { msg, responseStatus };
@@ -141,13 +211,19 @@ export const sendCheckLists = async (data: any) => {
   let msg = "";
   let responseStatus = "";
   if (await getCurrentNetworkStatus()) {
-    const {message, status} = await sendApiCheckLists(data);
-    msg = message;
-    responseStatus = status;
+    try {
+      const {message, status} = await sendApiCheckLists(data);
+      msg = message;
+      responseStatus = status;
+    } catch(err) {
+      await saveStorageStack("checklist", data);
+      msg = "Error is occured with Network, So Datas are saved to Storage temporarily";
+      responseStatus = "E";
+    }
   }
   else {
     await saveStorageStack("checklist", data);
-    msg = "datas are saved to Storage temporarily";
+    msg = "Datas are saved to Storage temporarily";
     responseStatus = "S";
   }
   return { msg, responseStatus };
@@ -157,13 +233,19 @@ export const sendTransportLossFormData = async (data: any) => {
   let msg = "";
   let responseStatus = "";
   if (await getCurrentNetworkStatus()) {
-    const {message, status} = await sendApiTransportLossFormData(data);
-    msg = message;
-    responseStatus = status;
+    try {
+      const {message, status} = await sendApiTransportLossFormData(data);
+      msg = message;
+      responseStatus = status;
+    } catch(err) {
+      await saveStorageStack("transportLoss", data);
+      msg = "Error is occured with Network, So Datas are saved to Storage temporarily";
+      responseStatus = "E";
+    }
   }
   else {
     await saveStorageStack("transportLoss", data);
-    msg = "datas are saved to Storage temporarily"
+    msg = "Datas are saved to Storage temporarily"
     responseStatus = "S";
   }
   return { msg, responseStatus };
@@ -171,33 +253,47 @@ export const sendTransportLossFormData = async (data: any) => {
 
 
 export const sendOfflineStackData = async () => {
-  let success = false;
+  let success = true;
   const datas= await getStorageStack();
   
   if (datas == null) return;
 
-  Object.entries(datas).forEach(([key, value]) => {
-    if (key === "profile") {
+  try {
+    Object.entries(datas).forEach(([key, value]) => {
+      if (key === "profile") {
 
-    }
-    else if (key === "feedback" && Array.isArray(value)) {
-      value.map(async (feedback: any) => {
-        console.log("send feedback from offine stack");
-        const { status } = await sendApiFeedback(feedback);
-        success = status == "S";
-      });
-    }
-    else if (key === "transportLoss" && Array.isArray(value)) {
+      }
+      else if (key === "feedback" && Array.isArray(value)) {
+        value.map(async (feedback: any) => {
+          console.log("send feedback from offine stack");
 
-    }
-    else if (key === "checklist" && Array.isArray(value)) {
-      value.map(async (list: any) => {
-        console.log("send checklist from offine stack");
-        const { status } = await sendApiFeedback(list);
-        success = status == "S";
-      });
-    }
-  });
+          const { status } = await sendApiFeedback(feedback);
+          if (status != "S")
+            throw Error();
+        });
+      }
+      else if (key === "transportLoss" && Array.isArray(value)) {
+        value.map(async (data: any) => {
+          console.log("send transportloss calculation data from offine stack");
+
+          const { status } = await sendApiTransportLossFormData(data);
+          if (status != "S")
+            throw Error();
+        });
+      }
+      else if (key === "checklist" && Array.isArray(value)) {
+        value.map(async (list: any) => {
+          console.log("send checklist from offine stack");
+
+          const { status } = await sendApiFeedback(list);
+          if (status != "S")
+            throw Error();
+        });
+      }
+    });
+  } catch(err) {
+    success = false;
+  }
 
   if (success)
     initStorageStack();
@@ -218,6 +314,9 @@ export const getOfflineStackCount = async () => {
       count += value.length;
     }
     else if (key === "transportLoss" && Array.isArray(value)) {
+      count += value.length;
+    }
+    else if (key === "checklist" && Array.isArray(value)) {
       count += value.length;
     }
   });

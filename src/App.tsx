@@ -29,6 +29,9 @@ import { loadData, refreshWillSendCount, sendOfflineData } from './data/delivery
 import { useEffect } from 'react';
 import React from 'react';
 import { ConnectionStatus, Network } from '@capacitor/network';
+import { setUsername, setUserData } from './data/user/user.actions';
+import { getUserData, setUserData as setUserDataStorage } from './data/storage';
+import { putUserInfoInFormData } from './data/api';
 
 setupIonicReact();
 
@@ -52,9 +55,11 @@ interface DispatchProps {
   loadData: typeof loadData;
   refreshWillSendCount: typeof refreshWillSendCount;
   sendOfflineData: typeof sendOfflineData;
+  setUserData: typeof setUserData;
+  setUsername: typeof setUsername;
 }
 
-const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated, loadData, refreshWillSendCount, sendOfflineData }) => {
+const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated, loadData, refreshWillSendCount, sendOfflineData, setUsername,  setUserData: setUserDataAction }) => {
 
   const getCurrentNetworkStatus = async () => {
     const status = await Network.getStatus();
@@ -80,6 +85,14 @@ const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated,
       sendOfflineData(); 
   }
 
+  const setUserDataFromStorage = async () => {
+    const userData = await getUserData();
+    setUserDataAction(userData);
+    setUserDataStorage(userData);
+    putUserInfoInFormData(userData);
+    setUsername(userData.user_name);
+  }
+
   useEffect(() => {
     Network.addListener("networkStatusChange", onNetWorkStatus);
     
@@ -88,6 +101,7 @@ const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated,
     checkNetWorkAndSend();
     
     if(authenticated) {
+      setUserDataFromStorage();
       loadData();
     }
   }, [authenticated]);
@@ -115,7 +129,9 @@ const OdiAppConnected = connect<OwnProps, StateProps, DispatchProps>({
   mapDispatchToProps: {
     loadData,
     sendOfflineData,
-    refreshWillSendCount
+    refreshWillSendCount,
+    setUserData,
+    setUsername
   },
   component: OdiApp
 })

@@ -8,6 +8,7 @@ import { User } from '../models/User';
 import { Comp, Vehicle } from '../models/Vehicle';
 
 const baseUrl = 'http://182.23.86.213:4000/odi';
+
 const jsonUrl = {
   auth: '/assets/data/authenticate.json',
   ongoingDelivery: '/assets/data/ongoing_deliveries.json',
@@ -46,11 +47,15 @@ export const doAuthenticate = async (formData : FormData) => {
   }
   else if (status === "S") {
     const user = responseData.data[0] as User;
-    commonFormData.append('spbu', user.user_name);
-    commonFormData.append('company_id', user.company_id.toString());
+    putUserInfoInFormData(user);
     spbu = user.user_name;
     return user;
   }
+}
+
+export const putUserInfoInFormData = (user: User) => {
+  commonFormData.append('spbu', user.user_name);
+  commonFormData.append('company_id', user.company_id.toString());
 }
 
 export const getApiDelivery = async () => {
@@ -96,6 +101,7 @@ export const getApiDelivery = async () => {
     ...ongoingDeliverys.map(d => { return d.vehicle_id; }), 
     ...pastDeliverys.map(d => { return d.vehicle_id; }) 
   ];
+
   return {
     delivery: {
       ongoingDeliverys,
@@ -115,6 +121,7 @@ export const getApiOrders = async () => {
       body: commonFormData
     }),
   ]);
+
   const responseData = await response[0].json();
   const orders = responseData.data as Order[];
  

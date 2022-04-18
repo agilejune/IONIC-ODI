@@ -3,6 +3,7 @@ import { IonIcon, IonContent, IonPage,  IonRow, IonCol, IonButton, IonList, IonI
 import './Login.scss';
 import { setIsLoggedIn, setUsername, setUserData, setLoading } from '../data/user/user.actions';
 import { doAuthenticate } from '../data/api';
+import { setUserData as setUserDataStorage } from '../data/storage';
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import { eyeOffOutline, eyeOutline, personOutline, lockClosedOutline, enterOutline } from 'ionicons/icons';
@@ -27,7 +28,7 @@ interface StateProps {
 
 interface LoginProps extends OwnProps, StateProps, DispatchProps { }
 
-const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername: setUsernameAction, setIsLoggedIn, setUserData, setLoading}) => {
+const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername: setUsernameAction, setIsLoggedIn, setUserData: setUserDataAction, setLoading}) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -65,7 +66,8 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
       else {        
         await setIsLoggedIn(true);
         await setIsAuthenticated(true);
-        setUserData(userData!);
+        setUserDataAction(userData);
+        setUserDataStorage(userData);
         await setUsernameAction(userData.user_name);
         history.push('/tabs/delivery', {direction: 'none'});
         await loadData();

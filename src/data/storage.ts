@@ -1,7 +1,7 @@
 import { Storage } from '@capacitor/storage';
 
 const HAS_LOGGED_IN = 'hasLoggedIn';
-const USERNAME = 'username';
+const USERDATA = 'user_data';
 const DELIVERY = 'deliverys';
 const FEEDBACK = 'feedback';
 const ORDER = 'order';
@@ -31,12 +31,20 @@ export const setIsLoggedInData = async (isLoggedIn: boolean) => {
   await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
 }
 
-export const setUsernameData = async (username?: string) => {
-  if (!username) {
-    await Storage.remove({ key: USERNAME });
+export const setUserData = async (data?: any) => {
+  if (!data) {
+    await Storage.remove({ key: USERDATA });
   } else {
-    await Storage.set({ key: USERNAME, value: username });
+    await Storage.set({ key: USERDATA, value: data });
   }
+}
+
+export const getUserData = async (data?: any) => {
+  const { value } = await Storage.get({ key: USERDATA });
+  
+  if (value == null) return false;
+
+  return JSON.parse(value);
 }
 
 export const setDeliverys = async (data : any) => {
