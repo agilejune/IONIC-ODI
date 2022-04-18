@@ -29,7 +29,7 @@ import { loadData, refreshWillSendCount, sendOfflineData } from './data/delivery
 import { useEffect } from 'react';
 import React from 'react';
 import { ConnectionStatus, Network } from '@capacitor/network';
-import { setUsername, setUserData } from './data/user/user.actions';
+import { setUsername, setUserData, setIsLoggedIn } from './data/user/user.actions';
 import { getUserData, setUserData as setUserDataStorage } from './data/storage';
 import { putUserInfoInFormData } from './data/api';
 
@@ -57,9 +57,10 @@ interface DispatchProps {
   sendOfflineData: typeof sendOfflineData;
   setUserData: typeof setUserData;
   setUsername: typeof setUsername;
+  setIsLoggedIn: typeof setIsLoggedIn;
 }
 
-const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated, loadData, refreshWillSendCount, sendOfflineData, setUsername,  setUserData: setUserDataAction }) => {
+const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated, setIsLoggedIn, loadData, refreshWillSendCount, sendOfflineData, setUsername,  setUserData: setUserDataAction }) => {
 
   const getCurrentNetworkStatus = async () => {
     const status = await Network.getStatus();
@@ -101,6 +102,7 @@ const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated,
     checkNetWorkAndSend();
     
     if(authenticated) {
+      setIsLoggedIn(true);
       setUserDataFromStorage();
       loadData();
     }
@@ -131,7 +133,8 @@ const OdiAppConnected = connect<OwnProps, StateProps, DispatchProps>({
     sendOfflineData,
     refreshWillSendCount,
     setUserData,
-    setUsername
+    setUsername,
+    setIsLoggedIn
   },
   component: OdiApp
 })
