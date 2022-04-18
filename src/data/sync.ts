@@ -32,6 +32,7 @@ export const getDelivery = async () => {
       delivery = await getApiDelivery()
       await setDeliverys(delivery);
     } catch(err) {
+      console.log(`Display Error : \n ${err}`);
       delivery = await getStorageDeliverys();
     }
 
@@ -102,7 +103,7 @@ export const getTanks = async () => {
   let tank = undefined;
   if (await getCurrentNetworkStatus()) {
     try {
-      tank = getApiTanks();
+      tank = await getApiTanks();
       await setTankOptions(tank);
     } catch(err) {
       tank = await getStorageTankOptions();

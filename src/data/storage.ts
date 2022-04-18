@@ -22,7 +22,7 @@ export const setIsAuthenticated = async (isAuthenticated: boolean) => {
 export const getIsAuthenticated = async () => {
   const { value } = await Storage.get({ key: AUTHENTICATED });
   
-  if (value == null) return false;
+  if (value == null || value == "undefined") return false;
 
   return JSON.parse(value) === true;
 }
@@ -31,18 +31,14 @@ export const setIsLoggedInData = async (isLoggedIn: boolean) => {
   await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
 }
 
-export const setUserData = async (data?: any) => {
-  if (!data) {
-    await Storage.remove({ key: USERDATA });
-  } else {
-    await Storage.set({ key: USERDATA, value: data });
-  }
+export const setUserData = async (data: any) => {
+  await Storage.set({ key: USERDATA, value: data });
 }
 
 export const getUserData = async (data?: any) => {
   const { value } = await Storage.get({ key: USERDATA });
   
-  if (value == null) return false;
+  if (value == null || value == "undefined") return false;
 
   return JSON.parse(value);
 }
@@ -54,7 +50,7 @@ export const setDeliverys = async (data : any) => {
 export const getStorageDeliverys = async () => {
   const { value } = await Storage.get({ key: DELIVERY });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -66,7 +62,7 @@ export const setOrder = async (data : any) => {
 export const getStorageOrders = async () => {
   const { value } = await Storage.get({ key: ORDER });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -78,7 +74,7 @@ export const setFeedback = async (data : any) => {
 export const getStorageFeedbacks = async () => {
   const { value } = await Storage.get({ key: FEEDBACK });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -90,7 +86,7 @@ export const setTankOptions = async (data : any) => {
 export const getStorageTankOptions = async () => {
   const { value } = await Storage.get({ key: TANK_OPTIONS });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -102,7 +98,7 @@ export const setJustify = async (data : any) => {
 export const getStorageJustify = async () => {
   const { value } = await Storage.get({ key: JUSTIFY_DATA });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -114,7 +110,7 @@ export const setTransportLossAll = async (data : any) => {
 export const getStorageTransportLossAll = async () => {
   const { value } = await Storage.get({ key: TRANSPORTLOSS_ALL });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -126,7 +122,7 @@ export const setTransportLossOffline = async (data : any) => {
 export const getStorageTransportLossOffline = async () => {
   const { value } = await Storage.get({ key: TRANSPORTLOSS_OFFLINE });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -138,7 +134,7 @@ export const setChecklists = async (data : any) => {
 export const getStorageChecklists = async () => {
   const { value } = await Storage.get({ key: CHECK_LIST });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -150,7 +146,7 @@ export const setDriverDetails = async (data : any) => {
 export const getStorageDriverDetails = async () => {
   const { value } = await Storage.get({ key: DRIVER_DETAIL });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -162,7 +158,7 @@ export const setVehicleDatails = async (data : any) => {
 export const getStorageVehicleDatails = async () => {
   const { value } = await Storage.get({ key: VEHICLE_DETAIL });
   
-  if (value == null) return;
+  if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
 }
@@ -172,7 +168,7 @@ export const saveStorageStack = async (param: string, data: any) => {
   const { value } = await Storage.get({ key: OFFLINE_STACK});
   storageData = value;
   
-  if (value == null) {
+  if (value == null || value == "undefined") {
     await initStorageStack();
     const { value } = await Storage.get({ key: OFFLINE_STACK});
     storageData = value;
@@ -197,7 +193,7 @@ export const getStorageStack = async () => {
   const { value } = await Storage.get({ key: OFFLINE_STACK});
   storageData = value;
   
-  if (value == null) {
+  if (value == null || value == "undefined") {
     await initStorageStack();
     const { value } = await Storage.get({ key: OFFLINE_STACK});
     storageData = value;
