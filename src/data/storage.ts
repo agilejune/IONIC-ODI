@@ -32,10 +32,10 @@ export const setIsLoggedInData = async (isLoggedIn: boolean) => {
 }
 
 export const setUserData = async (data: any) => {
-  await Storage.set({ key: USERDATA, value: data });
+  await Storage.set({ key: USERDATA, value: JSON.stringify(data) });
 }
 
-export const getUserData = async (data?: any) => {
+export const getUserData = async () => {
   const { value } = await Storage.get({ key: USERDATA });
   
   if (value == null || value == "undefined") return false;
