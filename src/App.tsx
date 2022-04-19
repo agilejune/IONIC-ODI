@@ -30,8 +30,9 @@ import { useEffect } from 'react';
 import React from 'react';
 import { ConnectionStatus, Network } from '@capacitor/network';
 import { setUsername, setUserData, setIsLoggedIn } from './data/user/user.actions';
-import { getUserData, setUserData as setUserDataStorage } from './data/storage';
+import { getUserData, setIsAuthenticated, setUserData as setUserDataStorage } from './data/storage';
 import { putUserInfoInFormData } from './data/api';
+import RedirectToLogin from './components/RedirectToLogin';
 
 setupIonicReact();
 
@@ -117,6 +118,13 @@ const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated,
             <Route path="/tabs" render={() => <MainTabs />} />
             <Route path="/login" component={ Login } />
             <Redirect from="/" to={authenticated ? "/tabs/delivery" : "/login"} exact />
+            <Route path="/logout" render={() => {
+              return <RedirectToLogin
+                setIsLoggedIn={setIsLoggedIn}
+                setUserData={setUserData}
+                setIsAuthenticated={setIsAuthenticated}
+              />;
+            }} />
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

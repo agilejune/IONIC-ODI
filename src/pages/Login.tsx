@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonIcon, IonContent, IonPage,  IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText, IonSpinner } from '@ionic/react';
+import { IonIcon, IonContent, IonPage,  IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText, IonSpinner, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react';
 import './Login.scss';
 import { setIsLoggedIn, setUsername, setUserData, setLoading } from '../data/user/user.actions';
 import { doAuthenticate } from '../data/api';
@@ -10,6 +10,7 @@ import { eyeOffOutline, eyeOutline, personOutline, lockClosedOutline, enterOutli
 import { loadData } from '../data/delivery/delivery.actions';
 import { useTranslation } from "react-i18next";
 import { getIsAuthenticated, setIsAuthenticated } from '../data/storage';
+import { menuController } from '@ionic/core';
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -38,6 +39,14 @@ const Login: React.FC<LoginProps> = ({isLoading, history, loadData, setUsername:
   const [showPassword, setShowPassword] = useState(false);
   const [t, i18n] = useTranslation('common');
 
+  useIonViewWillEnter(() => {
+    menuController.enable(false);
+  });
+
+  useIonViewWillLeave(() => {
+    menuController.enable(true);
+  });
+  
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);

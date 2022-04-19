@@ -1,4 +1,4 @@
-import { setIsLoggedInData } from '../storage';
+import { setIsLoggedInData,  setUserData as setUserDataStorage} from '../storage';
 import { ActionType } from '../../util/types';
 import { UserState } from './user.state';
 
@@ -7,10 +7,13 @@ export const setLoading = (isLoading: boolean) => ({
   isLoading
 } as const);
 
-export const setUserData = (data: Partial<UserState>) => ({
-  type: 'set-user-data',
-  data
-} as const);
+export const setUserData = (data: Partial<UserState>) => {
+  setUserDataStorage(data);
+  return ({
+    type: 'set-user-data',
+    data
+  } as const);
+};
 
 export const setIsLoggedIn = (loggedIn: boolean) => async (dispatch: React.Dispatch<any>) => {
   await setIsLoggedInData(loggedIn);

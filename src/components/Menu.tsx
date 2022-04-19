@@ -17,7 +17,7 @@ interface Pages {
   routerDirection?: string
 }
 interface StateProps {
-  isAuthenticated: boolean;
+  isLoggedin: boolean;
   userName: string;
 }
 
@@ -25,7 +25,7 @@ interface DispatchProps { }
 
 interface MenuProps extends RouteComponentProps, StateProps, DispatchProps { }
 
-const Menu: React.FC<MenuProps> = ({ history, isAuthenticated, userName }) => {
+const Menu: React.FC<MenuProps> = ({ history, isLoggedin, userName }) => {
   const location = useLocation();
   const [t, i18n] = useTranslation('common');
   
@@ -39,13 +39,13 @@ const Menu: React.FC<MenuProps> = ({ history, isAuthenticated, userName }) => {
       { title: t('menus.transport_loss_qrcode'), path: '/tabs/scan_rqcode', icon: camera },
     ],
     operationInfoPages: [
-      { title: t('menus.stock'), path: '/account', icon: person },
-      { title: t('menus.sales'), path: '/support', icon: help },
-      { title: t('menus.gain_loss'), path: '/logout', icon: logOut }
+      { title: t('menus.stock'), path: '/stock', icon: person },
+      { title: t('menus.sales'), path: '/sales', icon: help },
+      { title: t('menus.gain_loss'), path: '/gain_loss', icon: logOut }
     ],
     accountPages: [
-      { title: t('menus.help_feedback'), path: '/account', icon: person },
-      { title: 'Profile', path: '/support', icon: help },
+      { title: t('menus.help_feedback'), path: '/help_feedback', icon: person },
+      { title: 'Profile', path: '/profile', icon: help },
       { title: 'Logout', path: '/logout', icon: logOut }
     ],
   };
@@ -64,7 +64,7 @@ const Menu: React.FC<MenuProps> = ({ history, isAuthenticated, userName }) => {
   }
 
   return (
-    <IonMenu type="overlay" disabled={!isAuthenticated} contentId="main">
+    <IonMenu type="overlay" disabled={!isLoggedin} contentId="main">
       <IonHeader no-border>
         <IonToolbar>
           <IonTitle> 
@@ -96,7 +96,7 @@ const Menu: React.FC<MenuProps> = ({ history, isAuthenticated, userName }) => {
 export default connect<{}, StateProps, {}>({
   mapStateToProps: (state) => ({
     darkMode: state.user.darkMode,
-    isAuthenticated: state.user.isLoggedin,
+    isLoggedin: state.user.isLoggedin,
     userName: state.user.user_name,
   }),
   component: withRouter(Menu)

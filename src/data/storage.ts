@@ -31,8 +31,12 @@ export const setIsLoggedInData = async (isLoggedIn: boolean) => {
   await Storage.set({ key: HAS_LOGGED_IN, value: JSON.stringify(isLoggedIn) });
 }
 
-export const setUserData = async (data: any) => {
-  await Storage.set({ key: USERDATA, value: JSON.stringify(data) });
+export const setUserData = async (data?: any) => {
+  if (!data) {
+    await Storage.remove({ key: USERDATA });
+  } else {
+    await Storage.set({ key: USERDATA, value: JSON.stringify(data) });
+  }
 }
 
 export const getUserData = async () => {
