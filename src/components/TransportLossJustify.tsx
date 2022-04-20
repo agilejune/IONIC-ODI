@@ -6,7 +6,6 @@ import { connect } from '../data/connect';
 import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
 import { sendTransportLossFormData } from '../data/sync';
 import { Justify } from '../models/Transportloss';
-import './TransportLossJustify.scss';
 
 interface OwnProps {
   onDismissModal: () => void;

@@ -1,7 +1,6 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React from 'react';
-import './TransportLossMeter.scss';
 
 interface OwnProps {
   onDismissModal: () => void;

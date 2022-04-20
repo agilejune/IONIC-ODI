@@ -3,7 +3,6 @@ import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
 import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
 import { connect } from '../data/connect';
-import './TransportLoss.scss';
 
 interface OwnProps {
   onDismissModal: () => void;

@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import { LossFormDataOffline, Tank } from '../models/Transportloss';
-import './TransportLossLjk.scss';
 import { TextFieldTypes } from '@ionic/core';
 import { sendTransportLossFormData } from '../data/sync';
 import { setResInfoAfterSend } from '../data/delivery/delivery.actions';

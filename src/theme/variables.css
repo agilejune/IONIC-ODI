@@ -234,7 +234,7 @@ http://ionicframework.com/docs/theming/ */
     --ion-card-background: #1e1e1e;
   }
 
-  hr {
+  /* hr {
     border: 2px solid red !important;
     height: 10px !important;
     width: 500px !important;
@@ -243,5 +243,36 @@ http://ionicframework.com/docs/theming/ */
     font-size: 2em !important;
     opacity: 1 !important;
     visibility: visible !important;
-  }
+  } */
+
+
+}
+
+ion-select-popover .item .sc-ion-label-md-h {
+  white-space: pre-wrap !important;
+}
+
+hr {
+  border-bottom: 1px solid #ccc;
+  margin: 10px 0;
+  width: 100%;
+}
+
+ion-input, ion-select {
+  border-color: #d6d6d6;
+  border-width: thin;
+  border-style: solid;
+  border-radius: 5px;
+}
+
+.fail-toast {
+  --background: rgb(255, 204, 204) !important;
+  --color: rgb(255, 0, 0) !important;
+  --border-radius: 6px !important;
+}
+
+.success-toast {
+  --background: rgb(198, 255, 201) !important;
+  --color: rgb(0, 255, 0) !important;
+  --border-radius: 6px !important;
 }
