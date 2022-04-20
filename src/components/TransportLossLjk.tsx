@@ -32,6 +32,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
   const [errorMessage, setErrorMessage] = useState("");
   const [tryCount, setTryCount] = useState(0);
 
+  // const message = "Msg SIOD D05 : Kompartemen ini tujuan SPBU lain";
   let isValid = true;
 
   const { register, handleSubmit, formState: { errors } } = useForm({

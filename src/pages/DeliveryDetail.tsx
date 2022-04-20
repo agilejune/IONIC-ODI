@@ -1,4 +1,4 @@
-import React, { useRef, useState,} from 'react';
+import React, { useEffect, useRef, useState,} from 'react';
 import { connect } from '../data/connect';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
@@ -18,14 +18,16 @@ import { CheckList } from '../models/CheckList';
 import { useTranslation } from "react-i18next";
 import SendFeedback from '../components/Feedback';
 import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
+import { LossFormDataOffline } from '../models/Transportloss';
 
 interface OwnProps extends RouteComponentProps { };
 
 interface StateProps {
   delivery: Delivery;
   checkLists: CheckList[];
-  responseStatus: string,
-  message: string,
+  responseStatus: string;
+  message: string;
+  lossFormOfflineDatas: LossFormDataOffline[];
 };
 
 interface DispatchProps {
@@ -35,7 +37,7 @@ interface DispatchProps {
 
 type DeliveryDetailProps = OwnProps & StateProps & DispatchProps;
 
-const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, responseStatus, message, setServerResStatus, setServerMessage }) => {
+const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, responseStatus, message, lossFormOfflineDatas, setServerResStatus, setServerMessage }) => {
   const [showDriverDetail, setShowDriverDetail] = useState(false);
   const [showVehicleDetail, setShowVehicleDetail] = useState(false);
   const [showTransLossAgree, setShowTransLossAgree] = useState(false);
@@ -47,11 +49,20 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
   const [showSendFeedback, setShowSendFeedback] = useState(false);
   const [measureBy, setMeasureBy] = useState("");
   const [comp, setComp] = useState(0);
+  const [compartments, setCompartments] = useState<any[]>();
   const [transLossCalcData, setTransLossCalcData] = useState<any>();
   const [driverAssistantID, setDriverAssistantID] = useState(0);
   const pageRef = useRef<HTMLElement>(null);
   const [t, i18n] = useTranslation('common');
 
+  useEffect(() => {
+    const comps = lossFormOfflineDatas
+      .filter((d: LossFormDataOffline) => d.shipment_id == delivery.shipment_id)
+      .map((d: LossFormDataOffline) => d.compartment)
+      .sort();
+
+    setCompartments(comps);
+  }, [delivery, lossFormOfflineDatas]);
 
   return (
     <IonPage ref={pageRef} id="delivery-detail">
@@ -156,29 +167,19 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           <h5><strong>Receiving & Loss claim</strong></h5>
           <div className="transport-loss">
             <IonRow>
-              <IonCol>
+              <IonCol size="3">
                 <IonButtons>
                   <IonIcon icon={car} />
                 </IonButtons>
               </IonCol>
-              <IonCol>
-                <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(1)}}>
-                  <IonIcon icon={car} />
-                  <IonLabel>C1:8KL</IonLabel>
-                </IonButtons>
-              </IonCol>
-              <IonCol>
-                <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(2)}}>
-                  <IonIcon icon={car} />
-                  <IonLabel>C2:8KL</IonLabel>
-                </IonButtons>
-              </IonCol>
-              <IonCol>
-                <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(3)}}>
-                  <IonIcon icon={car} />
-                  <IonLabel>C3:8KL</IonLabel>
-                </IonButtons>
-              </IonCol>
+              { compartments?.map(comp => (
+                <IonCol size="3">
+                  <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(comp)}}>
+                    <IonIcon icon={car} />
+                    <IonLabel>C{comp}:8KL</IonLabel>
+                  </IonButtons>
+                </IonCol>
+              ))}
             </IonRow>
           </div>
         </div>
@@ -305,7 +306,8 @@ export default connect<OwnProps, StateProps, DispatchProps>({
     delivery: selectors.getDelivery(state, OwnProps),
     checkLists: state.delivery.checkLists,
     message: state.delivery.message,
-    responseStatus: state.delivery.responseStatus
+    responseStatus: state.delivery.responseStatus,
+    lossFormOfflineDatas: state.delivery.transFormOfflineDatas,
   }),
   mapDispatchToProps: {
     setServerMessage,
