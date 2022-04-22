@@ -1,5 +1,5 @@
 import { Route, Redirect } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, IonToast, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Login from './pages/Login';
 import MainTabs from './pages/MainTabs';
@@ -23,9 +23,10 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/material-design-iconic-font/css/material-design-iconic-font.css';
 import { AppContextProvider } from './data/AppContext';
 import { connect } from './data/connect';
-import { loadData, refreshWillSendCount, sendOfflineData } from './data/delivery/delivery.actions';
+import { loadData, refreshWillSendCount, sendOfflineData, setServerMessage, setServerResStatus } from './data/data/data.actions';
 import { useEffect } from 'react';
 import React from 'react';
 import { ConnectionStatus, Network } from '@capacitor/network';
@@ -49,7 +50,8 @@ const App: React.FC<OwnProps> = ({authenticated}) => {
 };
 
 interface StateProps {
-
+  responseStatus: string;
+  message: string;
 }
 
 interface DispatchProps {
@@ -59,9 +61,11 @@ interface DispatchProps {
   setUserData: typeof setUserData;
   setUsername: typeof setUsername;
   setIsLoggedIn: typeof setIsLoggedIn;
+  setServerMessage: typeof setServerMessage;
+  setServerResStatus: typeof setServerResStatus;
 }
 
-const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated, setIsLoggedIn, loadData, refreshWillSendCount, sendOfflineData, setUsername,  setUserData: setUserDataAction }) => {
+const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({setServerMessage, setServerResStatus, responseStatus, message, authenticated, setIsLoggedIn, loadData, refreshWillSendCount, sendOfflineData, setUsername,  setUserData: setUserDataAction }) => {
 
   const getCurrentNetworkStatus = async () => {
     const status = await Network.getStatus();
@@ -128,13 +132,22 @@ const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({authenticated,
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
+      <IonToast
+        cssClass={responseStatus == "S" ? "success-toast" : responseStatus == "E" ? "fail-toast" : ""}
+        isOpen={message !== "" && responseStatus !==""}
+        message={message}
+        duration={5000}
+        onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
+      />
     </IonApp>
   );
 }
 export default App;
 
 const OdiAppConnected = connect<OwnProps, StateProps, DispatchProps>({
-  mapStateToProps: () => ({
+  mapStateToProps: (state) => ({
+    message: state.data.message,
+    responseStatus: state.data.responseStatus,
   }),
   mapDispatchToProps: {
     loadData,
@@ -142,7 +155,9 @@ const OdiAppConnected = connect<OwnProps, StateProps, DispatchProps>({
     refreshWillSendCount,
     setUserData,
     setUsername,
-    setIsLoggedIn
+    setIsLoggedIn,
+    setServerMessage,
+    setServerResStatus
   },
   component: OdiApp
 })

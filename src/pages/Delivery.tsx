@@ -5,9 +5,9 @@ import { notificationsCircleOutline, options, search } from 'ionicons/icons';
 import './MainPage.css'
 import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
-import DeliveryItem from '../components/DeliveryItem';
+import DeliveryItem from '../components/ListItem/DeliveryItem';
 import { Delivery } from '../models/Delivery';
-import { setSearchText } from '../data/delivery/delivery.actions';
+import { setSearchText } from '../data/data/data.actions';
 import { useTranslation } from "react-i18next";
 
 interface OwnProps { }
@@ -143,11 +143,11 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, on
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    isLoading: state.delivery.dataLoading,
+    isLoading: state.data.dataLoading,
     ongoingDeliveryList: selectors.getSearchedOngoingDeliverys(state),
     pastDeliveryList: selectors.getSearchedPastDeliverys(state),
     mode: getConfig()!.get('mode'),
-    willSendCount: state.delivery.willSendCount
+    willSendCount: state.data.willSendCount
   }),
   mapDispatchToProps: {
     setSearchText,

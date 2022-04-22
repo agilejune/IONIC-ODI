@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonItemSliding, IonItem, IonLabel, IonRow, IonCol, IonIcon } from '@ionic/react';
-import { Transportloss } from '../models/Transportloss';
+import { Transportloss } from '../../models/Transportloss';
 import { mailOpen } from 'ionicons/icons';
 
 interface TransportLossItemProps {

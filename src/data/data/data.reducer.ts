@@ -1,7 +1,7 @@
-import { DeliveryActions } from './delivery.actions';
-import { DeliveryState } from './delivery.state';
+import { DataActions } from './data.actions';
+import { DataState } from './data.state';
 
-export function deliveryReducer(state: DeliveryState, action: DeliveryActions): DeliveryState {
+export function dataReducer(state: DataState, action: DataActions): DataState {
   switch (action.type) {
     case 'set-delivery-loading':
       return { ...state, dataLoading: action.isLoading };

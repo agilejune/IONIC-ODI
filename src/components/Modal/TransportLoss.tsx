@@ -1,8 +1,8 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { useRef, useState } from 'react';
-import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
-import { connect } from '../data/connect';
+// import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
+import { connect } from '../../data/connect';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -16,13 +16,13 @@ interface StateProps {
 };
 
 interface DispatchProps {
-  setServerMessage: typeof setServerMessage,
-  setServerResStatus: typeof setServerResStatus,
+  // setServerMessage: typeof setServerMessage,
+  // setServerResStatus: typeof setServerResStatus,
 }
 
 type TransportLossProps = OwnProps & StateProps & DispatchProps;
 
-const TransportLoss : React.FC<TransportLossProps> = ({setServerMessage, setServerResStatus, responseStatus, message, onDismissModal, onLjk, onMeter}) => {
+const TransportLoss : React.FC<TransportLossProps> = ({/*setServerMessage, setServerResStatus, */responseStatus, message, onDismissModal, onLjk, onMeter}) => {
 
   const pageRef = useRef<HTMLElement>(null);
   return(
@@ -71,13 +71,13 @@ const TransportLoss : React.FC<TransportLossProps> = ({setServerMessage, setServ
           2. Pilih Flow Meter apabila pembongkaran BBM menggunakan acuan serah terima meter arus pada mobil tangki (meter arus PTO/meter portabel).
           </h6>
         </IonText>
-        <IonToast
+        {/* <IonToast
           cssClass={responseStatus == "S" ? "success-toast" : responseStatus == "E" ? "fail-toast" : ""}
           isOpen={message !== "" && responseStatus !==""}
           message={message}
           duration={5000}
           onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
-        />
+        /> */}
       </IonContent>
     </IonPage>
   );
@@ -85,12 +85,12 @@ const TransportLoss : React.FC<TransportLossProps> = ({setServerMessage, setServ
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
-    message: state.delivery.message,
-    responseStatus: state.delivery.responseStatus
+    message: state.data.message,
+    responseStatus: state.data.responseStatus
   }),
   mapDispatchToProps: {
-    setServerMessage,
-    setServerResStatus
+    // setServerMessage,
+    // setServerResStatus
   },
   component: React.memo(TransportLoss)
 });

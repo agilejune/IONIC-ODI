@@ -1,5 +1,5 @@
 import { combineReducers } from './combineReducers';
-import { deliveryReducer } from './delivery/delivery.reducer';
+import { dataReducer } from './data/data.reducer';
 import { userReducer } from './user/user.reducer';
 
 export const initialState: AppState = {
@@ -8,7 +8,7 @@ export const initialState: AppState = {
     loading: false,
     user_name: "",
   },
-  delivery: {
+  data: {
     ongoingDeliverys: [],
     pastDeliverys: [],
     orders: [],
@@ -28,8 +28,8 @@ export const initialState: AppState = {
 };
 
 export const reducers = combineReducers({
-  user:     userReducer,
-  delivery: deliveryReducer,
+  user: userReducer,
+  data: dataReducer,
 });
 
 export type AppState = ReturnType<typeof reducers>;

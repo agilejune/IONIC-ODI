@@ -7,7 +7,7 @@ import { setUserData as setUserDataStorage } from '../data/storage';
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import { eyeOffOutline, eyeOutline, personOutline, lockClosedOutline, enterOutline } from 'ionicons/icons';
-import { loadData } from '../data/delivery/delivery.actions';
+import { loadData } from '../data/data/data.actions';
 import { useTranslation } from "react-i18next";
 import { getIsAuthenticated, setIsAuthenticated } from '../data/storage';
 import { menuController } from '@ionic/core';

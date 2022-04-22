@@ -6,7 +6,7 @@ import { Order } from "../../models/Order";
 import { Justify, LossFormDataOffline, Tank, Transportloss } from "../../models/Transportloss";
 import { Vehicle } from "../../models/Vehicle";
 
-export interface DeliveryState {
+export interface DataState {
   dataLoading: boolean,
   ongoingDeliverys: Delivery[],
   pastDeliverys: Delivery[],

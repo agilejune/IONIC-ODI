@@ -2,12 +2,12 @@ import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import * as selectors from '../data/selectors';
-import { connect } from '../data/connect';
-import { LossFormDataOffline, Tank } from '../models/Transportloss';
+import * as selectors from '../../data/selectors';
+import { connect } from '../../data/connect';
+import { LossFormDataOffline, Tank } from '../../models/Transportloss';
 import { TextFieldTypes } from '@ionic/core';
-import { sendTransportLossFormData } from '../data/sync';
-import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
+import { sendTransportLossFormData } from '../../data/sync';
+import { setResInfoAfterSend } from '../../data/data/data.actions';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -430,8 +430,8 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
     lossFormOfflineData: selectors.getLossFormOfflineData(state, OwnProps),
-    tankOptions: state.delivery.tanks,
-    isSending: state.delivery.dataSending,
+    tankOptions: state.data.tanks,
+    isSending: state.data.dataSending,
   }),
   mapDispatchToProps: {
     setResInfoAfterSend

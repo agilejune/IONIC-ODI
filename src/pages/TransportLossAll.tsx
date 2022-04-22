@@ -6,8 +6,8 @@ import { options, search } from 'ionicons/icons';
 import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import { Transportloss } from '../models/Transportloss';
-import TransportLossItem from '../components/TransportLossItem';
-import { setSearchText } from '../data/delivery/delivery.actions';
+import TransportLossItem from '../components/ListItem/TransportLossItem';
+import { setSearchText } from '../data/data/data.actions';
 
 interface OwnProps { }
 
@@ -93,7 +93,7 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ isLoading, transp
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    isLoading: state.delivery.dataLoading,
+    isLoading: state.data.dataLoading,
     transportLossList: selectors.getSearchedTransportLossAll(state),
     mode: getConfig()!.get('mode')
   }),

@@ -1,6 +1,6 @@
 import { getCheckLists, getDelivery, getDriverDetails, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, getVehicleDatails, sendCheckLists as sendCheckListsSync, sendFeedback as sendFeedbackSync, sendTransportLossFormData as sendTransportLossFormDataSync, sendOfflineStackData } from '../sync';
 import { ActionType } from '../../util/types';
-import { DeliveryState } from './delivery.state';
+import { DataState } from './data.state';
 import { getLossFormOffineData } from '../sync';
 
 
@@ -72,37 +72,37 @@ export const setServerResStatus = (status: string) => ({
 } as const);
 
 
-export const setDeliveryData = (data: Partial<DeliveryState>) => ({
+export const setDeliveryData = (data: Partial<DataState>) => ({
   type: 'set-delivery-data',
   data
 } as const);
 
-export const setOrderData = (data: Partial<DeliveryState>) => ({
+export const setOrderData = (data: Partial<DataState>) => ({
   type: 'set-order-data',
   data
 } as const);
 
-export const setFeedbackData = (data: Partial<DeliveryState>) => ({
+export const setFeedbackData = (data: Partial<DataState>) => ({
   type: 'set-feedback-data',
   data
 } as const);
 
-export const setTransLossData = (data: Partial<DeliveryState>) => ({
+export const setTransLossData = (data: Partial<DataState>) => ({
   type: 'set-transloss-data',
   data
 } as const);
 
-export const setCheckListData = (data: Partial<DeliveryState>) => ({
+export const setCheckListData = (data: Partial<DataState>) => ({
   type: 'set-checklist-data',
   data
 } as const);
 
-export const setJustifyData = (data: Partial<DeliveryState>) => ({
+export const setJustifyData = (data: Partial<DataState>) => ({
   type: 'set-justify-data',
   data
 } as const);
 
-export const setTankData = (data: Partial<DeliveryState>) => ({
+export const setTankData = (data: Partial<DataState>) => ({
   type: 'set-tank-data',
   data
 } as const);
@@ -119,22 +119,22 @@ export const setWillSendCount = (count: number) => {
   count 
 } as const)};
 
-export const setLossFormDataOffline = (data: Partial<DeliveryState>) => ({
+export const setLossFormDataOffline = (data: Partial<DataState>) => ({
   type: 'set-lossform-offline',
   data
 } as const);
 
-export const setDriverDetails = (data: Partial<DeliveryState>) => ({
+export const setDriverDetails = (data: Partial<DataState>) => ({
   type: 'set-driver-detail',
   data
 } as const);
 
-export const setVehicleDetails = (data: Partial<DeliveryState>) => ({
+export const setVehicleDetails = (data: Partial<DataState>) => ({
   type: 'set-vehicle-detail',
   data
 } as const);
 
-export type DeliveryActions =
+export type DataActions =
   | ActionType<typeof setLoading>
   | ActionType<typeof setDeliveryData>
   | ActionType<typeof setOrderData>

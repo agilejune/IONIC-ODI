@@ -14,12 +14,12 @@ Device.getLanguageCode()
   console.log(code);
   i18next.init({
     interpolation: { escapeValue: false },        // React already does escaping
-    lng: code.value,                              // language to use
+    lng: code.value == 'in' ? 'id' : code.value,  // language to use
     resources: {
         en: {
             common: common_en               
         },
-        in: {
+        id: {
             common: common_id
         },
     },

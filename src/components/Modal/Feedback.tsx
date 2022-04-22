@@ -1,14 +1,14 @@
 import { IonBadge, IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react'
-import { connect } from '../data/connect';
+import { connect } from '../../data/connect';
 import { useTranslation } from 'react-i18next';
-import { Delivery } from '../models/Delivery';
+import { Delivery } from '../../models/Delivery';
 import { useForm } from "react-hook-form";
-import { getFeedbackOptions } from '../data/api';
-import { FeedbackOption } from '../models/Feedback';
-import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
-import { sendFeedback } from '../data/sync';
+import { getFeedbackOptions } from '../../data/api';
+import { FeedbackOption } from '../../models/Feedback';
+import { setResInfoAfterSend } from '../../data/data/data.actions';
+import { sendFeedback } from '../../data/sync';
 
 interface OwnProps {
   onDismissModal: () => void;

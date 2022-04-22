@@ -7,16 +7,16 @@ import { LossFormDataOffline, Transportloss } from '../models/Transportloss';
 import { Vehicle } from '../models/Vehicle';
 import { AppState } from './state';
 
-const getAllDeliverys = (state: AppState) => [...state.delivery.ongoingDeliverys, ...state.delivery.pastDeliverys];
-const getOngoingDeliverys = (state: AppState) => [...state.delivery.ongoingDeliverys];
-const getPastDeliverys = (state: AppState) => [...state.delivery.pastDeliverys];
-const getOrders = (state: AppState) => [...state.delivery.orders];
-const getTransportlosses = (state: AppState) => [...state.delivery.transLossAll];
-const getFeedbacks = (state: AppState) => [...state.delivery.feedbacks]
-const getSearchText = (state: AppState) => state.delivery.searchText;
-const getLossFormOfflineDatas = (state: AppState) => state.delivery.transFormOfflineDatas;
-const getDriverDetails = (state: AppState) => state.delivery.drivers;
-const getVehicleDatails = (state: AppState) => state.delivery.vehicles;
+const getAllDeliverys = (state: AppState) => [...state.data.ongoingDeliverys, ...state.data.pastDeliverys];
+const getOngoingDeliverys = (state: AppState) => [...state.data.ongoingDeliverys];
+const getPastDeliverys = (state: AppState) => [...state.data.pastDeliverys];
+const getOrders = (state: AppState) => [...state.data.orders];
+const getTransportlosses = (state: AppState) => [...state.data.transLossAll];
+const getFeedbacks = (state: AppState) => [...state.data.feedbacks]
+const getSearchText = (state: AppState) => state.data.searchText;
+const getLossFormOfflineDatas = (state: AppState) => state.data.transFormOfflineDatas;
+const getDriverDetails = (state: AppState) => state.data.drivers;
+const getVehicleDatails = (state: AppState) => state.data.vehicles;
 
 const getShipId = (_state: AppState, props: any) => {
   return props.shipID;

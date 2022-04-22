@@ -252,15 +252,16 @@ export const sendTransportLossFormData = async (data: any) => {
   return { msg, responseStatus };
 }
 
-
 export const sendOfflineStackData = async () => {
   let success = true;
   const datas= await getStorageStack();
+  let msg = "Datas are sent successfully";
+  let responseStatus = "S";
   
   if (datas == null) return;
 
   try {
-    Object.entries(datas).forEach(([key, value]) => {
+    Object.entries(datas).forEach(async ([key, value]) => {
       if (key === "profile") {
 
       }
@@ -268,27 +269,36 @@ export const sendOfflineStackData = async () => {
         value.map(async (feedback: any) => {
           console.log("send feedback from offine stack");
 
-          const { status } = await sendApiFeedback(feedback);
-          if (status != "S")
+          try {
+            const { status } = await sendApiFeedback(feedback);
+          }
+          catch(err) {
             throw Error();
+          }
         });
       }
       else if (key === "transportLoss" && Array.isArray(value)) {
         value.map(async (data: any) => {
           console.log("send transportloss calculation data from offine stack");
 
-          const { status } = await sendApiTransportLossFormData(data);
-          if (status != "S")
+          try {
+            const { status } = await sendApiTransportLossFormData(data);
+          }
+          catch(err) {
             throw Error();
+          }
         });
       }
       else if (key === "checklist" && Array.isArray(value)) {
         value.map(async (list: any) => {
           console.log("send checklist from offine stack");
 
-          const { status } = await sendApiFeedback(list);
-          if (status != "S")
+          try {
+            const { status } = await sendApiFeedback(list);
+          }
+          catch(err) {
             throw Error();
+          }
         });
       }
     });
@@ -307,7 +317,7 @@ export const getOfflineStackCount = async () => {
   
   if (datas == null) return 0;
 
-  Object.entries(datas).forEach(([key, value]) => {
+  Object.entries(datas).forEach(async ([key, value]) => {
     if (key === "profile" && value !== "") {
       ++count;
     }

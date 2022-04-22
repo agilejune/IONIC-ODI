@@ -5,19 +5,19 @@ import * as selectors from '../data/selectors';
 import { Delivery } from '../models/Delivery';
 import { IonButton, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonIcon, IonLabel, IonModal, IonToast, IonItem} from '@ionic/react';
 import { person, receipt, car, reload, contrast, ticket } from 'ionicons/icons';
-import DriverDetail from '../components/DriverDetail';
-import VehicleDetail from '../components/VehicleDetail';
+import DriverDetail from '../components/Modal/DriverDetail';
+import VehicleDetail from '../components/Modal/VehicleDetail';
 import './DeliveryDetail.scss';
-import TransportLossAgree from '../components/TransportLossAgree';
-import TransportLossQuery from '../components/TransportLossQuery';
-import TransportLoss from '../components/TransportLoss';
-import TransportLossLjk from '../components/TransportLossLjk';
-import TransportLossMeter from '../components/TransportLossMeter';
-import TransportLossJustify from '../components/TransportLossJustify';
+import TransportLossAgree from '../components/Modal/TransportLossAgree';
+import TransportLossQuery from '../components/Modal/TransportLossQuery';
+import TransportLoss from '../components/Modal/TransportLoss';
+import TransportLossLjk from '../components/Modal/TransportLossLjk';
+import TransportLossMeter from '../components/Modal/TransportLossMeter';
+import TransportLossJustify from '../components/Modal/TransportLossJustify';
 import { CheckList } from '../models/CheckList';
 import { useTranslation } from "react-i18next";
-import SendFeedback from '../components/Feedback';
-import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
+import SendFeedback from '../components/Modal/Feedback';
+// import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
 import { LossFormDataOffline } from '../models/Transportloss';
 
 interface OwnProps extends RouteComponentProps { };
@@ -31,13 +31,13 @@ interface StateProps {
 };
 
 interface DispatchProps {
-  setServerMessage: typeof setServerMessage,
-  setServerResStatus: typeof setServerResStatus,
+  // setServerMessage: typeof setServerMessage,
+  // setServerResStatus: typeof setServerResStatus,
 }
 
 type DeliveryDetailProps = OwnProps & StateProps & DispatchProps;
 
-const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, responseStatus, message, lossFormOfflineDatas, setServerResStatus, setServerMessage }) => {
+const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, responseStatus, message, lossFormOfflineDatas, /*setServerResStatus, setServerMessage*/ }) => {
   const [showDriverDetail, setShowDriverDetail] = useState(false);
   const [showVehicleDetail, setShowVehicleDetail] = useState(false);
   const [showTransLossAgree, setShowTransLossAgree] = useState(false);
@@ -197,13 +197,13 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           </IonRow>
         </div>
 
-        <IonToast
+        {/* <IonToast
           cssClass={responseStatus == "S" ? "success-toast" : responseStatus == "E" ? "fail-toast" : ""}
           isOpen={message !== "" && responseStatus !==""}
           message={message}
           duration={5000}
           onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
-        />
+        /> */}
 
         <IonModal
           isOpen={showDriverDetail}
@@ -304,14 +304,14 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
     delivery: selectors.getDelivery(state, OwnProps),
-    checkLists: state.delivery.checkLists,
-    message: state.delivery.message,
-    responseStatus: state.delivery.responseStatus,
-    lossFormOfflineDatas: state.delivery.transFormOfflineDatas,
+    checkLists: state.data.checkLists,
+    message: state.data.message,
+    responseStatus: state.data.responseStatus,
+    lossFormOfflineDatas: state.data.transFormOfflineDatas,
   }),
   mapDispatchToProps: {
-    setServerMessage,
-    setServerResStatus
+    // setServerMessage,
+    // setServerResStatus
   },
   component: withRouter(DeliveryDetail)
 });

@@ -2,10 +2,10 @@ import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonI
 import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { Dispatch, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { connect } from '../data/connect';
-import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
-import { sendTransportLossFormData } from '../data/sync';
-import { Justify } from '../models/Transportloss';
+import { connect } from '../../data/connect';
+import { setResInfoAfterSend } from '../../data/data/data.actions';
+import { sendTransportLossFormData } from '../../data/sync';
+import { Justify } from '../../models/Transportloss';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -123,7 +123,7 @@ const TransportLossJustify : React.FC<OwnProps & StateProps & DispatchProps> = (
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
-    justifyOptions: state.delivery.justify,
+    justifyOptions: state.data.justify,
   }),
   mapDispatchToProps: {
     setResInfoAfterSend

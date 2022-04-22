@@ -26,7 +26,7 @@ const jsonUrl = {
   lossOfflineForm : '/assets/data/transportloss_offline.json'
 };
 
-const jsonMode = false;
+const jsonMode = true;
 let commonFormData = new FormData();
 let spbu : string;
 
@@ -48,7 +48,6 @@ export const doAuthenticate = async (formData : FormData) => {
   else if (status === "S") {
     const user = responseData.data[0] as User;
     putUserInfoInFormData(user);
-    spbu = user.user_name;
     return user;
   }
 }
@@ -56,6 +55,7 @@ export const doAuthenticate = async (formData : FormData) => {
 export const putUserInfoInFormData = (user: User) => {
   commonFormData.append('spbu', user.user_name);
   commonFormData.append('company_id', user.company_id.toString());
+  spbu = user.user_name;
 }
 
 export const getApiDelivery = async () => {
@@ -71,7 +71,6 @@ export const getApiDelivery = async () => {
 
   const ongoingData = await response_ongoing[0].json();
   const ongoingDeliverys = ongoingData.data as Delivery[];
-  const shipIds_ongoing = ongoingDeliverys.map(d => { return d.shipment_id; });
 
   commonFormData.delete('menu');
   commonFormData.append('menu', 'past_deliveries');
@@ -411,10 +410,12 @@ export const sendApiTransportLossFormData = async (data: object) => {
   const formData = new FormData();
 
   const exceptFields = ["density_15c", "password", "state", "tank_name", "treshold_ttl_loss", "lolines_ids", "conf_tolerance", "conf_tolerance_discrepancy", "datas_fname", "datas_fname_atg", "datas_id", "datas_id_atg", "is_atg"];
+  const numberFields = ['density_obs', 'delivery_discrepancy', 'temperatur_obs', 'vol_after', 'volume_ar', 'volume_sales', 'ship_loss_id', 'shipment_id', 'height_after', 'tank_id', 'height_before', 'ttl_loss', 'claim_discrepancy', 'sensitivity', 'tolerance_discrepancy', 'ttl_loss_claim', 
+  'tolerance', 'vol_compartment', 'vol_before'];
 
   Object.entries(data).forEach(([key, value]) => {
     if (exceptFields.indexOf(key) == -1)
-      formData.append(key, value);
+      formData.append(key, numberFields.indexOf(key) != -1 ? Number(value) : value);
   });
 
   console.log("send form offline data with api");

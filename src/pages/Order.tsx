@@ -6,8 +6,8 @@ import { options, search } from 'ionicons/icons';
 import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import { Order } from '../models/Order';
-import OrderItem from '../components/OrderItem';
-import { setSearchText } from '../data/delivery/delivery.actions';
+import OrderItem from '../components/ListItem/OrderItem';
+import { setSearchText } from '../data/data/data.actions';
 
 interface OwnProps { }
 
@@ -94,7 +94,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ isLoading, orderList, mode, setSe
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    isLoading: state.delivery.dataLoading,
+    isLoading: state.data.dataLoading,
     orderList: selectors.getSearchedOrders(state),
     mode: getConfig()!.get('mode')
   }),

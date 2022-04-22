@@ -1,12 +1,12 @@
 import { IonButton, IonButtons, IonCheckbox, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRow, IonSpinner, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { CheckList } from '../models/CheckList';
+import { CheckList } from '../../models/CheckList';
 import './TransportLossQuery.scss';
 import { useForm } from 'react-hook-form';
-import { setResInfoAfterSend } from '../data/delivery/delivery.actions';
-import { connect } from '../data/connect';
-import { sendCheckLists } from '../data/sync';
+import { setResInfoAfterSend } from '../../data/data/data.actions';
+import { connect } from '../../data/connect';
+import { sendCheckLists } from '../../data/sync';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -49,7 +49,7 @@ const TransportLossQuery : React.FC<OwnProps & DispatchProps & StateProps> = ({s
             ) {
               tmp = {
                 ...tmp,
-                [key]: value
+                [key]: String(value)
               };
             }
           }
@@ -144,7 +144,7 @@ const TransportLossQuery : React.FC<OwnProps & DispatchProps & StateProps> = ({s
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
-    isSending: state.delivery.dataSending,
+    isSending: state.data.dataSending,
   }),
   mapDispatchToProps: {
     setResInfoAfterSend,

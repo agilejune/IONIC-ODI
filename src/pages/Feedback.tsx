@@ -6,8 +6,8 @@ import { options, search } from 'ionicons/icons';
 import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
 import { Feedback } from '../models/Feedback';
-import FeedbackItem from '../components/FeedbackItem';
-import { setSearchText } from '../data/delivery/delivery.actions';
+import FeedbackItem from '../components/ListItem/FeedbackItem';
+import { setSearchText } from '../data/data/data.actions';
 
 interface OwnProps { }
 
@@ -93,7 +93,7 @@ const FeedbackPage: React.FC<FeedbackPageProps> = ({ isLoading, feedbackList, mo
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    isLoading: state.delivery.dataLoading,
+    isLoading: state.data.dataLoading,
     feedbackList: selectors.getSearchedFeedbacks(state),
     mode: getConfig()!.get('mode')
   }),

@@ -1,10 +1,10 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
-import { Vehicle } from '../models/Vehicle';
+import { Vehicle } from '../../models/Vehicle';
 import { useTranslation } from 'react-i18next';
-import { connect } from '../data/connect';
-import * as selectors from '../data/selectors';
+import { connect } from '../../data/connect';
+import * as selectors from '../../data/selectors';
 
 interface OwnProps {
   onDismissModal: () => void;
