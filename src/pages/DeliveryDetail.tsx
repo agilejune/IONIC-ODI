@@ -165,23 +165,20 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
         </div>
         <div className="ion-padding-top">
           <h5><strong>Receiving & Loss claim</strong></h5>
-          <div className="transport-loss">
-            <IonRow>
-              <IonCol size="3">
-                <IonButtons>
-                  <IonIcon icon={car} />
-                </IonButtons>
-              </IonCol>
+          <IonRow>
+            <IonButtons>
+              <IonButton>
+                <IonLabel>
+                  <i className="zmdi zmdi-truck zmdi-hc-flip-horizontal zmdi-hc-2x mdc-text-red" />
+                </IonLabel>
+              </IonButton>
               { compartments?.map(comp => (
-                <IonCol size="3">
-                  <IonButtons onClick={() => { setShowTransLossAgree(true); setComp(comp)}}>
-                    <IonIcon icon={car} />
-                    <IonLabel>C{comp}:8KL</IonLabel>
-                  </IonButtons>
-                </IonCol>
-              ))}
-            </IonRow>
-          </div>
+                <IonButton onClick={() => { setShowTransLossAgree(true); setComp(comp)}}>
+                  <IonLabel><i className="zmdi zmdi-gas-station zmdi-hc-2x" /><span>C{comp}:8KL</span></IonLabel>
+                </IonButton>
+            ))}
+            </IonButtons>
+          </IonRow>
         </div>
         <div className="ion-padding-top">
           <h5><strong>{ t('pages_delivery.seal') }:</strong></h5>

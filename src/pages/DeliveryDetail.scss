@@ -1,15 +1,18 @@
 #delivery-detail {
-  .transport-loss ion-col {
-    border-color: #6c7bfc !important;
-    border-width: thin !important;
-    border-style: solid !important;
-    border-radius: 5px !important;
-    border: solid;
-    padding: 0;
-  }
+  ion-buttons {
+    ion-button {
 
-  .transport-loss ion-buttons {
-    height: 2rem;
-  }
+      border-color: #bdbdbe !important;
+      border-width: thin !important;
+      border-style: solid !important;
+      border-radius: 0px !important;
+      margin: 0;
 
+      ion-label {
+        i, span {
+          color:#3F51B5;
+        }
+      }
+    }
+  }
 }
