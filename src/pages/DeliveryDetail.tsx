@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import SendFeedback from '../components/Modal/Feedback';
 // import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
 import { LossFormDataOffline } from '../models/Transportloss';
+import WebViewModal from '../components/Modal/WebViewModal';
 
 interface OwnProps extends RouteComponentProps { };
 
@@ -47,6 +48,9 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
   const [showTransLossMeter, setShowTransLossMeter] = useState(false);
   const [showTransLossJustify, setShowTransLossJustify] = useState(false);
   const [showSendFeedback, setShowSendFeedback] = useState(false);
+  const [showWebView, setShowWebView] = useState(false);
+  const [webViewTitle, setWebViewTitle] = useState("");
+  const [url, setUrl] = useState("");
   const [measureBy, setMeasureBy] = useState("");
   const [comp, setComp] = useState(0);
   const [compartments, setCompartments] = useState<any[]>();
@@ -93,7 +97,14 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
             </IonButtons>
           </IonCol>
           <IonCol>
-            <IonButtons className="ion-float-right">
+            <IonButtons 
+              className="ion-float-right"
+              onClick={() => { 
+                setUrl(delivery.url_tracking); 
+                setShowWebView(true);
+                setWebViewTitle("Online Delivery Info / Tracking"); }
+              }
+            >
               <IonIcon icon={car}></IonIcon>
               <IonLabel>{ t('pages_delivery.tracking') }</IonLabel>
             </IonButtons>
@@ -113,7 +124,14 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
             </IonButtons>
           </IonCol>
           <IonCol>
-            <IonButtons className="ion-float-right">
+            <IonButtons 
+              className="ion-float-right"
+              onClick={() => { 
+                setUrl(delivery.url_survey); 
+                setShowWebView(true);
+                setWebViewTitle("Online Delivery Info / Survey"); }
+              }
+            >
               <IonIcon icon={car}></IonIcon>
               <IonLabel>{ t('pages_delivery.survey') }</IonLabel>
             </IonButtons>
@@ -201,6 +219,15 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           duration={5000}
           onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
         /> */}
+
+        <IonModal
+          isOpen={showWebView}
+          onDidDismiss={() => setShowWebView(false)}
+          swipeToClose={true}
+          presentingElement={pageRef.current!}
+        >
+          <WebViewModal url={url} title={webViewTitle}  onDismissModal={() => setShowWebView(false)}></WebViewModal>
+        </IonModal>
 
         <IonModal
           isOpen={showDriverDetail}
