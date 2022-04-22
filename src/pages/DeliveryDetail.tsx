@@ -80,7 +80,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
       </IonHeader>
       <IonContent className="ion-padding">
         <IonButtons onClick={() => setShowVehicleDetail(true)}>
-          <IonText color="primary">
+          <IonText>
             <h5><strong>{delivery.vehicle}</strong>&nbsp;/&nbsp;<span className="">{delivery.volume}&nbsp;KL</span></h5>
           </IonText>
         </IonButtons>
@@ -92,8 +92,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
                   setDriverAssistantID(delivery.driver_id); }
                 }
               >
-              <IonIcon icon={person}></IonIcon>
-              <IonLabel>{delivery.driver}</IonLabel>
+              <IonLabel><IonIcon icon={person}/>{delivery.driver}</IonLabel>
             </IonButtons>
           </IonCol>
           <IonCol>
@@ -105,8 +104,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
                 setWebViewTitle("Online Delivery Info / Tracking"); }
               }
             >
-              <IonIcon icon={car}></IonIcon>
-              <IonLabel>{ t('pages_delivery.tracking') }</IonLabel>
+              <IonLabel><IonIcon icon={car} />{ t('pages_delivery.tracking') }</IonLabel>
             </IonButtons>
           </IonCol>
         </IonRow>
@@ -119,8 +117,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
                 setDriverAssistantID(delivery.driver_assistant_id); }
               }
             >
-              <IonIcon icon={person}></IonIcon>
-              <IonLabel>{delivery.driver_assistant}</IonLabel>
+              <IonLabel><IonIcon icon={person} />{delivery.driver_assistant}</IonLabel>
             </IonButtons>
           </IonCol>
           <IonCol>
@@ -132,8 +129,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
                 setWebViewTitle("Online Delivery Info / Survey"); }
               }
             >
-              <IonIcon icon={car}></IonIcon>
-              <IonLabel>{ t('pages_delivery.survey') }</IonLabel>
+              <IonLabel><IonIcon icon={car} />{ t('pages_delivery.survey') }</IonLabel>
             </IonButtons>
           </IonCol>
         </IonRow>
@@ -142,8 +138,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           </IonCol>
           <IonCol>
             <IonButtons className="ion-float-right" onClick={() => setShowSendFeedback(true)}>
-              <IonIcon icon={receipt}></IonIcon>
-              <IonLabel>{ t('pages_delivery.send_feedback') }</IonLabel>
+              <IonLabel><IonIcon icon={receipt} />{ t('pages_delivery.send_feedback') }</IonLabel>
             </IonButtons>
           </IonCol>
         </IonRow>

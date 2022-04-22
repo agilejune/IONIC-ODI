@@ -233,19 +233,6 @@ http://ionicframework.com/docs/theming/ */
 
     --ion-card-background: #1e1e1e;
   }
-
-  /* hr {
-    border: 2px solid red !important;
-    height: 10px !important;
-    width: 500px !important;
-    background: blue !important;
-    display: block !important;
-    font-size: 2em !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  } */
-
-
 }
 
 ion-select-popover .item .sc-ion-label-md-h {

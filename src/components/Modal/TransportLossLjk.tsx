@@ -264,6 +264,17 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
     },
     {
       visible: true,
+      type: "input",
+      label: "Delivery Discrepancy\n(Liter)",
+      props: {
+        name: "delivery_discrepancy",
+        type: "number",
+        disabled: lossFormOfflineData.state === 'confirm',
+        value: lossFormOfflineData.delivery_discrepancy
+      }
+    },
+    {
+      visible: true,
       type: "description",
       props: {
         value: "* Untuk SPBU dengan program ATG sebagai custody transfer"
@@ -302,23 +313,28 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
     {
       visible: true,
       type: "input",
-      label: "Delivery Discrepancy\n(Liter)",
+      label: "Volume Sales (Liter)",
       props: {
-        name: "delivery_discrepancy",
+        name: "volume_sales",
         type: "number",
         disabled: lossFormOfflineData.state === 'confirm',
-        value: lossFormOfflineData.delivery_discrepancy
+        value: lossFormOfflineData.volume_sales
       }
     },
     {
-      visible: true,
-      type: "input",
+      visible: lossFormOfflineData.state === 'confirm',
+      type: "text",
+      label: "Threshold Discrepancy(Liter)",
+      props: {
+        value: `:${lossFormOfflineData.tolerance_discrepancy}`
+      }
+    },
+    {
+      visible: lossFormOfflineData.state === 'confirm',
+      type: "text",
       label: "Claim Discrepancy(Liter)",
       props: {
-        name: "claim_discrepancy",
-        type: "number",
-        disabled: lossFormOfflineData.state === 'confirm',
-        value: lossFormOfflineData.claim_discrepancy
+        value: `:${lossFormOfflineData.claim_discrepancy}`
       }
     },
     {
@@ -415,6 +431,18 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
           </IonButton>
         } 
         </form>
+        <hr/>
+        <IonRow>
+          <IonCol>
+            <IonText>
+              <strong>Keterangan :</strong><br/>
+              Total Loss(Liter) = (Height t2(mm) - Level BBM Sebelum Bongkar(mm)) * Kepekaan (Liter/mm)<br/><br/>
+              Toleransi(Liter) = (% Toleransi * Vol Kompartemen(Liter))<br/><br/>
+              Total Claim Loss(Liter) = Total Loss(Liter) - Toleransi(Liter)
+            </IonText>
+          </IonCol>
+        </IonRow>
+
         <IonToast
           cssClass="fail-toast"
           isOpen={errorMessage !== ""}

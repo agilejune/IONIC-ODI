@@ -1,5 +1,14 @@
 #delivery-detail {
   ion-buttons {
+    ion-label, ion-text {
+      color: #3F51B5;
+    }
+
+    ion-label:hover, ion-text:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
     ion-button {
 
       border-color: #bdbdbe !important;
