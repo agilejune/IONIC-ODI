@@ -52,6 +52,13 @@ export const getOrder = createSelector(
   }
 );
 
+export const getFeedback = createSelector(
+  getFeedbacks, getIdParam,
+  (feedbacks, id) => {
+    return feedbacks.find((f: Feedback) => f.No === id);
+  }
+);
+
 export const getTransportloss = createSelector(
   getTransportlosses, getIdParam,
   (losses, id) => {

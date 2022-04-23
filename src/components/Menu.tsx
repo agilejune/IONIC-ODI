@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps, withRouter, useLocation } from 'react-router';
 
 import { IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonTitle, IonToolbar} from '@ionic/react';
-import { camera, pin, chatbox, basket, archiveOutline, help, logOut, person } from 'ionicons/icons';
+import { camera, pin, chatbox, basket, archiveOutline, help, logOut, person, swapVerticalOutline, alarmOutline, readerOutline, alarm, reader, archive, water } from 'ionicons/icons';
 
 import { connect } from '../data/connect';
 
@@ -32,20 +32,20 @@ const Menu: React.FC<MenuProps> = ({ history, isLoggedin, userName }) => {
   const routes = {
   
     deliveryPages: [
-      { title: t('menus.delivery'), path: '/tabs/delivery', icon: archiveOutline },
+      { title: t('menus.delivery'), path: '/tabs/delivery', icon: archive },
       { title: t('menus.your_orders'), path: '/tabs/order', icon: basket },
       { title: t('menus.message_from_us'), path: '/tabs/message', icon: chatbox },
-      { title: t('menus.transport_loss'), path: '/tabs/loss', icon: pin },
+      { title: t('menus.transport_loss'), path: '/tabs/loss', icon: water },
       { title: t('menus.transport_loss_qrcode'), path: '/tabs/scan_rqcode', icon: camera },
     ],
     operationInfoPages: [
-      { title: t('menus.stock'), path: '/stock', icon: person },
-      { title: t('menus.sales'), path: '/sales', icon: help },
-      { title: t('menus.gain_loss'), path: '/gain_loss', icon: logOut }
+      { title: t('menus.stock'), path: '/stock', icon: alarm },
+      { title: t('menus.sales'), path: '/sales', icon: reader },
+      { title: t('menus.gain_loss'), path: '/gain_loss', icon: swapVerticalOutline }
     ],
     accountPages: [
-      { title: t('menus.help_feedback'), path: '/help_feedback', icon: person },
-      { title: 'Profile', path: '/profile', icon: help },
+      { title: t('menus.help_feedback'), path: '/help_feedback', icon: help },
+      { title: 'Profile', path: '/profile', icon: person },
       { title: 'Logout', path: '/logout', icon: logOut }
     ],
   };

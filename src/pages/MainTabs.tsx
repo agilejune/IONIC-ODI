@@ -1,7 +1,7 @@
 import React  from 'react';
 import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/react';
 import { Route, Redirect } from 'react-router';
-import { archiveOutline, basket, chatbox, pin } from 'ionicons/icons';
+import { archive, archiveOutline, basket, chatbox, pin, water } from 'ionicons/icons';
 
 import DeliveryPage from './Delivery';
 import DeliveryDetail from './DeliveryDetail';
@@ -10,6 +10,8 @@ import FeedbackPage from './Feedback';
 import TransportLossAllPage from './TransportLossAll';
 import OrderDetail from './OrderDetail';
 import TransportLossDetail from './TransportLossDetail';
+import FeedbackDetail from './FeedbackDetail';
+
 interface MainTabsProps { }
 
 const MainTabs: React.FC<MainTabsProps> = () => {
@@ -25,10 +27,11 @@ const MainTabs: React.FC<MainTabsProps> = () => {
         <Route path="/tabs/delivery/:id" component={ DeliveryDetail } exact={true} />
         <Route path="/tabs/order/:id" component={ OrderDetail } exact={true} />
         <Route path="/tabs/loss/:id" component={ TransportLossDetail } exact={true} />
+        <Route path="/tabs/message/:id" component={ FeedbackDetail } exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="delivery" href="/tabs/delivery">
-          <IonIcon icon={archiveOutline} />
+          <IonIcon icon={archive} />
           <IonLabel>Delivery</IonLabel>
         </IonTabButton>
         <IonTabButton tab="order" href="/tabs/order">
@@ -40,7 +43,7 @@ const MainTabs: React.FC<MainTabsProps> = () => {
           <IonLabel>Messages</IonLabel>
         </IonTabButton>
         <IonTabButton tab="loss" href="/tabs/loss">
-          <IonIcon icon={pin} />
+          <IonIcon icon={water} />
           <IonLabel>Loss</IonLabel>
         </IonTabButton>
       </IonTabBar>
