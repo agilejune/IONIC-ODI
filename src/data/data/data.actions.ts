@@ -2,6 +2,7 @@ import { getCheckLists, getDelivery, getDriverDetails, getFeedbacks, getJustify,
 import { ActionType } from '../../util/types';
 import { DataState } from './data.state';
 import { getLossFormOffineData } from '../sync';
+import { getStorageTransportLossOffline, updateStorageTransportLossOffline } from '../storage';
 
 
 export const loadData = () => async (dispatch: React.Dispatch<any>) => {
@@ -54,6 +55,12 @@ export const sendOfflineData = () => async (dispatch: React.Dispatch<any>) => {
 export const refreshWillSendCount = () => async (dispatch: React.Dispatch<any>) => {
   const count = await getOfflineStackCount();
   dispatch(setWillSendCount(count));
+}
+
+export const updateTransportLossOfflineData = (data: any) => async (dispatch: React.Dispatch<any>) => {
+  await updateStorageTransportLossOffline(data);
+  const lossFormDataOffline = await getStorageTransportLossOffline();
+  dispatch(setLossFormDataOffline(lossFormDataOffline));
 }
 
 export const setLoading = (isLoading: boolean) => ({

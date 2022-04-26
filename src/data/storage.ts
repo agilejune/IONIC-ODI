@@ -1,4 +1,6 @@
 import { Storage } from '@capacitor/storage';
+import { LossFormDataOffline } from '../models/Transportloss';
+import { User } from '../models/User';
 
 const HAS_LOGGED_IN = 'hasLoggedIn';
 const USERDATA = 'user_data';
@@ -129,6 +131,23 @@ export const getStorageTransportLossOffline = async () => {
   if (value == null || value == "undefined") return;
   
   return JSON.parse(value);
+}
+
+export const updateStorageTransportLossOffline = async (updateData : any) => {
+  const prevDatas = (await getStorageTransportLossOffline()).transFormOfflineDatas as LossFormDataOffline[];
+  const userData = await getUserData() as User;
+  const currentDatas = prevDatas.map(d => {
+    if (d.shipment_id == updateData.shipment_id && d.compartment == updateData.compartment)
+      return {...d, ...updateData, ...{spbu: userData.user_name}} as LossFormDataOffline;
+    else if (d.shipment_id == updateData.shipment_id && d.compartment != updateData.compartment) {
+      const newLolinesIds = d.lolines_ids.filter(id => id.lo_id != updateData.lolines_id1)
+      return {...d, ...{lolines_ids: newLolinesIds}};
+    }
+    else 
+      return d;
+  });
+  await setTransportLossOffline({transFormOfflineDatas : currentDatas});
+  console.log(JSON.stringify(currentDatas, null, 2));
 }
 
 export const setChecklists = async (data : any) => {

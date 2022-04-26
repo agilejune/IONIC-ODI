@@ -1,6 +1,6 @@
 import { Network } from '@capacitor/network';
 import { getApiCheckLists, getApiDelivery, getApiDriverDetails, getApiFeedbacks, getApiJustify, getApiLossFormOffineData, getApiOrders, getApiTanks, getApiTransportLossAll, getApiVehicleDatails, sendApiCheckLists, sendApiFeedback, sendApiTransportLossFormData } from './api';
-import { getStorageChecklists, getStorageDeliverys, getStorageDriverDetails, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, getStorageTransportLossOffline, getStorageVehicleDatails, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setDriverDetails, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll, setTransportLossOffline, setVehicleDatails } from './storage';
+import { getStorageChecklists, getStorageDeliverys, getStorageDriverDetails, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, getStorageTransportLossOffline, getStorageVehicleDatails, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setDriverDetails, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll, setTransportLossOffline, setVehicleDatails, updateStorageTransportLossOffline } from './storage';
 
 export const getCurrentNetworkStatus = async () => {
   const status = await Network.getStatus();
@@ -249,6 +249,7 @@ export const sendTransportLossFormData = async (data: any) => {
     msg = "Datas are saved to Storage temporarily"
     responseStatus = "S";
   }
+
   return { msg, responseStatus };
 }
 

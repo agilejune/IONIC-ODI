@@ -7,7 +7,7 @@ import { connect } from '../../data/connect';
 import { LossFormDataOffline, Tank } from '../../models/Transportloss';
 import { TextFieldTypes } from '@ionic/core';
 import { sendTransportLossFormData } from '../../data/sync';
-import { setResInfoAfterSend } from '../../data/data/data.actions';
+import { setResInfoAfterSend, updateTransportLossOfflineData } from '../../data/data/data.actions';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -24,9 +24,10 @@ interface StateProps {
 
 interface DispatchProps {
   setResInfoAfterSend: typeof setResInfoAfterSend;
+  updateTransportLossOfflineData: typeof updateTransportLossOfflineData;
 }
 
-const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({setResInfoAfterSend, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
+const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({updateTransportLossOfflineData, setResInfoAfterSend, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [tryCount, setTryCount] = useState(0);
@@ -66,32 +67,32 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
     return datas[0].lo_product;
   }
 
-  const calculateVolumeBefore = (data: any) => {
+  const getVolumeBefore = (data: any) => {
     const vol_1 = getLoVolume(Number(data.lolines_id1));
-    const vol_2 = getLoVolume(Number(data.lolines_id2));
+    // const vol_2 = getLoVolume(Number(data.lolines_id2));
 
     let vol_before = 0 as number;
     if (measureBy === 'ijkbout') {
-      if (vol_1 + vol_2 < lossFormOfflineData.vol_compartment) {
-        vol_before = vol_1 + vol_2;
+      if (vol_1 < lossFormOfflineData.vol_compartment) {
+        vol_before = vol_1;
       }
-      else if (vol_1 + vol_2 === lossFormOfflineData.vol_compartment) {
+      else if (vol_1 === lossFormOfflineData.vol_compartment) {
         vol_before = lossFormOfflineData.vol_compartment;
       }
-      else if (vol_1 + vol_2 > lossFormOfflineData.vol_compartment){
+      else if (vol_1 > lossFormOfflineData.vol_compartment){
         const error = "'Total Volume LO (%s Liter) lebih besar dari Kapasitas Compartment (%s Liter), silakan periksa kembali data yang dientry' % \n(all_volbefore2,vals['vol_compartment'])";
         setErrorMessage(error);
         isValid = false;
       }
     }
     else if (measureBy === 'flowmeter') {
-      vol_before = vol_1 + vol_2;
+      vol_before = vol_1;
     }
 
     return vol_before;
   };
 
-  const calculateTTLloss = (data: any, volBefore: number) => {
+  const getTTLloss = (data: any, volBefore: number) => {
     let ttl_loss = 0 as number;
     if (measureBy === 'ijkbout') {
       ttl_loss = Number(data.height_after) >= lossFormOfflineData.height_before ? 0 : (lossFormOfflineData.height_before - Number(data.height_after)) * lossFormOfflineData.sensitivity;
@@ -112,22 +113,66 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
     return ttl_loss;
   }
 
-  const calculateTolerance = (ttlLoss: number, volBefore: number) => {
+  const getToleranceAndTtlLossClaim = (ttlLoss: number, volBefore: number) => {
     const tolerance = ttlLoss > 0 ? parseInt(lossFormOfflineData.conf_tolerance) / 100 * volBefore : 0;
     const ttl_loss_claim = ttlLoss - tolerance;
 
     return {tolerance: tolerance, ttlLossClaim: ttl_loss_claim}
   }
 
+  const getVolAfter = (data: any, ttlLoss: number, volBefore: number) => {
+    let vol_after = 0 as number;
+    if (measureBy === 'ijkbout') {
+      vol_after = volBefore - ttlLoss;
+    }
+    else if (measureBy === 'flowmeter') {
+      vol_after = Number(data.vol_after);
+    }
+    return vol_after;
+  }
+
+  const getHeightAfter = (data: any) => {
+    let height_after = 0 as number;
+    if (measureBy === 'ijkbout') {
+      height_after = Number(data.height_after);
+    }
+    else if (measureBy === 'flowmeter') {
+      height_after = 0;
+    }
+    return height_after;
+  }
+
+  const getToleranceDiscrepancy = (data: any, volBefore: number) => {
+    let toleranceDiscrepancy = 0 as number;
+    if (Number(data.delivery_discrepancy) > 0)
+      toleranceDiscrepancy = Number(lossFormOfflineData.conf_tolerance_discrepancy) * volBefore / 100;
+    else 
+      toleranceDiscrepancy = 0;
+    
+    return toleranceDiscrepancy;
+  }
+
+  const getClaimDiscrepancy = (data: any, toleranceDescrepancy: number) => {
+    return Number(data.delivery_discrepancy) - toleranceDescrepancy;
+  }
+
   const onSubmitData = async (data: any) => {
-    const volBefore = calculateVolumeBefore(data);
-    const ttlLoss = calculateTTLloss(data, volBefore);
-    const {tolerance, ttlLossClaim} = calculateTolerance(ttlLoss, volBefore);
+    const volBefore = getVolumeBefore(data);
+    const ttlLoss = getTTLloss(data, volBefore);
+    const {tolerance, ttlLossClaim} = getToleranceAndTtlLossClaim(ttlLoss, volBefore);
+    const volAfter = getVolAfter(data, ttlLoss, volBefore);
+    const heightAfter = getHeightAfter(data);
+    const toleranceDiscrepancy = getToleranceDiscrepancy(data, volBefore);
+    const claimDiscrepancy = getClaimDiscrepancy(data, toleranceDiscrepancy);
     
     data = {
       ...lossFormOfflineData,
       ...data,
       ...{
+        vol_after: volAfter,
+        height_after: heightAfter,
+        tolerance_discrepancy: toleranceDiscrepancy,
+        claim_discrepancy: claimDiscrepancy,
         vol_before: volBefore,
         ttl_loss: ttlLoss,
         tolerance: tolerance,
@@ -140,7 +185,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
         locmb: 0
       }
     }
-
+    console.log(JSON.stringify(data, null, 2))
     if (!isValid) {
 
       if(tryCount >= 2) {
@@ -156,6 +201,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
     // alert(JSON.stringify(data, null, 2));
     setIsSending(true);
     const {msg, responseStatus} = await sendTransportLossFormData(data);
+    await updateTransportLossOfflineData(data);
     setIsSending(false);
 
     setResInfoAfterSend(msg, responseStatus);
@@ -194,25 +240,25 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       props: {
         name: "lolines_id1",
         interface: "popover",
-        disabled: lossFormOfflineData.state === 'confirm',
+        disabled: lossFormOfflineData.spbu != null,
         value: lossFormOfflineData.lolines_id1,
         options: lo_ids
       }
     },
+    // {
+    //   visible: lossFormOfflineData.state !== 'confirm',
+    //   type: "select",
+    //   label: "Lo Number",
+    //   props: {
+    //     name: "lolines_id2",
+    //     interface: "popover",
+    //     disabled: lossFormOfflineData.state === 'confirm',
+    //     value: lossFormOfflineData.lolines_id2,
+    //     options: lo_ids
+    //   }
+    // },
     {
-      visible: lossFormOfflineData.state !== 'confirm',
-      type: "select",
-      label: "Lo Number",
-      props: {
-        name: "lolines_id2",
-        interface: "popover",
-        disabled: lossFormOfflineData.state === 'confirm',
-        value: lossFormOfflineData.lolines_id2,
-        options: lo_ids
-      }
-    },
-    {
-      visible: lossFormOfflineData.state === 'confirm',
+      visible: lossFormOfflineData.spbu != null,
       type: "text",
       label: "Vol Kompartemen(Liter) / Kepekaan \n(Liter/mm)",
       props: {
@@ -220,7 +266,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       }
     },
     {
-      visible: lossFormOfflineData.state === 'confirm',
+      visible: lossFormOfflineData.spbu != null,
       type: "text",
       label: "Height T2(mm)",
       props: {
@@ -228,18 +274,29 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       }
     },
     {
-      visible: true,
+      visible: measureBy == "ijkbout",
       type: "input",
       label: "Level BBM Sebelum\nBongkar(mm)",
       props: {
         name: "height_after",
         type: "number",
-        disabled: lossFormOfflineData.state === 'confirm',
+        disabled: lossFormOfflineData.spbu != null,
         value: lossFormOfflineData.height_after
       }
     },
     {
-      visible: lossFormOfflineData.state === 'confirm',
+      visible: measureBy == "flowmeter",
+      type: "input",
+      label: "Volume Meter (Liter)",
+      props: {
+        name: "vol_after",
+        type: "number",
+        disabled: lossFormOfflineData.spbu != null,
+        value: lossFormOfflineData.vol_after
+      }
+    },
+    {
+      visible: lossFormOfflineData.spbu != null,
       type: "text",
       label: "Total Loss(Liter) / Toleransi(Liter)",
       props: {
@@ -247,7 +304,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       }
     },
     {
-      visible: lossFormOfflineData.state === 'confirm',
+      visible: lossFormOfflineData.spbu != null,
       type: "text",
       label: "Total Claim Loss(Liter)",
       props: {
@@ -255,7 +312,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       }
     },
     {
-      visible: lossFormOfflineData.state === 'confirm',
+      visible: lossFormOfflineData.spbu != null,
       type: "text",
       label: "Vol Level SPBU(Liter)",
       props: {
@@ -269,7 +326,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       props: {
         name: "delivery_discrepancy",
         type: "number",
-        disabled: lossFormOfflineData.state === 'confirm',
+        disabled: lossFormOfflineData.spbu != null,
         value: lossFormOfflineData.delivery_discrepancy
       }
     },
@@ -294,7 +351,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       props: {
         name: "tank_id",
         interface: "popover",
-        disabled: lossFormOfflineData.state === 'confirm',
+        disabled: lossFormOfflineData.spbu != null,
         value: lossFormOfflineData.tank_id,
         options: tankOptions
       }
@@ -304,9 +361,9 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       type: "input",
       label: "Volume AR (Liter)",
       props: {
-        name: "vol_after",
+        name: "volume_ar",
         type: "number",
-        disabled: lossFormOfflineData.state === 'confirm',
+        disabled: lossFormOfflineData.spbu != null,
         value: lossFormOfflineData.volume_ar
       }
     },
@@ -317,12 +374,12 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       props: {
         name: "volume_sales",
         type: "number",
-        disabled: lossFormOfflineData.state === 'confirm',
+        disabled: lossFormOfflineData.spbu != null,
         value: lossFormOfflineData.volume_sales
       }
     },
     {
-      visible: lossFormOfflineData.state === 'confirm',
+      visible: lossFormOfflineData.spbu != null,
       type: "text",
       label: "Threshold Discrepancy(Liter)",
       props: {
@@ -330,7 +387,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       }
     },
     {
-      visible: lossFormOfflineData.state === 'confirm',
+      visible: lossFormOfflineData.spbu != null,
       type: "text",
       label: "Claim Discrepancy(Liter)",
       props: {
@@ -344,7 +401,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       props: {
         name: "temperatur_obs",
         type: "number",
-        disabled: lossFormOfflineData.state === 'confirm',
+        disabled: lossFormOfflineData.spbu != null,
         value: lossFormOfflineData.temperatur_obs
       }
     },
@@ -355,7 +412,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({set
       props: {
         name: "density_obs",
         type: "number",
-        disabled: lossFormOfflineData.state === 'confirm',
+        disabled: lossFormOfflineData.spbu != null,
         value: lossFormOfflineData.density_obs
       }
     },
@@ -462,7 +519,8 @@ export default connect<OwnProps, StateProps, DispatchProps>({
     isSending: state.data.dataSending,
   }),
   mapDispatchToProps: {
-    setResInfoAfterSend
+    setResInfoAfterSend,
+    updateTransportLossOfflineData
   },
   component: React.memo(TransportLossLjk)
 });

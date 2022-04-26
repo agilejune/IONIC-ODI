@@ -68,6 +68,19 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
     setCompartments(comps);
   }, [delivery, lossFormOfflineDatas]);
 
+  const checkCompEnteredAndOpen = (comp : number) => {
+    setComp(comp);
+    const data = lossFormOfflineDatas
+      .filter((d: LossFormDataOffline) => d.shipment_id == delivery.shipment_id && d.compartment == Number(comp))[0] as LossFormDataOffline;
+    if (data.spbu == null) {
+      setShowTransLossAgree(true);
+    }
+    else {
+      setMeasureBy(data.measure_by);
+      setShowTransLossLjk(true);
+    }
+  }
+
   return (
     <IonPage ref={pageRef} id="delivery-detail">
       <IonHeader>
@@ -186,7 +199,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
                 </IonLabel>
               </IonButton>
               { compartments?.map(comp => (
-                <IonButton onClick={() => { setShowTransLossAgree(true); setComp(comp)}}>
+                <IonButton onClick={() => { checkCompEnteredAndOpen(comp)}}>
                   <IonLabel><i className="zmdi zmdi-gas-station zmdi-hc-2x" /><span>C{comp}:8KL</span></IonLabel>
                 </IonButton>
             ))}
