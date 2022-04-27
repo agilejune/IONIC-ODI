@@ -7,7 +7,7 @@ import { Delivery } from '../../models/Delivery';
 import { useForm } from "react-hook-form";
 import { getFeedbackOptions } from '../../data/api';
 import { FeedbackOption } from '../../models/Feedback';
-import { setResInfoAfterSend } from '../../data/data/data.actions';
+import { refreshFeedbacks, setResInfoAfterSend } from '../../data/data/data.actions';
 import { sendFeedback } from '../../data/sync';
 
 interface OwnProps {
@@ -17,9 +17,10 @@ interface OwnProps {
 
 interface DispatchProps {
   setResInfoAfterSend: typeof setResInfoAfterSend;
+  refreshFeedbacks: typeof refreshFeedbacks;
 }
 
-const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend, onDismissModal, delivery}) => {
+const SendFeedback : React.FC<OwnProps & DispatchProps> = ({refreshFeedbacks, setResInfoAfterSend, onDismissModal, delivery}) => {
   const [isSending, setIsSending] = useState(false);
   const [t, i18n] = useTranslation('common');
   const [devSuggestions, setDevSuggestions] = useState<FeedbackOption[]>([]);
@@ -67,6 +68,7 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend,
     // alert(JSON.stringify(data, null, 2));
     setIsSending(true);
     const {msg, responseStatus} = await sendFeedback(data);
+    await refreshFeedbacks();
     setIsSending(false);
 
     setResInfoAfterSend(msg, responseStatus);
@@ -260,7 +262,8 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({setResInfoAfterSend,
 
 export default connect<OwnProps, DispatchProps>({
   mapDispatchToProps: {
-    setResInfoAfterSend
+    setResInfoAfterSend,
+    refreshFeedbacks
   },
   component: React.memo(SendFeedback)
 });

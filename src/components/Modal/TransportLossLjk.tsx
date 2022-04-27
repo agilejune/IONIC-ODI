@@ -7,7 +7,7 @@ import { connect } from '../../data/connect';
 import { LossFormDataOffline, Tank } from '../../models/Transportloss';
 import { TextFieldTypes } from '@ionic/core';
 import { sendTransportLossFormData } from '../../data/sync';
-import { setResInfoAfterSend, updateTransportLossOfflineData } from '../../data/data/data.actions';
+import { refreshTransportLossAll, setResInfoAfterSend, updateTransportLossOfflineData } from '../../data/data/data.actions';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -25,9 +25,10 @@ interface StateProps {
 interface DispatchProps {
   setResInfoAfterSend: typeof setResInfoAfterSend;
   updateTransportLossOfflineData: typeof updateTransportLossOfflineData;
+  refreshTransportLossAll: typeof refreshTransportLossAll;
 }
 
-const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({updateTransportLossOfflineData, setResInfoAfterSend, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
+const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({refreshTransportLossAll, updateTransportLossOfflineData, setResInfoAfterSend, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [tryCount, setTryCount] = useState(0);
@@ -202,6 +203,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({upd
     setIsSending(true);
     const {msg, responseStatus} = await sendTransportLossFormData(data);
     await updateTransportLossOfflineData(data);
+    await refreshTransportLossAll();
     setIsSending(false);
 
     setResInfoAfterSend(msg, responseStatus);
@@ -520,7 +522,8 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   }),
   mapDispatchToProps: {
     setResInfoAfterSend,
-    updateTransportLossOfflineData
+    updateTransportLossOfflineData,
+    refreshTransportLossAll
   },
   component: React.memo(TransportLossLjk)
 });

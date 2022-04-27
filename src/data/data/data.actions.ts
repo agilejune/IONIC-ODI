@@ -39,6 +39,17 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
 
   dispatch(setLoading(false));
 }
+
+export const refreshTransportLossAll = () => async (dispatch: React.Dispatch<any>) => {
+  const transportloss = await getTransportLossAll();
+  dispatch(setTransLossData(transportloss));
+}
+
+export const refreshFeedbacks = () => async (dispatch: React.Dispatch<any>) => {
+  const feedback = await getFeedbacks();
+  dispatch(setFeedbackData(feedback));
+}
+
 export const setResInfoAfterSend = (msg: string, responseStatus: string) => async (dispatch: React.Dispatch<any>) => {
   const count = await getOfflineStackCount();
   dispatch(setWillSendCount(count));

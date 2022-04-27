@@ -3,7 +3,7 @@ import { aperture, closeOutline, flag } from 'ionicons/icons';
 import React, { Dispatch, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from '../../data/connect';
-import { setResInfoAfterSend, updateTransportLossOfflineData } from '../../data/data/data.actions';
+import { refreshTransportLossAll, setResInfoAfterSend, updateTransportLossOfflineData } from '../../data/data/data.actions';
 import { sendTransportLossFormData } from '../../data/sync';
 import { Justify } from '../../models/Transportloss';
 
@@ -19,9 +19,10 @@ interface StateProps {
 interface DispatchProps {
   setResInfoAfterSend: typeof setResInfoAfterSend;
   updateTransportLossOfflineData: typeof updateTransportLossOfflineData;
+  refreshTransportLossAll: typeof refreshTransportLossAll;
 }
 
-const TransportLossJustify : React.FC<OwnProps & StateProps & DispatchProps> = ({updateTransportLossOfflineData, setResInfoAfterSend, onDismissModal, justifyOptions, calcData}) => {
+const TransportLossJustify : React.FC<OwnProps & StateProps & DispatchProps> = ({refreshTransportLossAll, updateTransportLossOfflineData, setResInfoAfterSend, onDismissModal, justifyOptions, calcData}) => {
   const [isSending, setIsSending] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -46,6 +47,7 @@ const TransportLossJustify : React.FC<OwnProps & StateProps & DispatchProps> = (
     setIsSending(true);
     const {msg, responseStatus} = await sendTransportLossFormData(data);
     await updateTransportLossOfflineData(data);
+    await refreshTransportLossAll();
     setIsSending(false);
 
     setResInfoAfterSend(msg, responseStatus);
@@ -129,7 +131,8 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   }),
   mapDispatchToProps: {
     setResInfoAfterSend,
-    updateTransportLossOfflineData
+    updateTransportLossOfflineData,
+    refreshTransportLossAll
   },
   component: React.memo(TransportLossJustify)
 });

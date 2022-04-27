@@ -61,7 +61,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
 
   useEffect(() => {
     const comps = lossFormOfflineDatas
-      .filter((d: LossFormDataOffline) => d.shipment_id == delivery.shipment_id)
+      .filter((d: LossFormDataOffline) => d.shipment_id == delivery.shipment_id && d.lolines_ids.length > 0)
       .map((d: LossFormDataOffline) => d.compartment)
       .sort();
 
