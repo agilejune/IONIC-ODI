@@ -19,7 +19,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, listType }) => {
         <IonLabel>
           <IonRow>
             <IonCol size="1">
-              <div id="order-icon">
+              <div id={order.Status == "Closed" ? "order-close-icon" : "order-open-icon"}>
                 <IonIcon icon={invertMode} />
               </div>
             </IonCol>

@@ -8,6 +8,7 @@ import { connect } from '../data/connect';
 import { Transportloss } from '../models/Transportloss';
 import TransportLossItem from '../components/ListItem/TransportLossItem';
 import { setSearchText } from '../data/data/data.actions';
+import { useTranslation } from 'react-i18next';
 
 interface OwnProps { }
 
@@ -27,6 +28,8 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ isLoading, transp
 
   const [showSearchbar, setShowSearchbar] = useState<boolean>(false);
 
+  const [t, i18n] = useTranslation('common');
+  
   const pageRef = useRef<HTMLElement>(null);
 
   const ios = mode === 'ios';
@@ -41,7 +44,7 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ isLoading, transp
             </IonButtons>
           }
           {!ios && !showSearchbar &&
-            <IonTitle>TransportLoss</IonTitle>
+            <IonTitle>{t('menus.transport_loss')}</IonTitle>
           }
           {showSearchbar &&
             <IonSearchbar showCancelButton="always" placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)} onIonCancel={() => setShowSearchbar(false)}></IonSearchbar>
@@ -67,7 +70,7 @@ const TransportLossPage: React.FC<TransportLossPageProps> = ({ isLoading, transp
         <>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Transport Loss</IonTitle>
+            <IonTitle size="large">{t('menus.transport_loss')}</IonTitle>
           </IonToolbar>
           <IonToolbar>
             <IonSearchbar placeholder="Search" onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}></IonSearchbar>

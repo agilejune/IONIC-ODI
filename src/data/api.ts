@@ -26,7 +26,7 @@ const jsonUrl = {
   lossOfflineForm : '/assets/data/transportloss_offline.json'
 };
 
-const jsonMode = true;
+const jsonMode = false;
 let commonFormData = new FormData();
 let spbu : string;
 

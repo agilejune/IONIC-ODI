@@ -2,9 +2,10 @@ import React, { useEffect, useState,} from 'react';
 import { connect } from '../data/connect';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
-import { IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonLabel, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonIcon, IonButton} from '@ionic/react';
+import { IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonLabel, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonIcon, IonButton, IonFooter} from '@ionic/react';
 import { Feedback } from '../models/Feedback';
 import { car, happyOutline, sadOutline, person } from 'ionicons/icons';
+import './FeedbackDetail.css';
 
 interface OwnProps extends RouteComponentProps { };
 
@@ -30,42 +31,49 @@ const FeedbackDetail: React.FC<FeedbackDetailProps> = ({ feedback }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>
-              <IonRow>
-                <IonCol>
-                  <IonText>{feedback.AllMessage[0].sender }</IonText>
-                </IonCol>
-                <IonCol>
-                  <IonText className="ion-float-right">{feedback.Shipment.SPBU }</IonText>
-                </IonCol>
-              </IonRow>
-            </IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent style={{color: "black", fontSize: 17}}>
-            <div style={{backgroundColor: "#f8f2d6", padding: 8}}>
-              <IonText>
-                Shipment: {feedback.Shipment.Tanggal}
-              </IonText>
-              <br/>
-              <IonLabel style={{color: "#3F51B5"}}><IonIcon icon={car}/><strong>{feedback.Shipment.Nopol}</strong></IonLabel>
-              <br/>
-              <IonLabel><IonIcon icon={person}/>{feedback.Shipment.Supir}</IonLabel>
-              <br/>
-              <IonLabel><IonIcon icon={person}/>{feedback.Shipment.Kernet}</IonLabel>
+        <div>
+        { feedback.AllMessage.map((message, index) => {
+          return (
+            <div key={index}>
+              <div style={{display: 'flex', flexDirection: 'row-reverse'}}>
+                <div className="sender-avatar"></div>
+                <div className="chat-bubble bubble-sent">
+                  <div>
+                    <p style={{color: 'gray'}}>~{message.sender}<span style={{float: 'right'}}>{feedback.Shipment.SPBU }</span></p><br/>
+                    {index == 0 && 
+                      <div style={{backgroundColor: "#f8f2d6", padding: 8}}>
+                        <p>
+                          Shipment: {feedback.Shipment.Tanggal}
+                        </p>
+                        <p style={{color: "#3F51B5"}}><IonIcon icon={car}/><strong>{feedback.Shipment.Nopol}</strong></p>
+                        <p><IonIcon icon={person}/>{feedback.Shipment.Supir}</p>
+                        <p><IonIcon icon={person}/>{feedback.Shipment.Kernet}</p>
+                      </div>
+                    }
+                    <br/>
+                    <p><strong>{message.pilihan}</strong></p>
+                    <p>{message.message}</p>
+                  </div>
+                  <div className="bubble-arrow alt"></div>
+                </div>
+                
+              </div>
+              <div style={{display: 'flex'}} className="ion-padding-top">
+                <div className="responser-avatar"></div>
+                <div className="chat-bubble bubble-received">
+                  <div>
+                    <p style={{color: 'gray'}}>~{message.responder}</p><br/>
+                    <p>{message.response}</p>
+                  </div>
+                  <div className="bubble-arrow"></div>
+                </div>
+              </div>
             </div>
-            <br/>
-            <IonText>
-              <strong><h1>{feedback.AllMessage[0].pilihan }</h1></strong>
-            </IonText>
-            <br/>
-            <IonText>
-              {feedback.AllMessage[0].message}
-            </IonText>
-          </IonCardContent>
-        </IonCard>
-        <br/>
+          );
+        })}
+        </div>
+      </IonContent>
+      <IonFooter>
         <div style={{textAlign: "center"}}>
           <IonText>
             <h5><strong>Apakah Anda merasa Puas?(Ya/Tidak)</strong></h5>
@@ -83,7 +91,7 @@ const FeedbackDetail: React.FC<FeedbackDetailProps> = ({ feedback }) => {
             </IonCol>
           </IonRow>
         </div>
-      </IonContent>
+      </IonFooter>
     </IonPage>
   );
 };

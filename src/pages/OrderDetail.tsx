@@ -72,8 +72,9 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonLabel><strong>{order.LO_Number}</strong></IonLabel>
-        <IonText></IonText>
+        <div><IonLabel><strong>{order.LO_Number}</strong></IonLabel></div>
+        <div><IonText>No.&nbsp;SO:{order.SO_Number}</IonText></div>
+        <br/>
         <div className="ion-padding-top">
           <IonLabel><strong>Info:</strong></IonLabel>
         </div>

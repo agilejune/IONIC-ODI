@@ -399,7 +399,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({ref
     {
       visible: true,
       type: "input",
-      label: "Temperature Obs ()",
+      label: "Temperature Obs (℃)",
       props: {
         name: "temperatur_obs",
         type: "number",
@@ -410,7 +410,7 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({ref
     {
       visible: true,
       type: "input",
-      label: "Density Obs ()",
+      label: "Density Obs (kg/㎥)",
       props: {
         name: "density_obs",
         type: "number",

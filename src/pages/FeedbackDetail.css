@@ -1,0 +1,129 @@
+.chat-bubble {
+
+  border-radius: 5px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0.8rem;
+
+  padding: 0.5rem;
+  max-width: 95%;
+  clear: both;
+
+  display: flex;
+  flex-direction: row;
+  transition: 0.2s all linear;
+}
+
+.chat-bubble:last-child {
+
+  margin-bottom: 0.8rem;
+}
+
+.bubble-sent {
+
+  background-color: rgb(224, 224, 224);
+  float: right;
+}
+
+.sender-avatar {
+  position: relative;
+  bottom: 0px;
+  left: auto;
+  right: -1px;
+  float: right;
+}
+
+.sender-avatar::after {
+  content: '\f16f';
+  margin: 0;
+  width: 2em;
+  height: 2em;
+  float: right;
+  background: #4564B9;
+  margin-right: 12px;
+  border-radius: 50%;
+  font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 2em;
+  color: white;
+}
+
+.responser-avatar {
+  position: relative;
+  bottom: 0px;
+  left: auto;
+  right: -1px;
+  float: left;
+}
+
+.responser-avatar::after {
+  content: '\f16f';
+  margin: 0;
+  width: 2em;
+  height: 2em;
+  float: left;
+  background: #45a2b9;
+  margin-right: 12px;
+  border-radius: 50%;
+  font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 2em;
+  color: white;
+}
+
+.bubble-received {
+
+  background-color: rgb(224, 224, 224);
+  float: left;
+}
+
+.chat-bubble p {
+
+  padding: 0;
+  margin: 0;
+}
+
+.bubble-arrow {
+    
+  position: absolute;
+  float: left;
+  left: 65px;
+  margin-top: -8px;
+}
+
+.bubble-arrow.alt {
+
+  position: relative;
+  bottom: 0px;
+  left: auto;
+  right: -3px;
+  float: right;
+}
+
+.bubble-arrow:after {
+  
+  content: "";
+  position: absolute;
+  border-top: 15px solid rgb(224, 224, 224);
+  border-left: 15px solid transparent;
+  border-radius: 4px 0 0 0px;
+  width: 0;
+  height: 0;
+}
+
+.bubble-arrow.alt:after {
+  
+  border-top: 15px solid rgb(224, 224, 224);
+  transform: scaleX(-1);
+}
+

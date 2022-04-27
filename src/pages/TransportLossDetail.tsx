@@ -92,7 +92,19 @@ const TransportlossDetail: React.FC<TransportlossDetailProps> = ({ transportloss
       { 
         label: "Vol Level SPBU(Lt):",
         data: transportloss.Vol_After
-      }
+      },
+      { 
+        label: 'Temperature Obs(℃):',
+        data: transportloss.Temperatur_Obs
+      },
+      { 
+        label: "Density Obs(kg/㎥):",
+        data: transportloss.Density_Obs
+      },
+      { 
+        label: "Status:",
+        data: transportloss.State
+      },
     ];
 
     setShipments(s);

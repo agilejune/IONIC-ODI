@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonItemSliding, IonItem, IonLabel, IonRow, IonCol, IonIcon } from '@ionic/react';
 import { Transportloss } from '../../models/Transportloss';
-import { mailOpen } from 'ionicons/icons';
+import { hourglassOutline, mailOpen } from 'ionicons/icons';
 
 interface TransportLossItemProps {
   transportLoss: Transportloss;
@@ -32,8 +32,14 @@ const TransportLossItem: React.FC<TransportLossItemProps> = ({ transportLoss, li
               </div>
             </IonCol>
             <IonCol>
-              <div className="ion-float-right">
+              <div className="ion-float-right" style={{textAlign: 'right'}}>
                 <h5><span>{transportLoss.Date}</span></h5>
+                { Number(transportLoss.Ttl_Loss) > 0 &&
+                <p>
+                  <IonIcon icon={hourglassOutline} />
+                  Loss&nbsp;{transportLoss.Ttl_Loss}&nbsp;Lt
+                </p>
+                }
               </div>
             </IonCol>
           </IonRow>

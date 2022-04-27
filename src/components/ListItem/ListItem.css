@@ -2,14 +2,14 @@
   padding: 0px;
 }
 
-#loss-icon, #order-icon, #feedback-icon {
+#loss-icon, #order-open-icon, #order-close-icon, #feedback-icon {
   width: 30px;
   height: 30px;
   border-radius: 50%;
   text-align: center;
 }
 
-#feedback-icon ion-icon, #loss-icon ion-icon, #order-icon ion-icon {
+#feedback-icon ion-icon, #loss-icon ion-icon, #order-open-icon ion-icon, #order-close-icon ion-icon {
   color: white;
   margin-top: 20%;
 }
@@ -22,9 +22,14 @@
   background-color: blue;
 }
 
-#order-icon {
+#order-open-icon {
   background-color: green;
 }
+
+#order-close-icon {
+  background-color: blue;
+}
+
 .break {
   flex-basis: 100%;
   height: 0;

@@ -1,6 +1,6 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
-import React from 'react'
+import React, { useState } from 'react'
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -9,7 +9,7 @@ interface OwnProps {
 }
 
 const WebViewModal : React.FC<OwnProps> = ({onDismissModal, url, title}) => {
-
+  const [isLoading, setIsLoading] = useState(true);
   return(
     <>
       <IonHeader>
@@ -23,8 +23,13 @@ const WebViewModal : React.FC<OwnProps> = ({onDismissModal, url, title}) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        {isLoading && 
+          <div className="spin">
+            <IonSpinner name="bubbles" color="primary" /> 
+          </div>
+        }
         { url !== "" &&
-          <iframe src={url} frameBorder="0" allowFullScreen style={{width: "100%", height: "100%"}}/>
+          <iframe src={url} onLoad={() => {setIsLoading(false)}} frameBorder="0" allowFullScreen style={{width: "100%", height: "100%"}}/>
         }
       </IonContent>
     </>
