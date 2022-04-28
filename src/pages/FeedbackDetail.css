@@ -1,5 +1,5 @@
 .chat-bubble {
-
+  background-color: rgb(224, 224, 224);
   border-radius: 5px;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -15,14 +15,33 @@
 }
 
 .chat-bubble:last-child {
-
   margin-bottom: 0.8rem;
 }
 
-.bubble-sent {
+.chat-bubble > div > p:first-of-type {
+  color: gray;
+}
 
-  background-color: rgb(224, 224, 224);
+.chat-bubble > div > p:first-of-type > span {
   float: right;
+}
+
+.chat-bubble > div div {
+  background-color: #f8f2d6;
+  padding: 8px;
+}
+
+.chat-bubble > div div p:nth-child(2) {
+  color: #3F51B5;
+}
+
+.bubble-sent {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.bubble-received {
+  display: flex;
 }
 
 .sender-avatar {
@@ -35,22 +54,8 @@
 
 .sender-avatar::after {
   content: '\f16f';
-  margin: 0;
-  width: 2em;
-  height: 2em;
   float: right;
   background: #4564B9;
-  margin-right: 12px;
-  border-radius: 50%;
-  font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  vertical-align: middle;
-  text-align: center;
-  line-height: 2em;
-  color: white;
 }
 
 .responser-avatar {
@@ -63,11 +68,15 @@
 
 .responser-avatar::after {
   content: '\f16f';
+  background: #45a2b9;
+  float: left;
+}
+
+.avatar::after {
   margin: 0;
   width: 2em;
   height: 2em;
-  float: left;
-  background: #45a2b9;
+
   margin-right: 12px;
   border-radius: 50%;
   font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
@@ -81,11 +90,6 @@
   color: white;
 }
 
-.bubble-received {
-
-  background-color: rgb(224, 224, 224);
-  float: left;
-}
 
 .chat-bubble p {
 

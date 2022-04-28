@@ -35,17 +35,17 @@ const FeedbackDetail: React.FC<FeedbackDetailProps> = ({ feedback }) => {
         { feedback.AllMessage.map((message, index) => {
           return (
             <div key={index}>
-              <div style={{display: 'flex', flexDirection: 'row-reverse'}}>
-                <div className="sender-avatar"></div>
-                <div className="chat-bubble bubble-sent">
+              <div className="bubble-sent">
+                <div className="sender-avatar avatar"></div>
+                <div className="chat-bubble">
                   <div>
-                    <p style={{color: 'gray'}}>~{message.sender}<span style={{float: 'right'}}>{feedback.Shipment.SPBU }</span></p><br/>
+                    <p>~{message.sender}<span>{feedback.Shipment.SPBU }</span></p><br/>
                     {index == 0 && 
-                      <div style={{backgroundColor: "#f8f2d6", padding: 8}}>
+                      <div>
                         <p>
                           Shipment: {feedback.Shipment.Tanggal}
                         </p>
-                        <p style={{color: "#3F51B5"}}><IonIcon icon={car}/><strong>{feedback.Shipment.Nopol}</strong></p>
+                        <p><IonIcon icon={car}/><strong>{feedback.Shipment.Nopol}</strong></p>
                         <p><IonIcon icon={person}/>{feedback.Shipment.Supir}</p>
                         <p><IonIcon icon={person}/>{feedback.Shipment.Kernet}</p>
                       </div>
@@ -58,11 +58,11 @@ const FeedbackDetail: React.FC<FeedbackDetailProps> = ({ feedback }) => {
                 </div>
                 
               </div>
-              <div style={{display: 'flex'}} className="ion-padding-top">
-                <div className="responser-avatar"></div>
-                <div className="chat-bubble bubble-received">
+              <div className="ion-padding-top bubble-received">
+                <div className="responser-avatar avatar"></div>
+                <div className="chat-bubble">
                   <div>
-                    <p style={{color: 'gray'}}>~{message.responder}</p><br/>
+                    <p>~{message.responder}</p><br/>
                     <p>{message.response}</p>
                   </div>
                   <div className="bubble-arrow"></div>
