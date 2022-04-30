@@ -71,7 +71,7 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
           </IonCol>
           <IonCol>
             { vehicle && vehicle.attachment.map((a, index) => (
-              <a key={index} href={ a.datas_download }>{ a.datas_fname }</a>
+              <a key={index} href={ a.datas_download } download>{ a.datas_fname }</a>
             )) }
           </IonCol>
         </IonRow>

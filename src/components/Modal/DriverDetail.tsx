@@ -31,7 +31,7 @@ const DriverDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, driver}
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <img src="assets/img/default.jpg" alt="Ionic logo" />
+        <img src={driver.image_medium === "" ? "assets/img/default.jpg" :`data:image/gif;base64,${driver.image_medium}`} alt="Ionic logo" style={{width: 150, height: 150}}/>
         <div className="ion-padding-top" />
         <IonRow>
           <IonCol>

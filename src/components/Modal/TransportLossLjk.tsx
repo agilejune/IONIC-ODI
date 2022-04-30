@@ -491,6 +491,17 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({ref
         } 
         </form>
         <hr/>
+        { lossFormOfflineData.datas_fname != null && 
+        <IonRow>
+          <IonCol>
+            <IonText>
+              <strong>Download BA</strong><br/>
+              <a href={lossFormOfflineData.datas_fname_atg} download>{lossFormOfflineData.datas_fname}</a>
+            </IonText>
+          </IonCol>
+        </IonRow>
+        }
+        <hr/>
         <IonRow>
           <IonCol>
             <IonText>

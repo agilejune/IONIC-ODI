@@ -74,6 +74,7 @@ export const getApiDelivery = async () => {
 
   commonFormData.delete('menu');
   commonFormData.append('menu', 'past_deliveries');
+
   const response_past = await Promise.all([
     jsonMode ? fetch(jsonUrl.pastDelivery) :
     fetch(`${baseUrl}/shipment`, {
@@ -203,7 +204,7 @@ export const getApiVehicleDatails = async (vehicleIDs: []) => {
     const comps = [] as Comp[];
     [1,2,3,4,5,6].forEach(i => {
       const comp = {
-        empty_space: vehicleDetail[`empty_space_comp1`],
+        empty_space: vehicleDetail[`empty_space_comp${i}`],
         sensitivity: vehicleDetail[`sensitivity_comp${i}`],
         t2: vehicleDetail[`t2_comp${i}`],
       };
