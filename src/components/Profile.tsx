@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonMenuButton, IonPage, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { mailOutline, phonePortraitOutline, settingsOutline, location, earthOutline, person } from 'ionicons/icons';
 import React from 'react';
 import { useForm } from "react-hook-form";
@@ -79,6 +79,7 @@ const Profile: React.FC<OwnProps & StateProps> = ({ user }) => {
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
+            <IonTitle>Profile</IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={() => {}}>
                 <IonIcon slot="icon-only" icon={settingsOutline}></IonIcon>
@@ -87,7 +88,8 @@ const Profile: React.FC<OwnProps & StateProps> = ({ user }) => {
           </IonToolbar>
         </IonHeader>
         <div className="profile-header">
-          <div className="profile-image">
+          <div className="profile-image" style={{textAlign: 'center'}}>
+            <p style={{marginTop: 150, color: 'white'}}>{user.user_name}<br/><br/>spbu</p>
           </div>
         </div>
         <div className="profile-content ion-padding">
