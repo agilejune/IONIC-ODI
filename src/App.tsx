@@ -34,6 +34,12 @@ import { setUsername, setUserData, setIsLoggedIn } from './data/user/user.action
 import { getUserData, setIsAuthenticated, setUserData as setUserDataStorage } from './data/storage';
 import { putUserInfoInFormData } from './data/api';
 import RedirectToLogin from './components/RedirectToLogin';
+import ScanPage from './pages/ScanPage';
+import StockPage from './pages/StockPage';
+import SalePage from './pages/SalePage';
+import GainlossPage from './pages/GainlossPage';
+import Help from './components/Help';
+import Profile from './components/Profile';
 
 setupIonicReact();
 
@@ -120,6 +126,12 @@ const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({setServerMessa
           <Menu />
           <IonRouterOutlet id="main">
             <Route path="/tabs" render={() => <MainTabs />} />
+            <Route path="/scan_rqcode" render={() => <ScanPage />}/>
+            <Route path="/stock" render={() => <StockPage />} />
+            <Route path="/sales" render={() => <SalePage />} />
+            <Route path="/gain_loss" render={() => <GainlossPage />} />
+            <Route path="/help_feedback" component={Help} />
+            <Route path="/profile" component={Profile} />
             <Route path="/login" component={ Login } />
             <Redirect from="/" to={authenticated ? "/tabs/delivery" : "/login"} exact />
             <Route path="/logout" render={() => {

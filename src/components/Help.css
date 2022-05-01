@@ -1,0 +1,10 @@
+.help-logo {
+  padding: 20px 0;
+  min-height: 200px;
+  text-align: center;
+}
+
+.help-logo img {
+  width: 150px;
+  height: 150px;
+}

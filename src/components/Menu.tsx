@@ -36,7 +36,7 @@ const Menu: React.FC<MenuProps> = ({ history, isLoggedin, userName }) => {
       { title: t('menus.your_orders'), path: '/tabs/order', icon: basket },
       { title: t('menus.message_from_us'), path: '/tabs/message', icon: chatbox },
       { title: t('menus.transport_loss'), path: '/tabs/loss', icon: water },
-      { title: t('menus.transport_loss_qrcode'), path: '/tabs/scan_rqcode', icon: camera },
+      { title: t('menus.transport_loss_qrcode'), path: '/scan_rqcode', icon: camera },
     ],
     operationInfoPages: [
       { title: t('menus.stock'), path: '/stock', icon: alarm },
@@ -65,7 +65,7 @@ const Menu: React.FC<MenuProps> = ({ history, isLoggedin, userName }) => {
 
   return (
     <IonMenu type="overlay" disabled={!isLoggedin} contentId="main">
-      <IonHeader no-border>
+      {/* <IonHeader no-border>
         <IonToolbar>
           <IonTitle> 
             <div className="menu-logo">
@@ -74,8 +74,17 @@ const Menu: React.FC<MenuProps> = ({ history, isLoggedin, userName }) => {
             </div>
           </IonTitle>
         </IonToolbar>
-      </IonHeader>
+      </IonHeader> */}
       <IonContent forceOverscroll={false}>
+        <IonToolbar>
+          <IonTitle> 
+            <div className="menu-logo">
+              <img src="assets/img/logo.png" alt="Ionic logo" /> 
+              <h6>{userName}</h6>
+            </div>
+          </IonTitle>
+        </IonToolbar>
+        <div className="menu-list">
         <IonList lines="none">
           <IonListHeader>{ t('menus.title_1') }</IonListHeader>
           {renderlistItems(routes.deliveryPages)}
@@ -88,6 +97,7 @@ const Menu: React.FC<MenuProps> = ({ history, isLoggedin, userName }) => {
           <IonListHeader>{ t('menus.title_3') }</IonListHeader>
           { renderlistItems(routes.accountPages) }
         </IonList>
+        </div>
       </IonContent>
     </IonMenu>
   );

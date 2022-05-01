@@ -1,13 +1,14 @@
 import { setIsLoggedInData,  setUserData as setUserDataStorage} from '../storage';
 import { ActionType } from '../../util/types';
 import { UserState } from './user.state';
+import { User } from '../../models/User';
 
 export const setLoading = (isLoading: boolean) => ({
   type: 'set-user-loading',
   isLoading
 } as const);
 
-export const setUserData = (data: Partial<UserState>) => {
+export const setUserData = (data: User) => {
   setUserDataStorage(data);
   return ({
     type: 'set-user-data',
