@@ -6,6 +6,8 @@ import { Order } from '../models/Order';
 import { Justify, LossFormData, LossFormDataOffline, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
 import { Comp, Vehicle } from '../models/Vehicle';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { File, FileEntry } from '@ionic-native/file';
 
 const baseUrl = 'http://182.23.86.213:4000/odi';
 
@@ -26,11 +28,29 @@ const jsonUrl = {
   lossOfflineForm : '/assets/data/transportloss_offline.json'
 };
 
-const jsonMode = true;
+const jsonMode = false;
 let commonFormData = new FormData();
 let spbu : string;
 
 const delay = () => new Promise(res => setTimeout(res, 1000));
+
+export const fileDownload = async (url: string) => {
+  const fileTransfer: FileTransferObject = FileTransfer.create();
+  const filename = url.match(/=[a-zA-Z.\s0-9]+.pdf/g)![0].substring(1);
+  let entry: FileEntry | null = null;
+  
+  try {
+    entry = await fileTransfer.download(url, File.externalRootDirectory + '/Download/' + filename);
+  } catch (err) {
+    alert("Download failed" + JSON.stringify(err))
+  }
+
+  if (!entry) {
+    return "";
+  } else {
+    return entry.toURL();
+  }
+}
 
 export const doAuthenticate = async (formData : FormData) => {
   const response = await Promise.all([

@@ -1,10 +1,13 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { getPlatforms, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonRow, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react'
 import { Vehicle } from '../../models/Vehicle';
 import { useTranslation } from 'react-i18next';
 import { connect } from '../../data/connect';
 import * as selectors from '../../data/selectors';
+import { fileDownload } from '../../data/api';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -13,10 +16,34 @@ interface OwnProps {
 
 interface StateProps {
   vehicle: Vehicle;
+  platforms: ("ios" | "ipad" | "iphone" | "android" | "phablet" | "tablet" | "cordova" | "capacitor" | "electron" | "pwa" | "mobile" | "mobileweb" | "desktop" | "hybrid")[];
 }
 
-const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicle}) => {
+const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicle, platforms}) => {
   const [t, i18n] = useTranslation('common');
+  const desktop = platforms.indexOf("desktop") != -1;
+  const [message, setMessage] = useState("");
+  const [downloadStatus, setDownloadStatus] = useState(false);
+
+  const downloadFile = async (url: string) => {
+
+    // const path = await fileDownload(url);
+    // if (path == "") {
+    //   setDownloadStatus(false);
+    //   setMessage("File donwload is failed");
+    // } 
+    // else {
+    //   setDownloadStatus(true);
+    //   setMessage(`File is downloaded to ${path}`)
+    // }
+
+    const fileTransfer: FileTransferObject = FileTransfer.create();
+    fileTransfer.download(url, File.externalRootDirectory + '/Download/' + 'file.pdf').then((entry) => {
+      alert('download complete: ' + entry.toURL());
+    }, (error) => {
+      alert('download failed: ' + JSON.stringify(error));
+    });
+  }
 
   return(
     <>
@@ -71,7 +98,14 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
           </IonCol>
           <IonCol>
             { vehicle && vehicle.attachment.map((a, index) => (
+              <>
+              { desktop &&
               <a key={index} href={ a.datas_download } download>{ a.datas_fname }</a>
+              }
+              { !desktop &&
+              <a key={index} onClick={() => {downloadFile(a.datas_download)}}>{ a.datas_fname }</a>
+              }
+              </>
             )) }
           </IonCol>
         </IonRow>
@@ -113,6 +147,13 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
 
           }
         </IonGrid>
+        <IonToast
+        cssClass={downloadStatus ? "success-toast" : "fail-toast"}
+        isOpen={message !== ""}
+        message={message}
+        duration={5000}
+        onDidDismiss={() => { setMessage("");}}
+      />
       </IonContent>
     </>
   );
@@ -121,6 +162,7 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
 export default connect<OwnProps, StateProps, {}>({
   mapStateToProps: (state, OwnProps) => ({
     vehicle: selectors.getVehicleDetail(state, OwnProps),
+    platforms: getPlatforms(),
   }),
   component: React.memo(VehicleDetail)
 });
