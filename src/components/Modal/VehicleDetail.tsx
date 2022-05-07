@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { connect } from '../../data/connect';
 import * as selectors from '../../data/selectors';
 import { fileDownload } from '../../data/api';
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
+import { FileTransfer, FileTransferObject } from '@awesome-cordova-plugins/file-transfer';
+import { File } from '@awesome-cordova-plugins/file';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -27,22 +27,15 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
 
   const downloadFile = async (url: string) => {
 
-    // const path = await fileDownload(url);
-    // if (path == "") {
-    //   setDownloadStatus(false);
-    //   setMessage("File donwload is failed");
-    // } 
-    // else {
-    //   setDownloadStatus(true);
-    //   setMessage(`File is downloaded to ${path}`)
-    // }
-
-    const fileTransfer: FileTransferObject = FileTransfer.create();
-    fileTransfer.download(url, File.externalRootDirectory + '/Download/' + 'file.pdf').then((entry) => {
-      alert('download complete: ' + entry.toURL());
-    }, (error) => {
-      alert('download failed: ' + JSON.stringify(error));
-    });
+    const path = await fileDownload(url);
+    if (path == "") {
+      setDownloadStatus(false);
+      setMessage("File donwload is failed");
+    } 
+    else {
+      setDownloadStatus(true);
+      setMessage(`File is downloaded to ${path}`)
+    }
   }
 
   return(

@@ -6,8 +6,8 @@ import { Order } from '../models/Order';
 import { Justify, LossFormData, LossFormDataOffline, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
 import { Comp, Vehicle } from '../models/Vehicle';
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
-import { File, FileEntry } from '@ionic-native/file';
+import { FileTransfer, FileTransferObject } from '@awesome-cordova-plugins/file-transfer';
+import { File, FileEntry } from '@awesome-cordova-plugins/file';
 
 const baseUrl = 'http://182.23.86.213:4000/odi';
 

@@ -9,22 +9,23 @@ const config: CapacitorConfig = {
   bundledWebRuntime: false,
   server: { 
     allowNavigation: [ 
-      `${baseUrl}/authenticate`,
-      `${baseUrl}/shipment`,
-      `${baseUrl}/order`,
-      `${baseUrl}/feedback`,
-      `${baseUrl}/transportloss_all`,
-      `${baseUrl}/driver_detail`,
-      `${baseUrl}/vehicle_detail`,
-      `${baseUrl}/get_survey`,
-      `${baseUrl}/slc_tank_spbu`,
-      `${baseUrl}/slc_justify`,
-      `${baseUrl}/transportloss`,
-      `${baseUrl}/transportloss_ofline`,
-      `${baseUrl}/slc_feedback`,
-      `${baseUrl}/send_feedback`,
-      `${baseUrl}/send_survey`,
-      `${baseUrl}/send_transportloss_ofline`
+      // `${baseUrl}/authenticate`,
+      // `${baseUrl}/shipment`,
+      // `${baseUrl}/order`,
+      // `${baseUrl}/feedback`,
+      // `${baseUrl}/transportloss_all`,
+      // `${baseUrl}/driver_detail`,
+      // `${baseUrl}/vehicle_detail`,
+      // `${baseUrl}/get_survey`,
+      // `${baseUrl}/slc_tank_spbu`,
+      // `${baseUrl}/slc_justify`,
+      // `${baseUrl}/transportloss`,
+      // `${baseUrl}/transportloss_ofline`,
+      // `${baseUrl}/slc_feedback`,
+      // `${baseUrl}/send_feedback`,
+      // `${baseUrl}/send_survey`,
+      // `${baseUrl}/send_transportloss_ofline`,
+      "*"
     ] 
   }
 };
