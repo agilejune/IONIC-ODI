@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonItemSliding, IonItem, IonLabel, IonRow, IonCol, IonIcon } from '@ionic/react';
 import { Order } from '../../models/Order';
-import { invertMode } from 'ionicons/icons';
+import { alarmOutline, invertMode } from 'ionicons/icons';
 
 interface OrderItemProps {
   order: Order;
@@ -36,8 +36,13 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, listType }) => {
               </div>
             </IonCol>
             <IonCol>
-              <div className="ion-float-right">
+              <div className="ion-float-right" style={{textAlign: 'right'}}>
                 <h5><span>{toYYYYMMDD(order.Plann_Date)}</span></h5>
+                { Number(order.Shift) > 0 &&
+                <p>
+                  <IonIcon icon={alarmOutline} /> {order.Shift}
+                </p>
+                }
               </div>
             </IonCol>
           </IonRow>

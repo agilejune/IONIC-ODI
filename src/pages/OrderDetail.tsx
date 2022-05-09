@@ -35,15 +35,15 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order }) => {
       },
       { 
         label: "Quantity:",
-        data: order.Volume
+        data: `${order.Volume}KL`
       },
       { 
         label: "Tgl. Data dibuat:",
-        data: order.Plann_Date
+        data: order.Received_Date
       },
       { 
         label: "Rencana Kirim:",
-        data: ""
+        data: order.Plann_Date
       },
       { 
         label: "SPBU:",
@@ -52,6 +52,10 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order }) => {
       { 
         label: "Shift:",
         data: order.Shift
+      },
+      { 
+        label: "Kategori:",
+        data: order.Plann_Category
       },
       { 
         label: "Status:",

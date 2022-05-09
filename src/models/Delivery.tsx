@@ -40,7 +40,3 @@ export interface Position {
   gps_vendor: string,  //"TELKOMSEL"
   name: string  //"B9274SFU"
 }
-
-// export interface DeliveryList {
-//   lists: Delivery[],
-// }
