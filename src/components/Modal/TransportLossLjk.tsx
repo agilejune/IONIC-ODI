@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import { getPlatforms, IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonSpinner, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
@@ -8,6 +8,7 @@ import { LossFormDataOffline, Tank } from '../../models/Transportloss';
 import { TextFieldTypes } from '@ionic/core';
 import { sendTransportLossFormData } from '../../data/sync';
 import { refreshTransportLossAll, setResInfoAfterSend, updateTransportLossOfflineData } from '../../data/data/data.actions';
+import { fileDownload } from '../../data/api';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -20,6 +21,7 @@ interface OwnProps {
 interface StateProps {
   lossFormOfflineData: LossFormDataOffline;
   tankOptions: Tank[];
+  platforms: ("ios" | "ipad" | "iphone" | "android" | "phablet" | "tablet" | "cordova" | "capacitor" | "electron" | "pwa" | "mobile" | "mobileweb" | "desktop" | "hybrid")[];
 }
 
 interface DispatchProps {
@@ -28,10 +30,14 @@ interface DispatchProps {
   refreshTransportLossAll: typeof refreshTransportLossAll;
 }
 
-const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({refreshTransportLossAll, updateTransportLossOfflineData, setResInfoAfterSend, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy}) => {
+const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({refreshTransportLossAll, updateTransportLossOfflineData, setResInfoAfterSend, onDismissModal, moveToJustify, lossFormOfflineData, tankOptions, measureBy, platforms}) => {
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [tryCount, setTryCount] = useState(0);
+  const [message, setMessage] = useState("");
+  const [downloadStatus, setDownloadStatus] = useState(false);
+  
+  const desktop = platforms.indexOf("desktop") != -1;
 
   // const message = "Msg SIOD D05 : Kompartemen ini tujuan SPBU lain";
   let isValid = true;
@@ -40,6 +46,19 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({ref
 		mode: "onSubmit",
     reValidateMode: "onChange"
 	});
+
+  const downloadFile = async (url: string) => {
+
+    const path = await fileDownload(url);
+    if (path == "") {
+      setDownloadStatus(false);
+      setMessage("File donwload is failed");
+    } 
+    else {
+      setDownloadStatus(true);
+      setMessage(`File is downloaded to ${path}`)
+    }
+  }
 
   const getLoVolume = (lolines_id : number) => {
     const datas = lossFormOfflineData.lolines_ids.filter((id) => Number(id.lo_id) === lolines_id);
@@ -496,7 +515,26 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({ref
           <IonCol>
             <IonText>
               <strong>Download BA</strong><br/>
-              <a href={lossFormOfflineData.datas_fname_atg} download>{lossFormOfflineData.datas_fname}</a>
+              { lossFormOfflineData.datas_download != null &&
+                <>
+                { desktop &&
+                <a href={ lossFormOfflineData.datas_download } download>{ lossFormOfflineData.datas_fname }</a>
+                }
+                { !desktop &&
+                <a onClick={() => {downloadFile(lossFormOfflineData.datas_download)}}>{ lossFormOfflineData.datas_fname }</a>
+                }
+                </>
+              }
+              { lossFormOfflineData.datas_download != null &&
+                <>
+                { desktop &&
+                <a href={ lossFormOfflineData.datas_atg_download } download>{ lossFormOfflineData.datas_fname_atg }</a>
+                }
+                { !desktop &&
+                <a onClick={() => {downloadFile(lossFormOfflineData.datas_atg_download)}}>{ lossFormOfflineData.datas_fname_atg }</a>
+                }
+                </>
+              }
             </IonText>
           </IonCol>
         </IonRow>
@@ -520,6 +558,14 @@ const TransportLossLjk : React.FC<OwnProps & StateProps & DispatchProps> = ({ref
           duration={5000}
           onDidDismiss={() => setErrorMessage("")}
         />
+
+        <IonToast
+          cssClass={downloadStatus ? "success-toast" : "fail-toast"}
+          isOpen={message !== ""}
+          message={message}
+          duration={5000}
+          onDidDismiss={() => { setMessage("");}}
+        />
       </IonContent>
     </IonPage>
   );
@@ -530,6 +576,7 @@ export default connect<OwnProps, StateProps, DispatchProps>({
     lossFormOfflineData: selectors.getLossFormOfflineData(state, OwnProps),
     tankOptions: state.data.tanks,
     isSending: state.data.dataSending,
+    platforms: getPlatforms(),
   }),
   mapDispatchToProps: {
     setResInfoAfterSend,

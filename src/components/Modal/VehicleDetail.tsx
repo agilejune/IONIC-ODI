@@ -141,12 +141,12 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
           }
         </IonGrid>
         <IonToast
-        cssClass={downloadStatus ? "success-toast" : "fail-toast"}
-        isOpen={message !== ""}
-        message={message}
-        duration={5000}
-        onDidDismiss={() => { setMessage("");}}
-      />
+          cssClass={downloadStatus ? "success-toast" : "fail-toast"}
+          isOpen={message !== ""}
+          message={message}
+          duration={5000}
+          onDidDismiss={() => { setMessage("");}}
+        />
       </IonContent>
     </>
   );

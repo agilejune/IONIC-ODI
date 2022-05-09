@@ -40,6 +40,8 @@ export interface TransportLossCate {
 export interface LossFormData {
   claim_discrepancy: number,
   compartment: number,
+  datas_atg_download: string,
+  datas_download: string,
   datas_fname: string,
   datas_fname_atg: string,
   datas_id: number,
