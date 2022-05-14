@@ -1,4 +1,4 @@
-import { getCheckLists, getDelivery, getDriverDetails, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, getVehicleDatails, sendCheckLists as sendCheckListsSync, sendFeedback as sendFeedbackSync, sendTransportLossFormData as sendTransportLossFormDataSync, sendOfflineStackData } from '../sync';
+import { getCheckLists, getDelivery, getDriverDetails, getFeedbacks, getJustify, getOfflineStackCount, getOrders, getTanks, getTransportLossAll, getVehicleDatails, sendCheckLists as sendCheckListsSync, sendFeedback as sendFeedbackSync, sendTransportLossFormData as sendTransportLossFormDataSync, sendOfflineStackData, getFeedbackOfflineOptions } from '../sync';
 import { ActionType } from '../../util/types';
 import { DataState } from './data.state';
 import { getLossFormOffineData } from '../sync';
@@ -30,6 +30,9 @@ export const loadData = () => async (dispatch: React.Dispatch<any>) => {
 
   const lossFormDataOffline = await getLossFormOffineData(shipIds);
   dispatch(setLossFormDataOffline(lossFormDataOffline));
+
+  const feedbackOptions = await getFeedbackOfflineOptions();
+  dispatch(setFeedbackOptions(feedbackOptions));
   
   const driverDetails = await getDriverDetails(driverAssistantIDs);
   dispatch(setDriverDetails(driverDetails));
@@ -142,6 +145,11 @@ export const setLossFormDataOffline = (data: Partial<DataState>) => ({
   data
 } as const);
 
+export const setFeedbackOptions = (data: Partial<DataState>) => ({
+  type: 'set-feedback-option',
+  data
+} as const);
+
 export const setDriverDetails = (data: Partial<DataState>) => ({
   type: 'set-driver-detail',
   data
@@ -168,6 +176,7 @@ export type DataActions =
   | ActionType<typeof setVehicleDetails> 
   | ActionType<typeof setServerMessage>
   | ActionType<typeof setServerResStatus>
+  | ActionType<typeof setFeedbackOptions>
   
 
 

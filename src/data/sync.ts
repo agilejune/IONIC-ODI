@@ -1,6 +1,6 @@
 import { Network } from '@capacitor/network';
-import { getApiCheckLists, getApiDelivery, getApiDriverDetails, getApiFeedbacks, getApiJustify, getApiLossFormOffineData, getApiOrders, getApiTanks, getApiTransportLossAll, getApiVehicleDatails, sendApiCheckLists, sendApiFeedback, sendApiTransportLossFormData } from './api';
-import { getStorageChecklists, getStorageDeliverys, getStorageDriverDetails, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, getStorageTransportLossOffline, getStorageVehicleDatails, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setDriverDetails, setFeedback, setJustify, setOrder, setTankOptions, setTransportLossAll, setTransportLossOffline, setVehicleDatails, updateStorageTransportLossOffline } from './storage';
+import { getApiCheckLists, getApiDelivery, getApiDriverDetails, getApiFeedbackOfflineOptions, getApiFeedbacks, getApiJustify, getApiLossFormOffineData, getApiOrders, getApiTanks, getApiTransportLossAll, getApiVehicleDatails, sendApiChangedPassword, sendApiCheckLists, sendApiFeedback, sendApiProfile, sendApiTransportLossFormData } from './api';
+import { getStorageChecklists, getStorageDeliverys, getStorageDriverDetails, getStorageFeedbackOfflineOptions, getStorageFeedbacks, getStorageJustify, getStorageOrders, getStorageStack, getStorageTankOptions, getStorageTransportLossAll, getStorageTransportLossOffline, getStorageVehicleDatails, initStorageStack, saveStorageStack, setChecklists, setDeliverys, setDriverDetails, setFeedback, setFeedbackOfflineOptions, setJustify, setOrder, setTankOptions, setTransportLossAll, setTransportLossOffline, setVehicleDatails, updateStorageTransportLossOffline } from './storage';
 
 export const getCurrentNetworkStatus = async () => {
   const status = await Network.getStatus();
@@ -153,6 +153,25 @@ export const getLossFormOffineData = async (shipIds : []) => {
 
 }
 
+export const getFeedbackOfflineOptions = async () => {
+  let feedbackOptions = undefined;
+
+  if (await getCurrentNetworkStatus()) {
+    try {
+      feedbackOptions = await getApiFeedbackOfflineOptions();
+      await setFeedbackOfflineOptions(feedbackOptions);
+    } catch(err) {
+      feedbackOptions = await getStorageFeedbackOfflineOptions();  
+    }
+  }
+  else {
+    feedbackOptions = await getStorageFeedbackOfflineOptions();
+  }
+
+  return feedbackOptions;
+
+}
+
 export const getDriverDetails = async (driverIDs : []) => {
   let driverDetails = undefined;
   if (await getCurrentNetworkStatus()) {
@@ -230,6 +249,49 @@ export const sendCheckLists = async (data: any) => {
   return { msg, responseStatus };
 }
 
+export const sendProfile = async (data: any) => {
+  let msg = "";
+  let responseStatus = "";
+  if (await getCurrentNetworkStatus()) {
+    try {
+      const {message, status} = await sendApiProfile(data);
+      msg = message;
+      responseStatus = status;
+    } catch(err) {
+      await saveStorageStack("profile", data);
+      msg = "Error is occured with Network, So Datas are saved to Storage temporarily";
+      responseStatus = "E";
+    }
+  }
+  else {
+    await saveStorageStack("profile", data);
+    msg = "Datas are saved to Storage temporarily";
+    responseStatus = "S";
+  }
+  return { msg, responseStatus };
+}
+
+export const sendChangedPassword = async (data: any) => {
+  let msg = "";
+  let responseStatus = "";
+  if (await getCurrentNetworkStatus()) {
+    try {
+      const {message, status} = await sendApiChangedPassword(data);
+      msg = message;
+      responseStatus = status;
+    } catch(err) {
+      msg = "Error is occured with Network, Retry later";
+      responseStatus = "E";
+    }
+  }
+  else {
+    await saveStorageStack("profile", data);
+    msg = "Offline now, Retry later";
+    responseStatus = "E";
+  }
+  return { msg, responseStatus };
+}
+
 export const sendTransportLossFormData = async (data: any) => {
   let msg = "";
   let responseStatus = "";
@@ -264,7 +326,8 @@ export const sendOfflineStackData = async () => {
   try {
     Object.entries(datas).forEach(async ([key, value]) => {
       if (key === "profile") {
-
+        console.log("send profile from offine stack");
+        
       }
       else if (key === "feedback" && Array.isArray(value)) {
         value.map(async (feedback: any) => {

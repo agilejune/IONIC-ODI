@@ -35,6 +35,10 @@
   color: #3F51B5;
 }
 
+.chat-bubble p {
+  word-break: break-all;
+}
+
 .bubble-sent {
   display: flex;
   flex-direction: row-reverse;

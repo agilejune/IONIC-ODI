@@ -11,7 +11,7 @@ import './DeliveryDetail.scss';
 import TransportLossAgree from '../components/Modal/TransportLossAgree';
 import TransportLossQuery from '../components/Modal/TransportLossQuery';
 import TransportLoss from '../components/Modal/TransportLoss';
-import TransportLossLjk from '../components/Modal/TransportLossLjk';
+import TransportLossForm from '../components/Modal/TransportLossForm';
 import TransportLossMeter from '../components/Modal/TransportLossMeter';
 import TransportLossJustify from '../components/Modal/TransportLossJustify';
 import { CheckList } from '../models/CheckList';
@@ -44,7 +44,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
   const [showTransLossAgree, setShowTransLossAgree] = useState(false);
   const [showTransLossQuery, setShowTransLossQuery] = useState(false);
   const [showTransLoss, setShowTransLoss] = useState(false);
-  const [showTransLossLjk, setShowTransLossLjk] = useState(false);
+  const [showTransLossForm, setShowTransLossForm] = useState(false);
   const [showTransLossMeter, setShowTransLossMeter] = useState(false);
   const [showTransLossJustify, setShowTransLossJustify] = useState(false);
   const [showSendFeedback, setShowSendFeedback] = useState(false);
@@ -77,7 +77,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
     }
     else {
       setMeasureBy(data.measure_by);
-      setShowTransLossLjk(true);
+      setShowTransLossForm(true);
     }
   }
 
@@ -290,7 +290,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
         >
           <TransportLoss 
             onLjk={() => {
-              setShowTransLossLjk(true); 
+              setShowTransLossForm(true); 
               setShowTransLoss(false); 
               setMeasureBy('ijkbout');
               }} 
@@ -304,12 +304,12 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
         </IonModal>
 
         <IonModal
-          isOpen={showTransLossLjk}
-          onDidDismiss={() => setShowTransLossLjk(false)}
+          isOpen={showTransLossForm}
+          onDidDismiss={() => setShowTransLossForm(false)}
           swipeToClose={true}
           presentingElement={pageRef.current!}
         >
-          <TransportLossLjk measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} moveToJustify={data => {setShowTransLossJustify(true); setTransLossCalcData(data);} } onDismissModal={() => setShowTransLossLjk(false)}></TransportLossLjk>
+          <TransportLossForm measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} moveToJustify={data => {setShowTransLossJustify(true); setTransLossCalcData(data);} } onDismissModal={() => setShowTransLossForm(false)}></TransportLossForm>
         </IonModal>
         <IonModal
           isOpen={showTransLossMeter}
@@ -317,7 +317,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           swipeToClose={true}
           presentingElement={pageRef.current!}
         >
-          <TransportLossMeter onOpenLjk={() => {setShowTransLossLjk(true); setShowTransLossMeter(false);}} onDismissModal={() => setShowTransLossMeter(false)}></TransportLossMeter>
+          <TransportLossMeter onOpenLossForm={() => {setShowTransLossForm(true); setShowTransLossMeter(false);}} onDismissModal={() => setShowTransLossMeter(false)}></TransportLossMeter>
         </IonModal>
 
         <IonModal

@@ -1,26 +1,5 @@
 {
-  "data": [
-      {
-          "id": 8,
-          "name": "Awak Mobil Tangki"
-      },
-      {
-          "id": 9,
-          "name": "Mobil Tangki"
-      },
-      {
-          "id": 10,
-          "name": "Status Pengiriman"
-      },
-      {
-          "id": 11,
-          "name": "Kualitas & Kuantitas Produk"
-      },
-      {
-          "id": 12,
-          "name": "Sistem Aplikasi"
-      }
-  ],
-  "desc_msg": "",
-  "status": "S"
+    "data": [],
+    "desc_msg": "Data not found",
+    "status": "E"
 }

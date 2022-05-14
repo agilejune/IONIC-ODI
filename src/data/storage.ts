@@ -1,7 +1,9 @@
 import { Storage } from '@capacitor/storage';
 import { LossFormDataOffline } from '../models/Transportloss';
 import { User } from '../models/User';
+// import CryptoJS from 'crypto-js';
 
+// export const key = "2e35f242a46d67eeb74aabc37d5e5d05";
 const HAS_LOGGED_IN = 'hasLoggedIn';
 const USERDATA = 'user_data';
 const DELIVERY = 'deliverys';
@@ -16,6 +18,23 @@ const OFFLINE_STACK = "offline_stack";
 const DRIVER_DETAIL = "driver_detail";
 const VEHICLE_DETAIL = "vehicle_detail";
 const AUTHENTICATED = "authenticated";
+const FEEDBACK_OPTION = 'feedback_option'
+
+// export const compareAndSavePassword = async (password: string, newPassword: string) => {
+//   const data = await getUserData();
+  
+//   if (!data)
+//     return false;
+  
+//   const encyptedPassword = CryptoJS.AES.encrypt(password, key).toString();
+//   const compared = data.password == encyptedPassword;
+
+//   if(compared) {
+//     await setUserData({...data, password: CryptoJS.AES.encrypt(newPassword, key).toString()});
+//   }
+
+//   return compared;
+// }
 
 export const setIsAuthenticated = async (isAuthenticated: boolean) => {
   await Storage.set({ key: AUTHENTICATED, value: JSON.stringify(isAuthenticated) });
@@ -133,6 +152,18 @@ export const getStorageTransportLossOffline = async () => {
   return JSON.parse(value);
 }
 
+export const setFeedbackOfflineOptions = async (data : any) => {
+  await Storage.set({ key: FEEDBACK_OPTION, value: JSON.stringify(data) });
+}
+
+export const getStorageFeedbackOfflineOptions = async () => {
+  const { value } = await Storage.get({ key: FEEDBACK_OPTION });
+  
+  if (value == null || value == "undefined") return;
+  
+  return JSON.parse(value);
+}
+
 export const updateStorageTransportLossOffline = async (updateData : any) => {
   const prevDatas = (await getStorageTransportLossOffline()).transFormOfflineDatas as LossFormDataOffline[];
   const userData = await getUserData() as User;
@@ -203,7 +234,7 @@ export const saveStorageStack = async (param: string, data: any) => {
       if (Array.isArray(value))
         value.push(data); 
       else
-        value = data;  
+        value = data;
     }
   });
   

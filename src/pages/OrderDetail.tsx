@@ -46,10 +46,6 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order }) => {
         data: order.Plann_Date
       },
       { 
-        label: "SPBU:",
-        data: order.SPBU
-      },
-      { 
         label: "Shift:",
         data: order.Shift
       },

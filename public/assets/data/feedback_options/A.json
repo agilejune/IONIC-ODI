@@ -1,26 +1,5 @@
 {
-  "data": [
-      {
-          "id": 3,
-          "name": "Peningkatan Kinerja Awak Mobil Tangki"
-      },
-      {
-          "id": 4,
-          "name": "Perbaikan Kondisi Mobil Tangki"
-      },
-      {
-          "id": 5,
-          "name": "Perbaikan Status Pengiriman"
-      },
-      {
-          "id": 6,
-          "name": "Peningkatan Kualitas dan Kuantitas Produk"
-      },
-      {
-          "id": 7,
-          "name": "Perbaikan peningkatan Aplikasi ODI"
-      }
-  ],
-  "desc_msg": "",
-  "status": "S"
+    "data": [],
+    "desc_msg": "Data not found",
+    "status": "E"
 }

@@ -9,5 +9,6 @@ export interface User {
     mobile: string,
     owner: string,
     user_id: number,
-    user_name: string
+    user_name: string,
+    password: string
 }

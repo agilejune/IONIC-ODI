@@ -4,10 +4,10 @@ import React from 'react';
 
 interface OwnProps {
   onDismissModal: () => void;
-  onOpenLjk: () => void;
+  onOpenLossForm: () => void;
 }
 
-const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLjk}) => {
+const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLossForm}) => {
 
   return(
     <IonPage id="transport-loss-meter-page">
@@ -64,7 +64,7 @@ const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLjk}) =>
             <IonInput disabled></IonInput>
           </IonCol>
           <IonCol size="4">
-            <IonButton color="danger" onClick={onOpenLjk}>Open</IonButton>
+            <IonButton color="danger" onClick={onOpenLossForm}>Open</IonButton>
           </IonCol>
         </IonRow>
         <hr/>
@@ -76,7 +76,7 @@ const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLjk}) =>
             <IonInput disabled></IonInput>
           </IonCol>
           <IonCol size="4">
-            <IonButton color="danger" onClick={onOpenLjk}>Open</IonButton>
+            <IonButton color="danger" onClick={onOpenLossForm}>Open</IonButton>
           </IonCol>
         </IonRow>
         <hr/>

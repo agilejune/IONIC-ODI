@@ -6,8 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { connect } from '../../data/connect';
 import * as selectors from '../../data/selectors';
 import { fileDownload } from '../../data/api';
-import { FileTransfer, FileTransferObject } from '@awesome-cordova-plugins/file-transfer';
-import { File } from '@awesome-cordova-plugins/file';
 
 interface OwnProps {
   onDismissModal: () => void;
@@ -124,7 +122,7 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
             
             <IonRow>
               <IonCol size="3">
-                  <IonText>{index}</IonText>
+                  <IonText>{index + 1}</IonText>
               </IonCol>
               <IonCol size="3">
                   <IonText>{ c.t2 }</IonText>

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Delivery } from '../../models/Delivery';
 import { useForm } from "react-hook-form";
 import { getFeedbackOptions } from '../../data/api';
-import { FeedbackOption } from '../../models/Feedback';
+import { FeedbackOption, FeedbackOptionAll } from '../../models/Feedback';
 import { refreshFeedbacks, setResInfoAfterSend } from '../../data/data/data.actions';
 import { sendFeedback } from '../../data/sync';
 
@@ -15,14 +15,19 @@ interface OwnProps {
   delivery: Delivery;
 }
 
+interface StateProps {
+  feedbackOptions: FeedbackOptionAll[];
+}
+
 interface DispatchProps {
   setResInfoAfterSend: typeof setResInfoAfterSend;
   refreshFeedbacks: typeof refreshFeedbacks;
 }
 
-const SendFeedback : React.FC<OwnProps & DispatchProps> = ({refreshFeedbacks, setResInfoAfterSend, onDismissModal, delivery}) => {
+const SendFeedback : React.FC<OwnProps & StateProps & DispatchProps> = ({refreshFeedbacks, setResInfoAfterSend, onDismissModal, delivery, feedbackOptions}) => {
   const [isSending, setIsSending] = useState(false);
   const [t, i18n] = useTranslation('common');
+  const [currentCode, setCurrentCode] = useState("");
   const [devSuggestions, setDevSuggestions] = useState<FeedbackOption[]>([]);
   const [complaintScopes, setComplaintScopes] = useState<FeedbackOption[]>([]);
   const [complaintCates, setComplaintCates] = useState<FeedbackOption[]>([]);
@@ -98,22 +103,52 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({refreshFeedbacks, se
     }
   ];
 
+  // const changeOption = async (id: string | undefined, code: string | undefined) => {
+  //   const options = await getFeedbackOptions(id, code);
+
+  //   if (options.length == 0) return;
+
+  //   if (options[0].id < 8) {
+  //     setDevSuggestions(options);
+  //     setComplaintScopes([]);
+  //     setComplaintCates([]);
+  //   }
+  //   else if (options[0].id < 13) {
+  //     setComplaintScopes(options);
+  //     setDevSuggestions([]);
+  //   }
+  //   else {
+  //     setComplaintCates(options);
+  //     setDevSuggestions([]);
+  //   }
+  // };
+
   const changeOption = async (id: string | undefined, code: string | undefined) => {
-    const options = await getFeedbackOptions(id, code);
+    if (code != undefined) {
+      const options = feedbackOptions.filter((option) => option.code === code)[0];
+      if (options.data.length == 0) return;
 
-    if (options.length == 0) return;
+      if (options.data[0].id < 8) {
+        setDevSuggestions(options.data);
+        setComplaintScopes([]);
+        setComplaintCates([]);
+      }
+      else if (options.data[0].id < 13) {
+        setComplaintScopes(options.data);
+        setDevSuggestions([]);
+      }
 
-    if (options[0].id < 8) {
-      setDevSuggestions(options);
-      setComplaintScopes([]);
-      setComplaintCates([]);
+      setCurrentCode(code);
     }
-    else if (options[0].id < 13) {
-      setComplaintScopes(options);
-      setDevSuggestions([]);
-    }
-    else {
-      setComplaintCates(options);
+
+    if (id != undefined) {
+      const options = feedbackOptions.filter((option) => option.code === currentCode)[0];
+      if (options.data.length == 0) return;
+
+      const childOptions = options.data.filter((option) => option.id === Number(id))[0];
+      if (childOptions.child.length == 0) return;
+
+      setComplaintCates(childOptions.child);
       setDevSuggestions([]);
     }
   };
@@ -260,7 +295,10 @@ const SendFeedback : React.FC<OwnProps & DispatchProps> = ({refreshFeedbacks, se
 } 
 
 
-export default connect<OwnProps, DispatchProps>({
+export default connect<OwnProps, StateProps, DispatchProps>({
+  mapStateToProps: (state, OwnProps) => ({
+    feedbackOptions: state.data.feedbackOptions
+  }),
   mapDispatchToProps: {
     setResInfoAfterSend,
     refreshFeedbacks

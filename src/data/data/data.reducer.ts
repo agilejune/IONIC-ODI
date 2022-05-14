@@ -19,6 +19,7 @@ export function dataReducer(state: DataState, action: DataActions): DataState {
     case 'set-justify-data':
     case 'set-driver-detail':
     case 'set-vehicle-detail':
+    case 'set-feedback-option':
       return { ...state, ...action.data };
     case 'set-search-text':
       return { ...state, searchText: action.searchText };

@@ -41,7 +41,7 @@ const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback, listType }) => {
                 <IonIcon icon={chatboxEllipsesOutline}/>
               </IonCol>
               <IonCol size="11">
-                <IonText><p>{feedback.AllMessage[0].sender}:{feedback.AllMessage[0].message}</p></IonText>
+                <IonText><p>{feedback.Message.Pengirim}:{feedback.Message.Pesan}</p></IonText>
               </IonCol>
             </IonRow>
             <IonRow>
@@ -49,7 +49,7 @@ const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback, listType }) => {
                 <IonIcon icon={chatboxEllipses}/>
               </IonCol>
               <IonCol size="11">
-                <IonText><p>{feedback.AllMessage[0].responder}:{feedback.AllMessage[0].response}</p></IonText>
+                <IonText><p>{feedback.Respon.Respon}:{feedback.Respon.Pesan}</p></IonText>
               </IonCol>
             </IonRow>
           </div>

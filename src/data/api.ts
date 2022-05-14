@@ -1,13 +1,14 @@
 import { CheckList } from '../models/CheckList';
 import { Delivery } from '../models/Delivery';
 import { Driver } from '../models/Driver';
-import { Feedback, FeedbackOption, Feedback_Data } from '../models/Feedback';
+import { Feedback, FeedbackOption, FeedbackOptionAll, FeedbackOptionChild, Feedback_Data, Pengirim, Respon, Shipment } from '../models/Feedback';
 import { Order } from '../models/Order';
 import { Justify, LossFormData, LossFormDataOffline, Tank, Transportloss } from '../models/Transportloss';
 import { User } from '../models/User';
 import { Comp, Vehicle } from '../models/Vehicle';
 import { FileTransfer, FileTransferObject } from '@awesome-cordova-plugins/file-transfer';
 import { File, FileEntry } from '@awesome-cordova-plugins/file';
+// import { key } from './storage';
 
 const baseUrl = 'http://182.23.86.213:4000/odi';
 
@@ -28,7 +29,7 @@ const jsonUrl = {
   lossOfflineForm : '/assets/data/transportloss_offline.json'
 };
 
-const jsonMode = true;
+const jsonMode = false;
 let commonFormData = new FormData();
 let spbu : string;
 
@@ -66,7 +67,8 @@ export const doAuthenticate = async (formData : FormData) => {
     return;
   }
   else if (status === "S") {
-    const user = responseData.data[0] as User;
+    let user = responseData.data[0] as User;
+    // user = {...user, password: CryptoJS.AES.encrypt(user.password, key).toString()};
     putUserInfoInFormData(user);
     return user;
   }
@@ -159,17 +161,25 @@ export const getApiFeedbacks = async () => {
     })
   ]);
   const responseData = await response[0].json();
-  const feedback_datas = responseData.data as Feedback_Data[];
-  const feedbacks = feedback_datas!.map(feedback => {
-    let shipment = feedback.Shipment as string;
-    shipment = shipment.replace(/\s\n+/g, '","');
-    shipment = shipment.replace(/:\s+/g, '":"');
-    return {...feedback, Shipment: JSON.parse(`{"${shipment}"}`)} as Feedback;
-  });
+  const feedbacks = responseData.data as Feedback[];
+  // const feedbacks = feedback_datas!.map(feedback => {
+  //   const shipment = toJson(feedback.Shipment) as Shipment;
+  //   const message = (feedback.Message == "" ? { Pengirim: "", Pesan: ""} : toJson(feedback.Message)) as Pengirim;
+  //   const respon = (feedback.Respon == "" ? { Respon: "", Pesan: ""} : toJson(feedback.Respon)) as Respon;
+    
+  //   return {...feedback, ...{Shipment: shipment, Message: message, Respon: respon}} as Feedback;
+  // });
   
   return {
     feedbacks,
   };
+}
+
+const toJson = (data: string) => {
+  let tmp = data.replace(/\s<ent>+/g, '","');
+  tmp = tmp.replace(/:\s+/g, '":"');
+  
+  return JSON.parse(`{"${tmp}"}`);
 }
 
 export const getApiTransportLossAll = async () => {
@@ -354,6 +364,36 @@ export const getFeedbackOptions = async (id: string | undefined, code: string | 
   return options;
 }
 
+export const getApiFeedbackOfflineOptions = async () => {
+  const codes = ["A", "B", "C", "D", "E"];
+  const feedbackOptions = [] as FeedbackOptionAll[];
+
+  for (let i = 0; i < codes.length; ++i) {
+    const formData = new FormData();
+    formData.append('id', "");
+    formData.append('code', codes[i]);
+    formData.append('all_data', "True");
+  
+    const response = await Promise.all([
+      jsonMode ? fetch(jsonUrl.feedbackOptions + codes[i] + '.json') :
+      fetch(`${baseUrl}/slc_feedback`, 
+        {
+          method: "post",
+          body: formData
+        }
+      )
+    ]);
+  
+    const responseData = await response[0].json();
+    const options = responseData.data as FeedbackOptionChild[];
+    feedbackOptions.push({code: codes[i], data: options});
+  }
+
+  return {
+    feedbackOptions
+  };
+}
+
 const getFormData = (data : any, addData: object) => {
 
   const formData = new FormData();
@@ -393,6 +433,55 @@ export const sendApiFeedback = async (data: object) => {
     message: desc_msg
   };
 }
+
+export const sendApiChangedPassword = async (data: object) => {
+  const formData = new FormData();
+  formData.append('username', spbu);
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  const response = await Promise.all([
+    fetch(`${baseUrl}/change_password`, {
+      method: "post",
+      body: formData
+    })
+  ]);
+
+  const responseData = await response[0].json();
+  const status = responseData.status as string;
+  const desc_msg = responseData.desc_msg as string;
+  
+  return {
+    status: status,
+    message: desc_msg
+  };
+}
+
+export const sendApiProfile = async (data: object) => {
+  const formData = new FormData();
+  formData.append('nospbu', spbu);
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  const response = await Promise.all([
+    fetch(`${baseUrl}/change_password`, {
+      method: "post",
+      body: formData
+    })
+  ]);
+
+  const responseData = await response[0].json();
+  const status = responseData.status as string;
+  const desc_msg = responseData.desc_msg as string;
+  
+  return {
+    status: status,
+    message: desc_msg
+  };
+}
+
 
 export const sendApiCheckLists = async (data: object) => {
   const formData = new FormData();

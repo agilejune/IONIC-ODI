@@ -31,6 +31,7 @@ export const initialState: AppState = {
     dataLoading: false,
     willSendCount: 0,
     transFormOfflineDatas: [],
+    feedbackOptions: [],
     drivers: [],
     vehicles: [],
     message: "",

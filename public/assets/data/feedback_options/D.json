@@ -1,26 +1,116 @@
 {
-  "data": [
-      {
-          "id": 8,
-          "name": "Awak Mobil Tangki"
-      },
-      {
-          "id": 9,
-          "name": "Mobil Tangki"
-      },
-      {
-          "id": 10,
-          "name": "Status Pengiriman"
-      },
-      {
-          "id": 11,
-          "name": "Kualitas & Kuantitas Produk"
-      },
-      {
-          "id": 12,
-          "name": "Sistem Aplikasi"
-      }
-  ],
-  "desc_msg": "",
-  "status": "S"
+    "data": [
+        {
+            "child": [
+                {
+                    "id": 13,
+                    "name": "Perilaku Awak Mobuil Tangki Tidak Menyenangkan"
+                },
+                {
+                    "id": 14,
+                    "name": "Pelayanan Awak Mobil Tangki Tidak Memuaskan"
+                },
+                {
+                    "id": 15,
+                    "name": "Awak Mobil Tangki Tidak Mematuhi Prosedur"
+                },
+                {
+                    "id": 16,
+                    "name": "Awak Mobil Tangki Tidak sesuai/Tidak Dikenal"
+                },
+                {
+                    "id": 17,
+                    "name": "Awak Mobul Tangki Meminta Imbalan"
+                }
+            ],
+            "id": 8,
+            "name": "Awak Mobil Tangki"
+        },
+        {
+            "child": [
+                {
+                    "id": 18,
+                    "name": "Mobil Tangki Tidak Standar"
+                },
+                {
+                    "id": 19,
+                    "name": "Perlengkapan Mobil Tangki Tidak Lengkap\t"
+                },
+                {
+                    "id": 20,
+                    "name": "Kondisi Mobil Tangki Tidak Baik"
+                },
+                {
+                    "id": 21,
+                    "name": "Nopol Tangki Tidak Sesuai/Tidak dikenal"
+                },
+                {
+                    "id": 22,
+                    "name": "Buku Tera Tidak Sesuai"
+                }
+            ],
+            "id": 9,
+            "name": "Mobil Tangki"
+        },
+        {
+            "child": [
+                {
+                    "id": 23,
+                    "name": "Terlambat/Tidak Sesuai Jadwal"
+                },
+                {
+                    "id": 24,
+                    "name": "Rute Tidak Wajar"
+                },
+                {
+                    "id": 25,
+                    "name": "Berhenti Bukan Pada Tujuan"
+                }
+            ],
+            "id": 10,
+            "name": "Status Pengiriman"
+        },
+        {
+            "child": [
+                {
+                    "id": 26,
+                    "name": "Jumlah Kurang (Losses)"
+                },
+                {
+                    "id": 27,
+                    "name": "Kulaitas Produk Tidak Baik"
+                }
+            ],
+            "id": 11,
+            "name": "Kualitas & Kuantitas Produk"
+        },
+        {
+            "child": [
+                {
+                    "id": 28,
+                    "name": "ODI Sulit Diakses/Lambat"
+                },
+                {
+                    "id": 29,
+                    "name": "GPS Error/Tidak Update"
+                },
+                {
+                    "id": 30,
+                    "name": "Beberapa Data Tidak Tampil"
+                },
+                {
+                    "id": 31,
+                    "name": "Semua Data dapat ditampilan"
+                },
+                {
+                    "id": 32,
+                    "name": "Buku Tera tidak dapat di unduh"
+                }
+            ],
+            "id": 12,
+            "name": "Sistem Aplikasi"
+        }
+    ],
+    "desc_msg": "",
+    "status": "S"
 }

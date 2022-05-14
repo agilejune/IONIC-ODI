@@ -49,4 +49,13 @@
     border-radius: 10px;
     background: var(--ion-background-color, #fff);
   }
+
+  .profile-content ion-input {
+    border: none;
+  }
+
+  .profile-content ion-text {
+    color: red;
+    font-size: smaller;
+  }
 }
