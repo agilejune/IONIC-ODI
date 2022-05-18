@@ -1,6 +1,5 @@
 import { setIsLoggedInData,  setUserData as setUserDataStorage} from '../storage';
 import { ActionType } from '../../util/types';
-import { UserState } from './user.state';
 import { User } from '../../models/User';
 
 export const setLoading = (isLoading: boolean) => ({

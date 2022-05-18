@@ -1,13 +1,32 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonModal, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { aperture, closeOutline, flag } from 'ionicons/icons';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { LossFormDataOffline } from '../../models/Transportloss';
+import * as selectors from '../../data/selectors';
+import { connect } from '../../data/connect';
 
 interface OwnProps {
   onDismissModal: () => void;
-  onOpenLossForm: () => void;
+  onOpenLossForm: (lo_id: string) => void;
+  shipID: number;
+  comp: number;
+  measureBy: string;
 }
 
-const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLossForm}) => {
+interface StateProps {
+  lossFormOfflineData: LossFormDataOffline;
+}
+
+const TransportLossMeter : React.FC<OwnProps & StateProps> = ({onDismissModal, onOpenLossForm, lossFormOfflineData}) => {
+  useEffect(() => {
+    const myLolines_id = lossFormOfflineData.lolines_ids.filter((lo) => lo.lo_compartment === String(lossFormOfflineData.compartment));
+    if (myLolines_id.length > 0) {
+      lossFormOfflineData.lolines_ids = myLolines_id;
+    }
+    else {
+      lossFormOfflineData.lolines_ids = lossFormOfflineData.lolines_ids.filter((lo) => lo.lo_compartment === "");
+    }
+  }, [lossFormOfflineData]);
 
   return(
     <IonPage id="transport-loss-meter-page">
@@ -30,7 +49,7 @@ const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLossForm
             </IonText>
           </IonCol>
           <IonCol size="6">
-            <IonInput disabled></IonInput>
+            <IonInput value="flowmeter" disabled></IonInput>
           </IonCol>
         </IonRow>
         <IonRow>
@@ -40,7 +59,7 @@ const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLossForm
             </IonText>
           </IonCol>
           <IonCol size="6">
-            <IonInput disabled></IonInput>
+            <IonInput value={lossFormOfflineData.compartment} disabled></IonInput>
           </IonCol>
         </IonRow>
         <br/><br/>
@@ -56,30 +75,24 @@ const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLossForm
           </IonCol>
         </IonRow>
         <hr/>
-        <IonRow>
-          <IonCol size="4">
-            <IonInput disabled></IonInput>
-          </IonCol>
-          <IonCol size="4">
-            <IonInput disabled></IonInput>
-          </IonCol>
-          <IonCol size="4">
-            <IonButton color="danger" onClick={onOpenLossForm}>Open</IonButton>
-          </IonCol>
-        </IonRow>
-        <hr/>
-        <IonRow>
-          <IonCol size="4">
-            <IonInput disabled></IonInput>
-          </IonCol>
-          <IonCol size="4">
-            <IonInput disabled></IonInput>
-          </IonCol>
-          <IonCol size="4">
-            <IonButton color="danger" onClick={onOpenLossForm}>Open</IonButton>
-          </IonCol>
-        </IonRow>
-        <hr/>
+        {
+          lossFormOfflineData.lolines_ids.map((lo) => 
+          <>
+          <IonRow>
+            <IonCol size="4">
+              <IonInput value={lo.lo_number} disabled></IonInput>
+            </IonCol>
+            <IonCol size="4">
+              <IonInput value={lo.vol_after} disabled></IonInput>
+            </IonCol>
+            <IonCol size="4">
+              <IonButton color="danger" onClick={() => onOpenLossForm(lo.lo_id)}>Open</IonButton>
+            </IonCol>
+          </IonRow>
+          <hr/>
+          </>
+          )
+        }
         <hr/>
         <IonText>
           <strong>Keterangan : </strong><br/>
@@ -90,4 +103,9 @@ const TransportLossMeter : React.FC<OwnProps> = ({onDismissModal, onOpenLossForm
   );
 } 
 
-export default TransportLossMeter;
+export default connect<OwnProps, StateProps>({
+  mapStateToProps: (state, OwnProps) => ({
+    lossFormOfflineData: selectors.getLossFormOfflineData(state, OwnProps),
+  }),
+  component: React.memo(TransportLossMeter)
+});

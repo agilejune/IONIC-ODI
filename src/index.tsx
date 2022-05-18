@@ -9,8 +9,7 @@ import common_id from "./translations/id/common.json";
 import common_en from "./translations/en/common.json";
 import { getIsAuthenticated } from './data/storage';
 
-Device.getLanguageCode()
-.then(code => {
+Device.getLanguageCode().then(code => {
   console.log(code);
   i18next.init({
     interpolation: { escapeValue: false },        // React already does escaping

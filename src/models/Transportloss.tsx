@@ -85,6 +85,10 @@ export interface LossFormDataOffline extends LossFormData {
   users: string,  //dede,
 }
 
+export interface FlowmeterFormData {
+  
+}
+
 export interface Tank {
   id: number,
   name: string
@@ -100,4 +104,7 @@ interface LoLinesID {
   lo_number: string, //8057819861,
   lo_product: string, //PERTALITE,
   lo_volume: string //8
+  lo_compartment: string,
+  lo_measure_by: string,
+  vol_after: number,
 }

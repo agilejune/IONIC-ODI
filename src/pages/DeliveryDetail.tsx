@@ -17,7 +17,6 @@ import TransportLossJustify from '../components/Modal/TransportLossJustify';
 import { CheckList } from '../models/CheckList';
 import { useTranslation } from "react-i18next";
 import SendFeedback from '../components/Modal/Feedback';
-// import { setServerMessage, setServerResStatus } from '../data/delivery/delivery.actions';
 import { LossFormDataOffline } from '../models/Transportloss';
 import WebViewModal from '../components/Modal/WebViewModal';
 
@@ -31,12 +30,7 @@ interface StateProps {
   lossFormOfflineDatas: LossFormDataOffline[];
 };
 
-interface DispatchProps {
-  // setServerMessage: typeof setServerMessage,
-  // setServerResStatus: typeof setServerResStatus,
-}
-
-type DeliveryDetailProps = OwnProps & StateProps & DispatchProps;
+type DeliveryDetailProps = OwnProps & StateProps;
 
 const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, responseStatus, message, lossFormOfflineDatas, /*setServerResStatus, setServerMessage*/ }) => {
   const [showDriverDetail, setShowDriverDetail] = useState(false);
@@ -56,6 +50,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
   const [compartments, setCompartments] = useState<any[]>();
   const [transLossCalcData, setTransLossCalcData] = useState<any>();
   const [driverAssistantID, setDriverAssistantID] = useState(0);
+  const [flowmeterLoId, setFlowmeterLoId] = useState("");
   const pageRef = useRef<HTMLElement>(null);
   const [t, i18n] = useTranslation('common');
 
@@ -70,14 +65,19 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
 
   const checkCompEnteredAndOpen = (comp : number) => {
     setComp(comp);
+    
     const data = lossFormOfflineDatas
       .filter((d: LossFormDataOffline) => d.shipment_id == delivery.shipment_id && d.compartment == Number(comp))[0] as LossFormDataOffline;
-    if (data.spbu == null) {
+
+    if (data.measure_by == null) {
       setShowTransLossAgree(true);
     }
     else {
       setMeasureBy(data.measure_by);
-      setShowTransLossForm(true);
+      if (data.measure_by === "ijkbout")
+        setShowTransLossForm(true);
+      else if (data.measure_by === "flowmeter")
+        setShowTransLossMeter(true);
     }
   }
 
@@ -220,14 +220,6 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           </IonRow>
         </div>
 
-        {/* <IonToast
-          cssClass={responseStatus == "S" ? "success-toast" : responseStatus == "E" ? "fail-toast" : ""}
-          isOpen={message !== "" && responseStatus !==""}
-          message={message}
-          duration={5000}
-          onDidDismiss={() => { setServerMessage(""); setServerResStatus("")}}
-        /> */}
-
         <IonModal
           isOpen={showWebView}
           onDidDismiss={() => setShowWebView(false)}
@@ -309,7 +301,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           swipeToClose={true}
           presentingElement={pageRef.current!}
         >
-          <TransportLossForm measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} moveToJustify={data => {setShowTransLossJustify(true); setTransLossCalcData(data);} } onDismissModal={() => setShowTransLossForm(false)}></TransportLossForm>
+          <TransportLossForm measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} flowmeterLoId={flowmeterLoId} moveToJustify={data => {setShowTransLossJustify(true); setTransLossCalcData(data);} } onDismissModal={() => setShowTransLossForm(false)}></TransportLossForm>
         </IonModal>
         <IonModal
           isOpen={showTransLossMeter}
@@ -317,7 +309,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
           swipeToClose={true}
           presentingElement={pageRef.current!}
         >
-          <TransportLossMeter onOpenLossForm={() => {setShowTransLossForm(true); setShowTransLossMeter(false);}} onDismissModal={() => setShowTransLossMeter(false)}></TransportLossMeter>
+          <TransportLossMeter measureBy={measureBy} comp={comp} shipID={delivery.shipment_id} onOpenLossForm={(lo_id) => {setShowTransLossForm(true); setShowTransLossMeter(false); setFlowmeterLoId(lo_id)}} onDismissModal={() => setShowTransLossMeter(false)}></TransportLossMeter>
         </IonModal>
 
         <IonModal
@@ -333,7 +325,7 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
   );
 };
 
-export default connect<OwnProps, StateProps, DispatchProps>({
+export default connect<OwnProps, StateProps>({
   mapStateToProps: (state, OwnProps) => ({
     delivery: selectors.getDelivery(state, OwnProps),
     checkLists: state.data.checkLists,
@@ -341,9 +333,5 @@ export default connect<OwnProps, StateProps, DispatchProps>({
     responseStatus: state.data.responseStatus,
     lossFormOfflineDatas: state.data.transFormOfflineDatas,
   }),
-  mapDispatchToProps: {
-    // setServerMessage,
-    // setServerResStatus
-  },
   component: withRouter(DeliveryDetail)
 });

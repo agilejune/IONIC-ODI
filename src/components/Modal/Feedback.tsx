@@ -103,26 +103,6 @@ const SendFeedback : React.FC<OwnProps & StateProps & DispatchProps> = ({refresh
     }
   ];
 
-  // const changeOption = async (id: string | undefined, code: string | undefined) => {
-  //   const options = await getFeedbackOptions(id, code);
-
-  //   if (options.length == 0) return;
-
-  //   if (options[0].id < 8) {
-  //     setDevSuggestions(options);
-  //     setComplaintScopes([]);
-  //     setComplaintCates([]);
-  //   }
-  //   else if (options[0].id < 13) {
-  //     setComplaintScopes(options);
-  //     setDevSuggestions([]);
-  //   }
-  //   else {
-  //     setComplaintCates(options);
-  //     setDevSuggestions([]);
-  //   }
-  // };
-
   const changeOption = async (id: string | undefined, code: string | undefined) => {
     if (code != undefined) {
       const options = feedbackOptions.filter((option) => option.code === code)[0];

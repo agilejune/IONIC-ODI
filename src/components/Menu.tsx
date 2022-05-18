@@ -65,16 +65,6 @@ const Menu: React.FC<MenuProps> = ({ history, isLoggedin, userName }) => {
 
   return (
     <IonMenu type="overlay" disabled={!isLoggedin} contentId="main">
-      {/* <IonHeader no-border>
-        <IonToolbar>
-          <IonTitle> 
-            <div className="menu-logo">
-              <img src="assets/img/logo.png" alt="Ionic logo" /> 
-              <h6>{userName}</h6>
-            </div>
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
       <IonContent forceOverscroll={false}>
         <IonToolbar>
           <IonTitle> 

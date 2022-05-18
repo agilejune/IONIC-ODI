@@ -1,9 +1,7 @@
 import { Storage } from '@capacitor/storage';
 import { LossFormDataOffline } from '../models/Transportloss';
 import { User } from '../models/User';
-// import CryptoJS from 'crypto-js';
 
-// export const key = "2e35f242a46d67eeb74aabc37d5e5d05";
 const HAS_LOGGED_IN = 'hasLoggedIn';
 const USERDATA = 'user_data';
 const DELIVERY = 'deliverys';
@@ -20,21 +18,13 @@ const VEHICLE_DETAIL = "vehicle_detail";
 const AUTHENTICATED = "authenticated";
 const FEEDBACK_OPTION = 'feedback_option'
 
-// export const compareAndSavePassword = async (password: string, newPassword: string) => {
-//   const data = await getUserData();
-  
-//   if (!data)
-//     return false;
-  
-//   const encyptedPassword = CryptoJS.AES.encrypt(password, key).toString();
-//   const compared = data.password == encyptedPassword;
+interface StackOffline {
+  feedback: any[],
+  checklist: any[],
+  transportLoss: any[],
+  profile: any,
+}
 
-//   if(compared) {
-//     await setUserData({...data, password: CryptoJS.AES.encrypt(newPassword, key).toString()});
-//   }
-
-//   return compared;
-// }
 
 export const setIsAuthenticated = async (isAuthenticated: boolean) => {
   await Storage.set({ key: AUTHENTICATED, value: JSON.stringify(isAuthenticated) });
@@ -168,9 +158,11 @@ export const updateStorageTransportLossOffline = async (updateData : any) => {
   const prevDatas = (await getStorageTransportLossOffline()).transFormOfflineDatas as LossFormDataOffline[];
   const userData = await getUserData() as User;
   const currentDatas = prevDatas.map(d => {
-    if (d.shipment_id == updateData.shipment_id && d.compartment == updateData.compartment)
-      return {...d, ...updateData, ...{spbu: userData.user_name}} as LossFormDataOffline;
-    else if (d.shipment_id == updateData.shipment_id && d.compartment != updateData.compartment) {
+    if (d.shipment_id == updateData.shipment_id && d.compartment == updateData.compartment) {
+      const newLolinesIds = d.lolines_ids.filter(id => id.lo_id == updateData.lolines_id1)
+      return {...d, ...updateData, ...{spbu: userData.user_name}, ...{lolines_ids: newLolinesIds}} as LossFormDataOffline;
+    }
+    else if (d.shipment_id == updateData.shipment_id && d.compartment != updateData.compartment && d.spbu == null) {
       const newLolinesIds = d.lolines_ids.filter(id => id.lo_id != updateData.lolines_id1)
       return {...d, ...{lolines_ids: newLolinesIds}};
     }
@@ -254,13 +246,6 @@ export const getStorageStack = async () => {
   }
   
   return JSON.parse(storageData!) as StackOffline;
-}
-
-interface StackOffline {
-  feedback: any[],
-  checklist: any[],
-  transportLoss: any[],
-  profile: any,
 }
 
 export const initStorageStack = async () => {

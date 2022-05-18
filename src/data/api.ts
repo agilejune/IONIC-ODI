@@ -8,7 +8,6 @@ import { User } from '../models/User';
 import { Comp, Vehicle } from '../models/Vehicle';
 import { FileTransfer, FileTransferObject } from '@awesome-cordova-plugins/file-transfer';
 import { File, FileEntry } from '@awesome-cordova-plugins/file';
-// import { key } from './storage';
 
 const baseUrl = 'http://182.23.86.213:4000/odi';
 
@@ -162,13 +161,6 @@ export const getApiFeedbacks = async () => {
   ]);
   const responseData = await response[0].json();
   const feedbacks = responseData.data as Feedback[];
-  // const feedbacks = feedback_datas!.map(feedback => {
-  //   const shipment = toJson(feedback.Shipment) as Shipment;
-  //   const message = (feedback.Message == "" ? { Pengirim: "", Pesan: ""} : toJson(feedback.Message)) as Pengirim;
-  //   const respon = (feedback.Respon == "" ? { Respon: "", Pesan: ""} : toJson(feedback.Respon)) as Respon;
-    
-  //   return {...feedback, ...{Shipment: shipment, Message: message, Respon: respon}} as Feedback;
-  // });
   
   return {
     feedbacks,
@@ -493,9 +485,6 @@ export const sendApiCheckLists = async (data: object) => {
     else 
       formData.append(key, value);
   });
-
-  console.log("send checklist with api");
-  console.log(JSON.stringify(data));
 
   const response = await Promise.all([
     fetch(`${baseUrl}/send_survey`,{

@@ -8,16 +8,6 @@ export const initialState: AppState = {
     loading: false,
     user_name: "",
     userData: {},
-    // address_home: "",
-    // company_id: 0,
-    // company_ids: [],
-    // email: "",
-    // groups: "",
-    // lat_geo: "",
-    // log_geo: "",
-    // mobile: "",
-    // owner: "",
-    // user_id: 0
   },
   data: {
     ongoingDeliverys: [],
