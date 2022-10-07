@@ -36,7 +36,7 @@ const delay = () => new Promise(res => setTimeout(res, 1000));
 
 export const fileDownload = async (url: string) => {
   const fileTransfer: FileTransferObject = FileTransfer.create();
-  const filename = url.match(/=[a-zA-Z.\s0-9]+.pdf/g)![0].substring(1);
+  const filename = url.match(/=[a-zA-Z._\s0-9]+.pdf/g)![0].substring(1);
   let entry: FileEntry | null = null;
   
   try {

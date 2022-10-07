@@ -96,6 +96,7 @@ const VehicleDetail : React.FC<OwnProps & StateProps> = ({onDismissModal, vehicl
               { !desktop &&
               <a key={index} onClick={() => {downloadFile(a.datas_download)}}>{ a.datas_fname }</a>
               }
+              <br/>
               </>
             )) }
           </IonCol>
