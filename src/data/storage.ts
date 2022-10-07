@@ -158,19 +158,15 @@ export const updateStorageTransportLossOffline = async (updateData : any) => {
   const prevDatas = (await getStorageTransportLossOffline()).transFormOfflineDatas as LossFormDataOffline[];
   const userData = await getUserData() as User;
   const currentDatas = prevDatas.map(d => {
-    if (d.shipment_id == updateData.shipment_id && d.compartment == updateData.compartment) {
-      const newLolinesIds = d.lolines_ids.filter(id => id.lo_id == updateData.lolines_id1)
-      return {...d, ...updateData, ...{spbu: userData.user_name}, ...{lolines_ids: newLolinesIds}} as LossFormDataOffline;
-    }
-    else if (d.shipment_id == updateData.shipment_id && d.compartment != updateData.compartment && d.spbu == null) {
-      const newLolinesIds = d.lolines_ids.filter(id => id.lo_id != updateData.lolines_id1)
-      return {...d, ...{lolines_ids: newLolinesIds}};
-    }
+    const newLolineIds = d.lolines_ids.map(lo => lo.lo_id === updateData.lolines_id1 ? {...lo, ...{lo_compartment: updateData.compartment, lo_measure_by: updateData.measure_by, vol_after: updateData.vol_after}} : lo);
+    if (d.shipment_id === updateData.shipment_id && d.compartment === updateData.compartment)
+      return {...d, ...updateData, ...{spbu: userData.user_name}, ...{lolines_ids: newLolineIds}} as LossFormDataOffline;
+    else if (d.shipment_id === updateData.shipment_id && d.compartment !== updateData.compartment)
+      return {...d, ...{lolines_ids: newLolineIds}};
     else 
       return d;
   });
   await setTransportLossOffline({transFormOfflineDatas : currentDatas});
-  console.log(JSON.stringify(currentDatas, null, 2));
 }
 
 export const setChecklists = async (data : any) => {

@@ -175,6 +175,25 @@ const TransportLossForm : React.FC<OwnProps & StateProps & DispatchProps> = ({re
   const onSubmitData = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    let errorMessage = "";
+    if (measureBy === "ijkbout" && (formData.height_after === "0" || formData.height_after === "" || formData.height_after === undefined)) {
+      errorMessage = "Data 'Level BBM Sebelum Bongkar(mm)' yang diinput tidak boleh sama dengan 0 atau kurang dari 0, mohon check kembali nilai yang di masukan.";
+    }
+    // else if (measureBy === "flowmeter" && (formData.vol_after === "0" || formData.vol_after === "" || formData.vol_after === undefined)) {
+    //   errorMessage = "Data 'Volume Meter (Liter)' yang diinput tidak boleh sama dengan 0 atau kurang dari 0, mohon check kembali nilai yang di masukan.";
+    // }
+    else if (formData.temperatur_obs === "0" || formData.temperatur_obs === "" || formData.temperatur_obs === undefined) {
+      errorMessage = "'Temperature Obs' harus di isi.";
+    }
+    else if (formData.density_obs === "0" || formData.density_obs === "" || formData.density_obs === undefined) {
+      errorMessage = "'Density Obs' harus di isi.";
+    }
+
+    if (errorMessage !== "") {
+      setErrorMessage(errorMessage);
+      return;
+    }
+
     let sendFormData = formData;
     if (measureBy === "flowmeter") {
       sendFormData.lolines_id1 = flowmeterLoId;
@@ -231,17 +250,21 @@ const TransportLossForm : React.FC<OwnProps & StateProps & DispatchProps> = ({re
     onDismissModal();
 
   }
-  
-  const lo_ids = lossFormOfflineData.lolines_ids.map(id => {return {id: Number(id.lo_id), name: id.lo_number} as Tank}) as Tank[];
+
+  const [lo_ids, setLoIds] = useState<Tank[]>([]);
   
   useEffect(() => {
+    let new_lo_ids = undefined;
     const myLolines_id = lossFormOfflineData.lolines_ids.filter((lo) => lo.lo_compartment === String(lossFormOfflineData.compartment));
     if (myLolines_id.length > 0) {
-      lossFormOfflineData.lolines_ids = myLolines_id;
+      new_lo_ids = myLolines_id;
     }
     else {
-      lossFormOfflineData.lolines_ids = lossFormOfflineData.lolines_ids.filter((lo) => lo.lo_compartment === "");
+      new_lo_ids = lossFormOfflineData.lolines_ids.filter((lo) => lo.lo_compartment === "");
     }
+
+    const tmp = new_lo_ids.map(id => {return {id: Number(id.lo_id), name: id.lo_number} as Tank}) as Tank[];
+    setLoIds(tmp);
   }, [lossFormOfflineData]);
   
   const fields = [
@@ -503,7 +526,7 @@ const TransportLossForm : React.FC<OwnProps & StateProps & DispatchProps> = ({re
             );
           })
         }
-        {lossFormOfflineData.state !== "confirm" && 
+        {lossFormOfflineData.spbu === null && 
           <IonButton type="submit" color="primary" expand="block">
             { isSending && <IonSpinner name="bubbles" color="light" /> }
             Submit
@@ -526,6 +549,7 @@ const TransportLossForm : React.FC<OwnProps & StateProps & DispatchProps> = ({re
                 }
                 </>
               }
+              <br/>
               { lossFormOfflineData.datas_atg_download != "" &&
                 <>
                 { desktop &&

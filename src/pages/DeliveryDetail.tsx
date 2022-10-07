@@ -55,11 +55,22 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
   const [t, i18n] = useTranslation('common');
 
   useEffect(() => {
-    const comps = lossFormOfflineDatas
-      .filter((d: LossFormDataOffline) => d.shipment_id == delivery.shipment_id && d.lolines_ids.length > 0)
-      .map((d: LossFormDataOffline) => d.compartment)
-      .sort();
-
+    let comps = lossFormOfflineDatas
+      .filter((d: LossFormDataOffline) => d.shipment_id == delivery.shipment_id)[0]
+      .lolines_ids.map((lo) => lo.lo_compartment);
+    
+    let vacancy = false;
+    comps.forEach(comp => {
+      if (comp === "") 
+        vacancy = true;
+    })
+    if (vacancy) {
+      comps = ["1", "2", "3"];
+    } 
+    else {
+      comps.sort();
+    }
+    
     setCompartments(comps);
   }, [delivery, lossFormOfflineDatas]);
 
