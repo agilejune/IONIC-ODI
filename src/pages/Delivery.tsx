@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-
-import {IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner, IonBadge } from '@ionic/react';
+import { useLocation } from 'react-router-dom';
+import { App } from '@capacitor/app';
+import { useIonRouter, IonListHeader, IonList, IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig, IonSpinner, IonBadge } from '@ionic/react';
 import { notificationsCircleOutline, options, search } from 'ionicons/icons';
 import './MainPage.css'
 import * as selectors from '../data/selectors';
@@ -34,6 +35,19 @@ const DeliveryPage: React.FC<DeliveryPageProps> = ({willSendCount, isLoading, on
   const [t, i18n] = useTranslation('common');
 
   const ios = mode === 'ios';
+  
+  const ionRouter = useIonRouter();
+  const location = useLocation();
+  document.addEventListener('ionBackButton', (ev) => {
+    
+    (ev as CustomEvent).detail.register(-1, () => {
+      if (location.pathname !== '/tabs/delivery') {
+        ionRouter.push("/tabs/delivery", "forward", "push");
+      }
+      else
+        App.exitApp();
+    });
+  });
 
   return (
     <IonPage ref={pageRef} >
