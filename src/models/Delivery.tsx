@@ -17,6 +17,7 @@ export interface Delivery {
   initial_charge_time: string, //"2020-10-06 13:20:44"
   is_vehicle_pto: boolean,    //true, false, null
   last_position: Position,    
+  nfc_id: string,
   seal_compiled: string,    //"6609253,6609254,6609255,6609256,6609257,6609258,"
   shipment_id: number,      //
   spbu_compiled: string,    //"3443302,3443309,"

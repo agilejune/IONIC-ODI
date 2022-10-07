@@ -36,7 +36,7 @@ const Menu: React.FC<MenuProps> = ({ history, isLoggedin, userName }) => {
       { title: t('menus.your_orders'), path: '/tabs/order', icon: basket },
       { title: t('menus.message_from_us'), path: '/tabs/message', icon: chatbox },
       { title: t('menus.transport_loss'), path: '/tabs/loss', icon: water },
-      { title: t('menus.transport_loss_qrcode'), path: '/scan_rqcode', icon: camera },
+      { title: t('menus.transport_loss_qrcode'), path: '/tabs/scan_rqcode', icon: camera },
     ],
     operationInfoPages: [
       { title: t('menus.stock'), path: '/stock', icon: alarm },

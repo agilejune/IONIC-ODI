@@ -126,7 +126,7 @@ const OdiApp: React.FC<StateProps & DispatchProps & OwnProps> = ({setServerMessa
           <Menu />
           <IonRouterOutlet id="main">
             <Route path="/tabs" render={() => <MainTabs />} />
-            <Route path="/scan_rqcode" render={() => <ScanPage />}/>
+            {/* <Route path="/scan_rqcode" render={() => <ScanPage />}/> */}
             <Route path="/stock" render={() => <StockPage />} />
             <Route path="/sales" render={() => <SalePage />} />
             <Route path="/gain_loss" render={() => <GainlossPage />} />
