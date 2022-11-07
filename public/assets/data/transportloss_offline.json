@@ -2347,65 +2347,67 @@
             "volume_sales": 0.0
         },
         {
-            "claim_discrepancy": 26.0,
+            "claim_discrepancy": 6.0,
             "compartment": "1",
             "conf_tolerance": "0.15",
             "conf_tolerance_discrepancy": "0.30",
-            "datas_atg_download": "http://182.23.86.211:8090/web/binary/download_document?model=ir.attachment&field=datas&id=141295&file_name=ba_tlosatg_6872038_1.pdf",
-            "datas_download": "http://182.23.86.211:8090/web/binary/download_document?model=ir.attachment&field=datas&id=141294&file_name=ba_tloss_6872038_1.pdf",
+            "datas_atg_download": "http://182.23.86.211:8090/web/binary/download_document?model=ir.attachment&field=datas&id=141305&file_name=ba_tlosatg_6872038_1.pdf",
+            "datas_download": "http://182.23.86.211:8090/web/binary/download_document?model=ir.attachment&field=datas&id=141304&file_name=ba_tloss_6872038_1.pdf",
             "datas_fname": "ba_tloss_6872038_1.pdf",
             "datas_fname_atg": "ba_tlosatg_6872038_1.pdf",
-            "datas_id": 141294,
-            "datas_id_atg": 141295,
-            "delivery_discrepancy": 50.0,
+            "datas_id": 141304,
+            "datas_id_atg": 141305,
+            "delivery_discrepancy": 30.0,
             "density_15c": 0.0,
-            "density_obs": 30.0,
+            "density_obs": 20.0,
             "height_after": 0.0,
             "height_before": 1668.0,
             "is_atg": true,
             "is_justified": false,
             "justify_reason": "",
-            "lolines_id1": 69948243,
+            "lolines_id1": 69948242,
             "lolines_id2": 0,
             "lolines_ids": [
                 {
-                    "lo_compartment": "1",
+                    "lo_compartment": "",
                     "lo_id": "69948243",
-                    "lo_measure_by": "flowmeter",
+                    "lo_measure_by": "",
                     "lo_number": "8057819862",
                     "lo_product": "PERTALITE",
-                    "lo_volume": 8000.0
+                    "lo_volume": 8000.0,
+                    "vol_after": 0.0
                 },
                 {
-                    "lo_compartment": "",
+                    "lo_compartment": "1",
                     "lo_id": "69948242",
-                    "lo_measure_by": "",
+                    "lo_measure_by": "flowmeter",
                     "lo_number": "8057916240",
                     "lo_product": "PERTALITE",
-                    "lo_volume": 8000.0
+                    "lo_volume": 8000.0,
+                    "vol_after": 7900.0
                 }
             ],
             "measure_by": "flowmeter",
             "password": "123",
             "sensitivity": 1.571,
-            "ship_loss_id": 1930113,
+            "ship_loss_id": 1930125,
             "shipment_id": 6872038,
             "spbu": "3443309",
             "state": "confirm",
             "tank_id": 2264,
             "tank_name": "T1 - PERTALITE",
-            "temperatur_obs": 20.0,
+            "temperatur_obs": 30.0,
             "tolerance": 0.0,
             "tolerance_discrepancy": 24.0,
             "treshold_ttl_loss": "[0,100]",
-            "ttl_loss": 50.0,
-            "ttl_loss_claim": 50.0,
+            "ttl_loss": 100.0,
+            "ttl_loss_claim": 100.0,
             "users": "",
-            "vol_after": 7950.0,
+            "vol_after": 7900.0,
             "vol_before": 8000.0,
             "vol_compartment": 8000.0,
-            "volume_ar": 200.0,
-            "volume_sales": 300.0
+            "volume_ar": 300.0,
+            "volume_sales": 200.0
         },
         {
             "claim_discrepancy": 0.0,
@@ -2430,20 +2432,22 @@
             "lolines_id2": 0,
             "lolines_ids": [
                 {
-                    "lo_compartment": "1",
+                    "lo_compartment": "",
                     "lo_id": "69948243",
-                    "lo_measure_by": "flowmeter",
+                    "lo_measure_by": "",
                     "lo_number": "8057819862",
                     "lo_product": "PERTALITE",
-                    "lo_volume": 8000.0
+                    "lo_volume": 8000.0,
+                    "vol_after": 0.0
                 },
                 {
-                    "lo_compartment": "",
+                    "lo_compartment": "1",
                     "lo_id": "69948242",
-                    "lo_measure_by": "",
+                    "lo_measure_by": "flowmeter",
                     "lo_number": "8057916240",
                     "lo_product": "PERTALITE",
-                    "lo_volume": 8000.0
+                    "lo_volume": 8000.0,
+                    "vol_after": 7900.0
                 }
             ],
             "measure_by": null,
@@ -2491,20 +2495,22 @@
             "lolines_id2": 0,
             "lolines_ids": [
                 {
-                    "lo_compartment": "1",
+                    "lo_compartment": "",
                     "lo_id": "69948243",
-                    "lo_measure_by": "flowmeter",
+                    "lo_measure_by": "",
                     "lo_number": "8057819862",
                     "lo_product": "PERTALITE",
-                    "lo_volume": 8000.0
+                    "lo_volume": 8000.0,
+                    "vol_after": 0.0
                 },
                 {
-                    "lo_compartment": "",
+                    "lo_compartment": "1",
                     "lo_id": "69948242",
-                    "lo_measure_by": "",
+                    "lo_measure_by": "flowmeter",
                     "lo_number": "8057916240",
                     "lo_product": "PERTALITE",
-                    "lo_volume": 8000.0
+                    "lo_volume": 8000.0,
+                    "vol_after": 7900.0
                 }
             ],
             "measure_by": null,
