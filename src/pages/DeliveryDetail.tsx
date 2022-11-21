@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
 import { Delivery } from '../models/Delivery';
 import { IonButton, IonText, IonRow, IonCol, IonToolbar, IonBackButton, IonButtons, IonPage, IonTitle, IonHeader, IonContent, IonIcon, IonLabel, IonModal, IonToast, IonItem} from '@ionic/react';
-import { person, receipt, car, reload, contrast, ticket } from 'ionicons/icons';
+import { person, receipt, car, reload, contrast, ticket, navigateCircleOutline, callOutline, chatboxEllipsesOutline } from 'ionicons/icons';
 import DriverDetail from '../components/Modal/DriverDetail';
 import VehicleDetail from '../components/Modal/VehicleDetail';
 import './DeliveryDetail.scss';
@@ -90,6 +90,21 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
       else if (data.measure_by === "flowmeter")
         setShowTransLossMeter(true);
     }
+  }
+
+  const openMap = (lat: string, lng: string) => {
+    const origin = delivery.company_lat_geo + ',' + delivery.company_log_geo;
+    const destination = lat + ',' + lng;
+    const label = encodeURI('My Label');
+	  window.open('geo:' + origin + '?q=' + destination);
+  }
+
+  const openWACall = (mobile_number: string) => {
+    window.open(`https://api.whatsapp.com/send?phone=${mobile_number}`)
+  }
+
+  const openWAText = (mobile_number: string) => {
+    window.open(`https://api.whatsapp.com/send?phone=${mobile_number}`)
   }
 
   return (
@@ -199,6 +214,31 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
         </div>
         <div className="ion-padding-top">
           <h6>{ t('pages_delivery.produk_info') }</h6>
+        </div>
+
+        <div className="ion-padding-top">
+          <h5><strong>Destination:</strong></h5>        
+          { delivery.spbu_compiled_detail !== null && delivery.spbu_compiled_detail.map((detail) => (
+              <IonRow>
+                <IonCol size="8">
+                  <IonText>{detail.spbu},{detail.address_home}</IonText>
+                </IonCol>
+                <IonCol size="4">
+                  <IonIcon 
+                    icon={navigateCircleOutline} 
+                    style={{fontSize: 24}}
+                    onClick={() => openMap(detail.lat_geo, detail.log_geo)}/>
+                  <IonIcon 
+                    icon={callOutline} 
+                    style={{fontSize: 24, paddingLeft: 5}}
+                    onClick={() => openWACall(detail.mobile)}/>
+                  <IonIcon 
+                    icon={chatboxEllipsesOutline} 
+                    style={{fontSize: 24, paddingLeft: 5}}
+                    onClick={() => openWAText(detail.mobile)}/>
+                </IonCol>
+              </IonRow>
+          ))}
         </div>
         <div className="ion-padding-top">
           <h5><strong>Receiving & Loss claim</strong></h5>

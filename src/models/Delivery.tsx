@@ -1,6 +1,8 @@
 export interface Delivery {
   company_code: string, //"F205"
   company_id: number, //26
+  company_lat_geo: number,
+  company_log_geo: number,
   company_name: string, //"TBBM PADALARANG"
   compartment_volume: string, //"1-8000;2-8000;3-8000;4-0;5-0;6-0"
   date_shipment: string, //"2020-10-06 12:59:20"
@@ -21,6 +23,7 @@ export interface Delivery {
   seal_compiled: string,    //"6609253,6609254,6609255,6609256,6609257,6609258,"
   shipment_id: number,      //
   spbu_compiled: string,    //"3443302,3443309,"
+  spbu_compiled_detail: SpbuDetail[],
   spbu_product_volume_lo: string,  //"3443302-PERTALITE-8-8057808077-\n3443309-PERTALITE-8-8057819862-\n3443309-PERTALITE-8-8057916240-"
   status: string,             //"Proses Pengiriman"
   url_survey: string,           //"http://182.23.86.211:8090/survey/start/kuesioner-performance-awak-mobil-tangki-4/phantom?depot=F205&spbu=3443309&nopol=B9309PEH&vdate=2020-10-06&vtime=12:59:20&nsupir=PN-0127&nkernet=PN-0755"
@@ -40,4 +43,13 @@ export interface Position {
   gps_time: string, //"2022-02-21 10:31:53"
   gps_vendor: string,  //"TELKOMSEL"
   name: string  //"B9274SFU"
+}
+
+export interface SpbuDetail {
+  spbu: string,
+  address_home: string,
+  email: string,
+  lat_geo: string,
+  log_geo: string,
+  mobile: string
 }
