@@ -1,7 +1,9 @@
-import React  from 'react';
-import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/react';
+import React, { useEffect, useRef, useState }  from 'react';
+import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel, useIonRouter } from '@ionic/react';
 import { Route, Redirect } from 'react-router';
 import { archive, archiveOutline, basket, chatbox, pin, water } from 'ionicons/icons';
+import { useLocation } from 'react-router-dom';
+import { App } from '@capacitor/app';
 
 import DeliveryPage from './Delivery';
 import DeliveryDetail from './DeliveryDetail';
@@ -16,9 +18,47 @@ import ScanPage from './ScanPage';
 interface MainTabsProps { }
 
 const MainTabs: React.FC<MainTabsProps> = () => {
+  const [tabButtons, setTabButtons] = useState<NodeListOf<HTMLIonTabButtonElement>>();
+  const tabsRef = useRef<any>(null);
+  const deliveryTabRef = useRef<any>(null);
+  const ionRouter = useIonRouter();
+  const location = useLocation();
+
+  useEffect(() => {
+    // tabsRef.current.tabBarRef.current.selectTab('order')
+    // setTimeout(() => {
+    //   // document.querySelectorAll('ion-tab-button').forEach(one => one.classList.remove("tab-selected"));
+    //   // deliveryTabRef.current.click();
+    //   document.getElementById('tab-button-delivery')!.click();
+    // }, 5000)
+    // setTimeout(() => {
+    //   ionRouter.push("/tabs/delivery", "forward", "push");
+    // }, 6000)
+    // setTabButtons(document.querySelectorAll('ion-tab-button'));
+  }, [])
+
+  document.addEventListener('ionBackButton', (ev) => {
+    (ev as CustomEvent).detail.register(140, () => {
+      if (location.pathname !== '/tabs/delivery') {
+        document.querySelectorAll('ion-tab-button').forEach(one => {
+          one.classList.remove("tab-selected");
+          one.removeAttribute("aria-selected");
+        });
+        document.getElementById('tab-button-delivery')!.click();
+        // tabButtons!.forEach(one => {
+        //   one.classList.remove("tab-selected")
+        // });
+        // setUpdate(!update);
+        // ionRouter.push("/tabs/delivery", "forward", "push");
+        // tabsRef.current.tabBarRef.current.selectTab('delivery')
+      }
+      else
+        App.exitApp();
+    });
+  });
 
   return (
-    <IonTabs>
+    <IonTabs ref={tabsRef}>
       <IonRouterOutlet>
         <Redirect exact path="/tabs" to="/tabs/delivery" />
         <Route path="/tabs/delivery" render={() => <DeliveryPage />} exact={true} />
@@ -33,7 +73,7 @@ const MainTabs: React.FC<MainTabsProps> = () => {
         <Route path="/tabs/message/:id" component={ FeedbackDetail } exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
-        <IonTabButton tab="delivery" href="/tabs/delivery">
+        <IonTabButton tab="delivery" href="/tabs/delivery" ref={deliveryTabRef}>
           <IonIcon icon={archive} />
           <IonLabel>Delivery</IonLabel>
         </IonTabButton>
