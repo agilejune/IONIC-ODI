@@ -100,11 +100,11 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
   }
 
   const openWACall = (mobile_number: string) => {
-    window.open(`https://api.whatsapp.com/send?phone=${mobile_number}`)
+    window.open(`whatsapp://send?phone=${mobile_number}`, '_system')
   }
 
   const openWAText = (mobile_number: string) => {
-    window.open(`https://api.whatsapp.com/send?phone=${mobile_number}`)
+    window.open(`whatsapp://send?phone=${mobile_number}`, '_system')
   }
 
   return (
