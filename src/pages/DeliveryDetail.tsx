@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import SendFeedback from '../components/Modal/Feedback';
 import { LossFormDataOffline } from '../models/Transportloss';
 import WebViewModal from '../components/Modal/WebViewModal';
+import { Browser } from "@capacitor/browser";
 
 interface OwnProps extends RouteComponentProps { };
 
@@ -100,11 +101,13 @@ const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, checkLists, r
   }
 
   const openWACall = (mobile_number: string) => {
-    window.open(`whatsapp://send?phone=${mobile_number}`, '_system')
+    Browser.open({ url: `whatsapp://send?phone=${mobile_number}`, windowName: "_self" });
+    // window.open(`whatsapp://send?phone=${mobile_number}`)
   }
 
   const openWAText = (mobile_number: string) => {
-    window.open(`whatsapp://send?phone=${mobile_number}`, '_system')
+    Browser.open({ url: `whatsapp://send?phone=${mobile_number}`, windowName: "_self" });
+    // window.open(`whatsapp://send?phone=${mobile_number}`)
   }
 
   return (
